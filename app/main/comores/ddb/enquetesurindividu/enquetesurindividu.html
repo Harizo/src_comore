@@ -1,0 +1,313 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+        <!-- HEADER -->
+        <div class="header md-accent-bg" layout="row" layout-align="space-between">
+            <div layout="column" layout-align="space-between">
+                <div class="breadcrumb" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                    <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                    <span class="parent">Données de bases</span>
+                    <span class="parent"> </span>
+                    <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                    <span class="parent" href="javascript:;">Enquête/Individu</span>
+                </div>
+    
+                <div class="title">Questionnaire d'enquête sur l'individu de chaque ménage</div>
+            </div>
+        </div>
+        <div class="content" layout="column">
+            <div class="form-wrapper">
+                <div style="clear:both;"></div>
+                <md-tabs md-dynamic-height>
+                    <md-tab label="Lien de parenté"  ng-click="vm.Select_table(1)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Lien de parenté
+                                    <button ng-click="vm.ajouterLiendeparente()" title="Ajouter un type de Lien de parenté" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsLiendeparente"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionLiendeparente(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierLiendeparente(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerLiendeparente(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerLiendeparente(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Handicap visuel"  ng-click="vm.Select_table(2)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Handicap visuel
+                                    <button ng-click="vm.ajouterHandicapvisuel()" title="Ajouter un type de handicap visuel" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsHandicapvisuel"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionHandicapvisuel(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierHandicapvisuel(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerHandicapvisuel(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerHandicapvisuel(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Handicap parole"  ng-click="vm.Select_table(3)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Handicap parole
+                                    <button ng-click="vm.ajouterHandicapparole()" title="Ajouter un type de handicap parole" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsHandicapparole"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionHandicapparole(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierHandicapparole(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerHandicapparole(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerHandicapparole(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Handicap auditif"  ng-click="vm.Select_table(4)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Handicap auditif
+                                    <button ng-click="vm.ajouterHandicapauditif()" title="Ajouter un type de handicap auditif" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsHandicapauditif"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionHandicapauditif(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierHandicapauditif(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerHandicapauditif(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerHandicapauditif(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Handicap mental"  ng-click="vm.Select_table(5)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Handicap mental
+                                    <button ng-click="vm.ajouterHandicapmental()" title="Ajouter un type de handicap mental" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsHandicapmental"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionHandicapmental(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierHandicapmental(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerHandicapmental(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerHandicapmental(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Handicap moteur" ng-click="vm.Select_table(6)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Handicap moteur
+                                    <button ng-click="vm.ajouterHandicapmoteur()" title="Ajouter un type de handicap moteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsHandicapmoteur"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionHandicapmoteur(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierHandicapmoteur(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerHandicapmoteur(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerHandicapmoteur(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                </md-tabs>
+            </div>
+        </div>
+    </div>
+    

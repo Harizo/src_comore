@@ -1,0 +1,507 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+        <!-- HEADER -->
+        <div class="header md-accent-bg" layout="row" layout-align="space-between">
+            <div layout="column" layout-align="space-between">
+                <div class="breadcrumb" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                    <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                    <span class="parent">Données de bases</span>
+                    <span class="parent"> </span>
+                    <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                    <span class="parent" href="javascript:;">Projet</span>
+                </div>
+    
+                <div class="title"> Projet</div>
+            </div>
+        </div>
+        <div class="content" layout="column">
+            <div class="form-wrapper">
+                <div style="clear:both;"></div>
+                <md-tabs md-dynamic-height>
+                    <md-tab label="Devise">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Devise
+                                    <button ng-click="vm.ajouterDevise()" title="Ajouter un dévise" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableDevise" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsDevise"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type action du projet</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierDevise(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerDevise(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerDevise(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajoutDevise(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Tutelle">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Tutelle
+                                    <button ng-click="vm.ajouterTutelle()" title="Ajouter un tutelle" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableTutelle" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsTutelle"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Tutelle du projet</label>
+                                                        <input name="nom" type="text" ng-model="presta.nom"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.nom}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierTutelle(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerTutelle(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerTutelle(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.nom >''" ng-click="vm.ajoutTutelle(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Source de financement">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Source de financement 
+                                    <button ng-click="vm.ajouterSourcefinancement()" title="Ajouter une source de financement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableSourcefinancement" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsSourcefinancement"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Source de financement du projet</label>
+                                                        <input name="nom" type="text" ng-model="presta.nom"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.nom}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierSourcefinancement(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerSourcefinancement(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerSourcefinancement(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.nom >''" ng-click="vm.ajoutSourcefinancement(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Type financement">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type financement
+                                    <button ng-click="vm.ajouterTypefinancement()" title="Ajouter un type de financement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableTypefinancement" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsTypefinancement"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type financement du projet</label>
+                                                        <input name="intitule" type="text" ng-model="presta.intitule"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.intitule}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierTypefinancement(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerTypefinancement(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerTypefinancement(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.intitule >''" ng-click="vm.ajoutTypefinancement(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Secteur">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Secteur
+                                    <button ng-click="vm.ajouterSecteur()" title="Ajouter un secteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableSecteur" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsSecteur"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Secteur du projet</label>
+                                                        <input name="nom" type="text" ng-model="presta.nom"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.nom}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierSecteur(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerSecteur(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerSecteur(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.nom >''" ng-click="vm.ajoutSecteur(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Type action">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type action
+                                    <button ng-click="vm.ajouterTypeaction()" title="Ajouter un type d'action" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableTypeaction" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsTypeaction"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type action du projet</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierTypeaction(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerTypeaction(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerTypeaction(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajoutTypeaction(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Axe stratégique">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Axe stratégique
+                                    <button ng-click="vm.ajouterAxestrategique()" title="Ajouter un axe stratégique" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableAxestrategique" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsAxestrategique"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type action du projet</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierAxestrategique(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerAxestrategique(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerAxestrategique(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajoutAxestrategique(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Action stratégique">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Action stratégique
+                                    <button ng-click="vm.ajouterActionstrategique()" title="Ajouter une action stratégique" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableActionstrategique" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsActionstrategique"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type action du projet</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierActionstrategique(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerActionstrategique(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerActionstrategique(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajoutActionstrategique(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Type de transfert">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type de transfert
+                                    <button ng-click="vm.ajouterTypedetransfert()" title="Ajouter un type de transfert" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableTypedetransfert" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsTypedetransfert"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type action du projet</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierTypedetransfert(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerTypedetransfert(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerTypedetransfert(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajoutTypedetransfert(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab label="Type bénéficiaire">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type bénéficiaire
+                                    <button ng-click="vm.ajouterTypebeneficiaire()" title="Ajouter un type de bénéficiaire" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableTypebeneficiaire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsTypebeneficiaire"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Type bénéficiaire du projet</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierTypebeneficiaire(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerTypebeneficiaire(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerTypebeneficiaire(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajoutTypebeneficiaire(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+                    <md-tab>		
+                    </md-tab>		
+                </md-tabs>
+            </div>
+        </div>
+    </div>
+    
