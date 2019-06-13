@@ -14,7 +14,8 @@
             'app.comores.ddb',
             'app.comores.registresocial',
             'app.comores.recommandation',
-            'app.comores.beneficiaire'
+            'app.comores.beneficiaire',
+            'app.comores.enquete'
        ])
         .config(config);
 

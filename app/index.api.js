@@ -94,8 +94,9 @@
           //
           var email = utilisateur.email;
           var pwd = utilisateur.password;
-
-          $http.get(apiUrl+'utilisateurs?email='+email+'&pwd='+pwd)
+          //CONNEXION A L'APPLICATION
+          $location.path("/accueil");//esorina rehefa vita ny connexion,any @index.run mbola misy
+          /*$http.get(apiUrl+'utilisateurs?email='+email+'&pwd='+pwd)
             .success(function(data){
               if(data.status == true)
                   {
@@ -154,7 +155,7 @@
                     storageService.del('enabled');
                     $location.path("/auth/login");
                   }
-            });
+            });*/
         },
         logout: function(){
           cookieService.del('id');
