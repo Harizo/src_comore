@@ -94,6 +94,33 @@
           
         });
       //chargement clé etrangère et données de bases
+
+
+      //QUESTIONNAIRE INDIVIDU
+      apiFactory.getTable("enquete_menage/index","liendeparente").then(function(result){
+        vm.allRecordsLiendeparente = result.data.response;
+      }); 
+      apiFactory.getTable("enquete_menage/index","handicap_visuel").then(function(result){
+        vm.allRecordsHandicapvisuel = result.data.response;
+
+      });  
+      apiFactory.getTable("enquete_menage/index","handicap_parole").then(function(result){
+        vm.allRecordsHandicapparole = result.data.response;
+
+      }); 
+      apiFactory.getTable("enquete_menage/index","handicap_auditif").then(function(result){
+        vm.allRecordsHandicapauditif = result.data.response;
+
+      });  
+      apiFactory.getTable("enquete_menage/index","handicap_mental").then(function(result){
+        vm.allRecordsHandicapmental = result.data.response;
+
+      }); 
+      apiFactory.getTable("enquete_menage/index","handicap_moteur").then(function(result){
+        vm.allRecordsHandicapmoteur = result.data.response;
+
+      });   
+      //FIN QUESTIONNAIRE INDIVIDU
       
 
       
@@ -219,6 +246,46 @@
         
       }
 
+      vm.get_menage_programme_by_menage = function(menage_id)
+      {
+        vm.tab_programme = [] ;
+        apiFactory.getAPIgeneraliserREST("menage_programme/index","cle_etrangere",menage_id).then(function(result)
+        {
+          vm.menage_programme_liaisons = result.data.response; 
+
+          /*if (vm.menage_programme_liaisons.length > 0) 
+          {
+            var tab = [] ;
+            vm.menage_programme_liaisons.forEach( function(element, index) {
+              tab.push(element.id_programme);
+            });
+            vm.tab_programme = tab ;
+
+          }*/
+
+          if (vm.menage_programme_liaisons.id_programme) 
+          {
+            vm.tab_programme = vm.menage_programme_liaisons.id_programme ;
+          }
+
+          if (vm.menage_programme_liaisons.id) 
+          {
+            vm.id_menage_programme = vm.menage_programme_liaisons.id ;
+          }
+          else
+          {
+            vm.id_menage_programme = 0 ; 
+          }
+         
+
+          console.log( vm.tab_programme);
+          /*if (vm.enquete_by_menage.source_eau) 
+          {
+            vm.tab_programme = vm.enquete_by_menage.id_programme ;
+          }*/
+        });
+      }
+
       vm.selection= function (item)
       {
 
@@ -232,6 +299,7 @@
         //get individu
           vm.get_individus_by_menage(item.id);
           vm.get_enquete_by_menage(item.id);
+          vm.get_menage_programme_by_menage(item.id);
         //get individu
         
       }
@@ -349,6 +417,36 @@
                     } ;
 
         console.log(data);*/
+      }
+
+      vm.save_reponse_menage_programme = function()
+      {
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: vm.id_menage_programme ,
+                      id_menage: vm.selectedItem.id,
+                      id_programme: vm.tab_programme
+                                                 
+                    });
+
+        apiFactory.add("menage_programme/index",datas, config).success(function (data) 
+        {
+          vm.showAlert("Information",'Enregistrement réussi!');
+         
+        
+        })
+        .error(function (data) 
+        {
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        }); 
       }
 
 

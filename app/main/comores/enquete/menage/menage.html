@@ -256,6 +256,13 @@
 
                             </div>
                         </fieldset>
+
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                     
+                          <md-button class="md-raised md-primary" ng-if="vm.id_menage_programme != 0" ng-click="vm.save_reponse_menage_programme()">Mettre à jour</md-button>
+                          <md-button class="md-raised md-primary" ng-if="vm.id_menage_programme == 0" ng-click="vm.save_reponse_menage_programme()">Enregistrer</md-button>
+                          
+                        </section>
                     </md-tab> 
 
                     <md-tab label="Individu" ng-disabled="!vm.selectedItem.id">
@@ -282,7 +289,88 @@
                     </md-tab> 
 
                     <md-tab label="Questionnaires Individu" ng-disabled="!vm.selectedItem_individu.id">
+
+                      <fieldset class="standard" >
+                            <legend  class="md-grey-800-bg">Lien parenté</legend>
+                            <md-radio-group ng-model="vm.id_toilette">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordsLiendeparente'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
+
+                        <fieldset class="standard" >
+                            <legend  class="md-grey-800-bg">Handicap visuel</legend>
+                            <md-radio-group ng-model="vm.id_toilette">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordsHandicapvisuel'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
+
+                        <fieldset class="standard" >
+                            <legend  class="md-grey-800-bg">Handicap Parole</legend>
+                            <md-radio-group ng-model="vm.id_toilette">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordsHandicapparole'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
+
+                        <fieldset class="standard" >
+                            <legend  class="md-grey-800-bg">Handicap auditif</legend>
+                            <md-radio-group ng-model="vm.id_toilette">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordsHandicapauditif'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
+
+                        <fieldset class="standard" >
+                            <legend  class="md-grey-800-bg">Handicap mental</legend>
+                            <md-radio-group ng-model="vm.id_toilette">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordsHandicapmental'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
+
+                        <fieldset class="standard" >
+                            <legend  class="md-grey-800-bg">Handicap moteur</legend>
+                            <md-radio-group ng-model="vm.id_toilette">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordsHandicapmoteur'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
                         
+                    </md-tab> 
+
+                    <md-tab label="Programme - Individu" ng-disabled="(!vm.selectedItem.id)||(vm.id_enquete_menage == 0)">
+                        <fieldset class="standard " >
+                            <legend class="md-grey-800-bg">Programme de protection social associé aux membres de ménage</legend>
+                            <div layout="row" layout-wrap flex>
+                                
+                                <div flex="50" ng-repeat="item in vm.all_programme">
+                                    <md-checkbox ng-checked="exists(item.id, vm.tab_programme)" ng-click="vm.toggle(item.id, vm.tab_programme)">
+                                        {{item.libelle}}
+                                    </md-checkbox>
+                                </div>
+
+                            </div>
+                        </fieldset>
                     </md-tab> 
 
                     

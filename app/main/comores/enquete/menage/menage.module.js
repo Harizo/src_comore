@@ -28,7 +28,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('comores.enquete.menage', {
-            title: 'Ménage',
+            title: 'Enquêtes',
             icon  : 'icon-swap-horizontal',
             state: 'app.comores_enquete_menage',
 			weight: 1

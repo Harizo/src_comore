@@ -15,7 +15,7 @@
     function config(msNavigationServiceProvider)
     {
         msNavigationServiceProvider.saveItem('comores.enquete', {
-            title : 'Enquêtes',
+            title : 'Traitement',
             icon  : 'icon-data',
             weight: 2/*,
             hidden: function()

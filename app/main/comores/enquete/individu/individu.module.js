@@ -28,7 +28,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('comores.enquete.individu', {
-            title: 'Individu',
+            title: 'Suivi',
             icon  : 'icon-swap-horizontal',
             state: 'app.comores_enquete_individu',
             weight: 2
