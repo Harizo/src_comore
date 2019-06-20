@@ -3,7 +3,7 @@
         <div id="lock-form" class="md-whiteframe-8dp">
             <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
                 <div class="avatar-container">
-                    <img class="avatar big" src="logo.png">
+                    <img class="avatar big" src="logo_population.png">
                     <md-icon md-font-icon="icon-lock" class="md-warn-fg s36 md-hue-2"></md-icon>
                 </div>
 
@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <form name="lockForm" novalidate>
+            <!--form name="lockForm" novalidate>
                 <md-input-container class="md-block" md-no-float>
                     <input ng-model="vm.form.username" placeholder="Username"
                            translate translate-attr-placeholder="LOCK.USERNAME"
@@ -34,18 +34,18 @@
                           <span translate="LOCK.ERRORS.MDP_NOT_EXIST">Password not exist</span>
                         </div>
                     </div>
-                </md-input-container>
+                </md-input-container-->
 
-                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="UNLOCK"
+                <!--md-button type="submit" class="md-raised md-accent submit-button" aria-label="UNLOCK"
                            ng-disabled="lockForm.$invalid || lockForm.$pristine"
                            translate="LOCK.UNLOCK" translate-attr-aria-label="LOCK.UNLOCK"
                            ng-click="vm.sendmail(vm.form.password)">
                     UNLOCK
-                </md-button>
+                </md-button-->
             </form>
 
             <div class="message">
-                <a ui-sref="app.bianco_auth_login" class="md-accent-color">
+                <a ui-sref="app.comores_auth_login" class="md-accent-color">
                     <span translate="LOCK.ARE_YOU_NOT">Are you not</span><span> {{ vm.form.username }}?</span>
                 </a>
             </div>
