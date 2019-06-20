@@ -172,10 +172,10 @@
 										</md-input-container>
 										<md-input-container flex-gt-sm>
 											<label>Acteur</label>
-											<md-select name="id_acteur" ng-model="vm.suivimenage.id_acteur" required>												
-												<md-option value="1">ANACEP</md-option>
-												<md-option value="2">ACT 2</md-option>
-												<md-option value="3">ACTt 3</md-option>
+											<md-select name="id_acteur" ng-model="vm.suivimenage.id_acteur" ng-change="vm.modifierAgencePaiementSuiviMenage(vm.suivimenage)" required>
+												<md-option ng-repeat="ttrf in vm.allRecordsAgencepaiement" value="{{ttrf.id}}">
+													{{ttrf.Nom}}
+												</md-option>
 											</md-select>
 											<div ng-messages="form_suivi_menage.id_acteur.$error"
 												role="alert">
@@ -235,7 +235,7 @@
 								<tr ng-repeat="mp in vm.selectedItemMenage.detail_suivi_menage"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviMenage(mp)">
 								  <td>{{mp.nomchefmenage}}</td>
 								  <td>{{mp.partenaire[0].nom}}</td>                
-								  <td>{{mp.id_acteur}}</td>                
+								  <td>{{mp.acteur[0].Nom}}</td>                
 								  <td>{{mp.typetransfert[0].description}}</td>                
 								  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 								  <td>{{mp.montant |number:0}}</td>                
@@ -397,10 +397,10 @@
 										</md-input-container>
 										<md-input-container flex-gt-sm>
 											<label>Acteur</label>
-											<md-select name="id_acteur" ng-model="vm.suiviindividu.id_acteur" required>												
-												<md-option value="1">ANACEP</md-option>
-												<md-option value="2">ACT 2</md-option>
-												<md-option value="3">ACTt 3</md-option>
+											<md-select name="id_acteur" ng-model="vm.suiviindividu.id_acteur" ng-change="vm.modifierAgencePaiementSuiviIndividu(vm.suiviindividu)" required>
+												<md-option ng-repeat="ttrf in vm.allRecordsAgencepaiement" value="{{ttrf.id}}">
+													{{ttrf.Nom}}
+												</md-option>
 											</md-select>
 											<div ng-messages="form_suivi_individu.id_acteur.$error"
 												role="alert">
@@ -460,7 +460,7 @@
 								<tr ng-repeat="mp in vm.selectedItemIndividu.detail_suivi_individu"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
 								  <td>{{mp.Nom}}</td>
 								  <td>{{mp.partenaire[0].nom}}</td>                
-								  <td>{{mp.id_acteur}}</td>                
+								  <td>{{mp.acteur[0].Nom}}</td>                
 								  <td>{{mp.typetransfert[0].description}}</td>                
 								  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 								  <td>{{mp.montant |number:0}}</td>                
