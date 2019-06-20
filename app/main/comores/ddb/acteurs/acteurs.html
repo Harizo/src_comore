@@ -28,9 +28,9 @@
                                 <table ng-table="tablePrestataireAgent_ex" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.agent_ex_column">
+                                            <th class="secondary-text" ng-repeat="age in ::vm.agent_ex_column">
                                                 <div class="table-header">
-                                                    <span class="column-title">{{c.titre}}</span>
+                                                    <span class="column-title">{{age.titre}}</span>
                                                 </div>
                                             </th>
                                         </tr>
@@ -233,8 +233,8 @@
                         <md-tab-body>
                             <fieldset>
                                 <legend>
-                                        Acteurs régional
-                                    <button ng-click="vm.ajouterP_sociale()" title="Ajouter un Cellule de protection sociale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                        Cellule de protection sociale
+                                    <button ng-click="vm.ajouterProtection_sociale()" title="Ajouter un Cellule de protection sociale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
                                 </legend>
                                 <table ng-table="tablePrestatairePsociale" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -247,7 +247,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="p_sociale in vm.allProtection_sociale"  ng-class="{selected: p_sociale.$selected}" ng-click="vm.selectionp_sociale(p_sociale)">                                       
+                                        <tr ng-repeat="p_sociale in vm.allProtection_sociale"  ng-class="{selected: p_sociale.$selected}" ng-click="vm.selectionProtection_sociale(p_sociale)">                                       
                                              <td>
                                                 <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
@@ -297,7 +297,7 @@
                                                 <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
                                                       <label>Ile</label>
-                                                        <md-select name="ile_id" ng-model="p_sociale.ile_id" ng-change="vm.modifierile(p_sociale)">
+                                                        <md-select name="ile_id" ng-model="p_sociale.ile_id" ng-change="vm.modifierileprotection(p_sociale)">
                                                           <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
                                                             {{il.Ile}}
                                                           </md-option>
@@ -310,8 +310,8 @@
                                                 <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
                                                       <label>Village</label>
-                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-change="vm.modifierile(p_sociale)">
-                                                          <md-option ng-repeat="vil in vm.allvillage" value="{{vil.id}}">
+                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-disabled="vm.ileSelected==false">
+                                                          <md-option ng-repeat="vil in vm.listevillage" value="{{vil.id}}">
                                                             {{vil.Village}}
                                                           </md-option>
                                                         </md-select>
@@ -342,7 +342,7 @@
                                                 <a ng-if="p_sociale.$edit" ng-click="vm.annulerProtection_sociale(p_sociale)" title="Annuler modification">
                                                     <span class="icon-cancel"></span>
                                                 </a>
-                                                <a ng-if="p_sociale.$edit && p_sociale.Code && p_sociale.Contact && p_sociale.Telephone && p_sociale.Nom && p_sociale.Representant && p_sociale.ile_id && p_sociale.programme_id" ng-click="vm.ajoutProtection_sociale(p_sociale,0)" title="Sauvegarder">
+                                                <a ng-if="p_sociale.$edit && p_sociale.Code && p_sociale.Contact && p_sociale.NumeroTelephone && p_sociale.Nom && p_sociale.Representant && p_sociale.ile_id && p_sociale.programme_id && p_sociale.village_id" ng-click="vm.ajoutProtection_sociale(p_sociale,0)" title="Sauvegarder">
                                                     <span class="icon-content-save"></span>
                                                 </a>
                                             </td>
@@ -351,7 +351,10 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>       
+                    </md-tab>
+                    <md-tab>
+                    </md-tab>
+
                 </md-tabs>
             </div>
         </div>

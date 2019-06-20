@@ -39,6 +39,9 @@
           },
           getTable: function(controller, nom_table) {
             return $http.get(apiUrl+controller+"?nom_table="+nom_table);
+          },
+          getVillageByIle: function(controller, id) {
+            return $http.get(apiUrl+controller+"?cle_etrangere="+id);
           }
 
 
