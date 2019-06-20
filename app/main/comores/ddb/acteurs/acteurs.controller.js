@@ -10,18 +10,19 @@
 		var vm = this;
 		vm.titrepage ="Ajout Tutelle";
 		vm.ajout = ajout ;
-		vm.ajoutActeur = ajoutActeur ;
+		vm.ajoutAgence_p = ajoutAgence_p ;
 		vm.ajoutActeurregional = ajoutActeurregional ;
-		var NouvelItem=false;
-		var NouvelItemActeur=false;
+		var NouvelItemAgent_ex=false;
+		var NouvelItemAgence_p=false;
 		var NouvelItemActeurregional=false;
-		var currentItem;
-		vm.selectedItemTypeacteur = {} ;
-		vm.selectedItemActeur = {} ;
+		var currentItemAgent_ex;
+		var currentItemAgence_p;
+		vm.selectedItemAgent_ex = {} ;
+		vm.selectedItemAgence_p = {} ;
 		vm.selectedItemActeurregional = {} ;
-		vm.allregion =[];
-		vm.allRecordsTypeacteur = [] ;
-		vm.allRecordsActeur = [] ;
+		//vm.allregion =[];
+		vm.allRecordsAgent_ex = [] ;
+		vm.allRecordsAgence_p = [] ;
 		vm.allRecordsActeurregional = [] ;
 		vm.nom_table="type_acteur";
 		vm.cas=1;
@@ -35,13 +36,40 @@
 		responsive: true
 		};
 		//col table
-		vm.typeacteur_column = [{titre:"Description"},{titre:"Actions"}];
-		vm.acteur_column = [{titre:"Type Act"},{titre:"Nom"},{titre:"Représentant"},{titre:"Contact"},{titre:"Adresse"},{titre:"Actions"}];
+		vm.agent_ex_column =[
+		{titre:"Code"},
+		{titre:"Nom"},
+		{titre:"Contact"},
+		{titre:"Representant"},
+		{titre:"Ile"},
+		{titre:"Programme"},
+		{titre:"Action"}
+		];
+		vm.agence_p_column = [
+		{titre:"Code"},
+		{titre:"Nom"},
+		{titre:"Contact"},
+		{titre:"Telephone"},
+		{titre:"Representant"},
+		{titre:"Ile"},
+		{titre:"Programme"},
+		{titre:"Action"}
+		];
 		vm.acteurregional_column = [{titre:"Type Act"},{titre:"Nom"},{titre:"Région"},{titre:"Représentant"},{titre:"Contact"},{titre:"Adresse"},{titre:"Actions"}];
-		apiFactory.getAll("type_acteur/index").then(function(result){
-			vm.allRecordsTypeacteur = result.data.response;
-			apiFactory.getAll("acteur/index").then(function(result){
-				vm.allRecordsActeur = result.data.response;
+		apiFactory.getAll("ile/index").then(function(result)
+	      {
+	        vm.allile= result.data.response;
+	      });
+	      apiFactory.getAll("programme/index").then(function(result)
+	      {
+	        vm.allprogramme= result.data.response;
+	      });
+		apiFactory.getAll("agent_ex/index").then(function(result){
+			vm.allRecordsAgent_ex = result.data.response;
+			//console.log(vm.allRecordsAgent_ex);
+			apiFactory.getAll("agence_p/index").then(function(result){
+				vm.allRecordsAgence_p = result.data.response;
+				//console.log(vm.allRecordsAgence_p);
 				apiFactory.getAll("acteur_regional/index").then(function(result){
 					vm.allRecordsActeurregional = result.data.response;
 					apiFactory.getAll("region/index").then(function(result){
@@ -50,45 +78,78 @@
 				});    
 			});    
 		});    
-		function ajout(typeact,suppression) {
-            test_existence (typeact,suppression);
+		function ajout(agent_e,suppression) {
+            
+            if (NouvelItemAgent_ex==false) 
+              {
+                test_existence (agent_e,suppression); 
+              }
+              else
+              {
+                insert_in_base(agent_e,suppression);
+              }
         }
-        function insert_in_base(typeact,suppression) {  
+        function insert_in_base(agent_ex,suppression) {  
 			//add
+			
 			var config = {
 				headers : {
 					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
 				}
 			};
 			var getId = 0;
-			if (NouvelItem==false) {
-			   getId = vm.selectedItem.id; 
+			if (NouvelItemAgent_ex==false) {
+			   getId = vm.selectedItemAgent_ex.id; 
 			} 
 			var datas = $.param({
 				supprimer:suppression,
 				id:getId,      
-				description: typeact.description,
+				Code: agent_ex.Code,      
+				Nom: agent_ex.Nom,      
+				Contact: agent_ex.Contact,      
+				Representant: agent_ex.Representant,      
+				ile_id: agent_ex.ile_id,      
+				programme_id: agent_ex.programme_id
 			});       
 			//factory
-			apiFactory.add("type_acteur/index",datas, config).success(function (data) {
-				if (NouvelItem == false) {
-					// Update or delete: id exclu                   
+			apiFactory.add("agent_ex/index",datas, config).success(function (data)
+			{	
+				var prog = vm.allprogramme.filter(function(obj)
+                {
+                    return obj.id == agent_ex.programme_id;
+                });
+            //console.log(prog[0]);
+                var il = vm.allile.filter(function(obj)
+                {
+                    return obj.id == agent_ex.ile_id;
+                });
+//console.log(il[0]);
+				if (NouvelItemAgent_ex == false) {
+					// Update or delete: id exclu 
+					//console.log('noufalse');                  
 					if(suppression==0) {
-					  vm.selectedItem.description = typeact.description;
-					  vm.selectedItem.$selected = false;
-					  vm.selectedItem.$edit = false;
-					  vm.selectedItem ={};
+					  vm.selectedItemAgent_ex.Code = agent_ex.Code;
+					  vm.selectedItemAgent_ex.Nom = agent_ex.Nom;
+					  vm.selectedItemAgent_ex.Contact = agent_ex.Contact;
+					  vm.selectedItemAgent_ex.Representant = agent_ex.Representant;
+					  vm.selectedItemAgent_ex.ile = il[0];
+					  vm.selectedItemAgent_ex.programme = prog[0];
+					  vm.selectedItemAgent_ex.$selected = false;
+					  vm.selectedItemAgent_ex.$edit = false;
+					  vm.selectedItemAgent_ex ={};
 					} else {    
-						vm.allRecordsTypeacteur = vm.allRecordsTypeacteur.filter(function(obj) {
-							return obj.id !== vm.selectedItem.id;
+						vm.allRecordsAgent_ex = vm.allRecordsAgent_ex.filter(function(obj) {
+							return obj.id !== vm.selectedItemAgent_ex.id;
 						});
 					}
 				} else {
-					typeact.id=data.response;	
-					NouvelItem=false;
+					agent_ex.id=data.response;
+					agent_ex.programme=prog[0];
+					agent_ex.ile=il[0]
+					NouvelItemAgent_ex=false;
 				}
-				typeact.$selected=false;
-				typeact.$edit=false;
+				agent_ex.$selected=false;
+				agent_ex.$edit=false;
 			}).error(function (data) {
 				vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
 			});  
@@ -109,58 +170,69 @@
 				.targetEvent()
 			);
 		} 
-        vm.selectionTypeacteur= function (item) {     
-            vm.selectedItemTypeacteur = item;
+        vm.selectionAgent_ex= function (item) {     
+            vm.selectedItemAgent_ex = item;
         };
-        $scope.$watch('vm.selectedItemTypeacteur', function() {
-			if (!vm.allRecordsTypeacteur) return;
-			vm.allRecordsTypeacteur.forEach(function(item) {
+        $scope.$watch('vm.selectedItemAgent_ex', function() {
+			if (!vm.allRecordsAgent_ex) return;
+			vm.allRecordsAgent_ex.forEach(function(item) {
 				item.$selected = false;
 			});
-			vm.selectedItemTypeacteur.$selected = true;
+			vm.selectedItemAgent_ex.$selected = true;
+			console.log(vm.allRecordsAgent_ex);
         });
         //function cache masque de saisie
-        vm.ajouterTypeacteur = function () {
-            vm.selectedItemTypeacteur.$selected = false;
-            NouvelItem = true ;
+        vm.ajouterAgent_ex = function () {
+            vm.selectedItemAgent_ex.$selected = false;
+            NouvelItemAgent_ex = true ;
 		    var items = {
 				$edit: true,
 				$selected: true,
 				supprimer:0,
-                description: '',
+                Code: '',
+                Nom: '',
+                Contact: '',
+                Representant: '',
+                ile_id: '',
+                programme_id: ''
 			};
-			vm.allRecordsTypeacteur.push(items);
-		    vm.allRecordsTypeacteur.forEach(function(it) {
+			vm.allRecordsAgent_ex.push(items);
+		    vm.allRecordsAgent_ex.forEach(function(it) {
 				if(it.$selected==true) {
-					vm.selectedItemTypeacteur = it;
+					vm.selectedItemAgent_ex = it;
 				}
 			});			
         };
-        vm.annulerTypeacteur = function(item) {
+        vm.annulerAgent_ex = function(item) {
 			if (!item.id) {
-				vm.allRecordsTypeacteur.pop();
+				vm.allRecordsAgent_ex.pop();
 				return;
 			}          
 			item.$selected=false;
 			item.$edit=false;
-			NouvelItem = false;
-			 item.description = currentItem.description;
-			vm.selectedItemTypeacteur = {} ;
-			vm.selectedItemTypeacteur.$selected = false;
+			NouvelItemAgent_ex = false;
+			 item.description = currentItemAgent_ex.description;
+			vm.selectedItemAgent_ex = {} ;
+			vm.selectedItemAgent_ex.$selected = false;
        };
-        vm.modifierTypeacteur = function(item) {
-			NouvelItem = false ;
-			vm.selectedItemTypeacteur = item;
-			currentItem = angular.copy(vm.selectedItemTypeacteur);
-			$scope.vm.allRecordsTypeacteur.forEach(function(it) {
+        vm.modifierAgent_ex = function(item) {
+			NouvelItemAgent_ex = false ;
+			//vm.selectedItemAgent_ex = item;
+			currentItemAgent_ex = angular.copy(vm.selectedItemAgent_ex);
+			$scope.vm.allRecordsAgent_ex.forEach(function(it) {
 				it.$edit = false;
 			});        
 			item.$edit = true;	
 			item.$selected = true;	
-			vm.selectedItemTypeacteur.description = vm.selectedItemTypeacteur.description;
-			vm.selectedItemTypeacteur.$edit = true;	
+			item.Code = vm.selectedItemAgent_ex.Code;
+			item.Nom = vm.selectedItemAgent_ex.Nom;
+			item.Contact = vm.selectedItemAgent_ex.Contact;
+			item.Representant = vm.selectedItemAgent_ex.Representant;
+			item.ile_id = vm.selectedItemAgent_ex.ile.id;
+			item.programme_id = vm.selectedItemAgent_ex.programme.id;
+			item.$edit = true;	
         };
-        vm.supprimerTypeacteur = function() {
+        vm.supprimerAgent_ex = function() {
 			var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -170,37 +242,63 @@
                 .ok('supprimer')
                 .cancel('annuler');
 			$mdDialog.show(confirm).then(function() {          
-				ajout(vm.selectedItemTypeacteur,1);
+				ajout(vm.selectedItemAgent_ex,1);
 			}, function() {
 			});
         }
-        function test_existence (item,suppression) {    
-			if(item.description.length > 0) {
-				var doublon = 0;
-				if (suppression!=1) {
-					vm.allRecordsTypeacteur.forEach(function(dispo) {   
-						if((dispo.description==item.description) && dispo.id!=item.id) {
-							doublon=1;	
-						} 
-					});
-					if(doublon==1) {
-						vm.showAlert('Information !','ERREUR ! : Intitulé déjà utilisé')
-					} else {
-						insert_in_base(item,0);
-					}
-				} else {
-				  insert_in_base(item,suppression);
-				}  
-			} else {
-				vm.showAlert('Erreur',"Veuillez saisir l'intitulé du type de financement !");
-			}		
+        vm.modifierile = function (item) 
+        {
+          var ile = vm.allile.filter(function(obj)
+          {
+              return obj.id == item.ile_id;
+          });
+          //console.log(ile);
+          item.programme_id=ile[0].programme.id;
+        }
+        function test_existence (item,suppression)
+        {
+			if (suppression!=1) 
+            {
+                var ag = vm.allRecordsAgent_ex.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(ag[0])
+                {
+                  if((ag[0].Code!=currentItemAgent_ex.Code)
+                        ||(ag[0].Nom!=currentItemAgent_ex.Nom)
+                        ||(ag[0].Contact!=currentItemAgent_ex.Contact)
+                        ||(ag[0].Representant!=currentItemAgent_ex.Representant)
+                        ||(ag[0].ile.id!=currentItemAgent_ex.ile_id)
+                        ||(ag[0].programme.id!=currentItemAgent_ex.programme_id))                    
+                      { 
+                         insert_in_base(item,suppression);                         
+                      }
+                      else
+                      { 
+                        item.$selected=false;
+						item.$edit=false;
+                      }
+                }
+            }
+            else
+              insert_in_base(item,suppression);		
         }
 		
 	// ACTEURS	
-		function ajoutActeur(entite,suppression) {
-            test_existenceActeur (entite,suppression);
+		function ajoutAgence_p(agence_p,suppression) {
+            	
+            if (NouvelItemAgence_p==false) 
+              {
+                test_existenceAgence_p (agence_p,suppression); 
+              }
+              else
+              {
+                insert_in_baseAgence_p(agence_p,suppression);
+              }
+
         }
-        function insert_in_baseActeur(entite,suppression) {  
+        function insert_in_baseAgence_p(entite,suppression) {  
 			//add
 			var config = {
 				headers : {
@@ -208,40 +306,58 @@
 				}
 			};
 			var getId = 0;
-			if (NouvelItemActeur==false) {
-			   getId = vm.selectedItemActeur.id; 
+			if (NouvelItemAgence_p==false) {
+			   getId = vm.selectedItemAgence_p.id; 
 			} 
 			var datas = $.param({
 				supprimer:suppression,
 				id:getId,      
-				nom: entite.nom,
-				representant: entite.representant,
-				contact: entite.contact,
-				adresse: entite.adresse,
-				id_type_acteur: entite.id_type_acteur,
+				Code: entite.Code,      
+				Nom: entite.Nom,      
+				Contact: entite.Contact,
+				Telephone: entite.Telephone,      
+				Representant: entite.Representant,      
+				ile_id: entite.ile_id,      
+				programme_id: entite.programme_id
 			});       
 			//factory
-			apiFactory.add("acteur/index",datas, config).success(function (data) {
-				if (NouvelItemActeur == false) {
+			apiFactory.add("agence_p/index",datas, config).success(function (data)
+			{	
+				var prog = vm.allprogramme.filter(function(obj)
+                {
+                    return obj.id == entite.programme_id;
+                });
+            	//console.log(prog[0]);
+                var il = vm.allile.filter(function(obj)
+                {
+                    return obj.id == entite.ile_id;
+                });
+				if (NouvelItemAgence_p == false) {
 					// Update or delete: id exclu                   
 					if(suppression==0) {
-					  vm.selectedItemActeur.nom = entite.nom;
-					  vm.selectedItemActeur.representant = entite.representant;
-					  vm.selectedItemActeur.contact = entite.contact;
-					  vm.selectedItemActeur.adresse = entite.adresse;
-					  vm.selectedItemActeurregional.id_type_acteur = entite.id_type_acteur;
-					  vm.selectedItemActeurregional.typeacteur = entite.typeacteur;
-					  vm.selectedItemActeur.$selected = false;
-					  vm.selectedItemActeur.$edit = false;
-					  vm.selectedItemActeur ={};
+					   vm.selectedItemAgence_p.Code = entite.Code;
+					  vm.selectedItemAgence_p.Nom = entite.Nom;
+					  vm.selectedItemAgence_p.Contact = entite.Contact;
+					  vm.selectedItemAgence_p.Telephone = entite.Telephone;
+					  vm.selectedItemAgence_p.Representant = entite.Representant;
+					  vm.selectedItemAgence_p.ile = il[0];
+					  vm.selectedItemAgence_p.programme = prog[0];
+					  vm.selectedItemAgence_p.$selected = false;
+					  vm.selectedItemAgence_p.$edit = false;
+					  vm.selectedItemAgence_p ={};
+					  vm.selectedItemAgence_p.$selected = false;
+					  vm.selectedItemAgence_p.$edit = false;
+					  vm.selectedItemAgence_p ={};
 					} else {    
-						vm.allRecordsActeur = vm.allRecordsActeur.filter(function(obj) {
-							return obj.id !== vm.selectedItemActeur.id;
+						vm.allRecordsAgence_p = vm.allRecordsAgence_p.filter(function(obj) {
+							return obj.id !== vm.selectedItemAgence_p.id;
 						});
 					}
 				} else {
-					entite.id=data.response;	
-					NouvelItemActeur=false;
+					entite.id=data.response;
+					entite.programme=prog[0];
+					entite.ile=il[0]	
+					NouvelItemAgence_p=false;
 				}
 				entite.$selected=false;
 				entite.$edit=false;
@@ -249,72 +365,75 @@
 				vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
 			});  
         }
-        vm.selectionActeur= function (item) {     
-            vm.selectedItemActeur = item;
+        vm.selectionAgence_p= function (item) {     
+            vm.selectedItemAgence_p = item;
         };
-        $scope.$watch('vm.selectedItemActeur', function() {
-			if (!vm.allRecordsActeur) return;
-			vm.allRecordsActeur.forEach(function(item) {
+        $scope.$watch('vm.selectedItemAgence_p', function() {
+			if (!vm.allRecordsAgence_p) return;
+			vm.allRecordsAgence_p.forEach(function(item) {
 				item.$selected = false;
 			});
-			vm.selectedItemActeur.$selected = true;
+			vm.selectedItemAgence_p.$selected = true;
         });
-        vm.ajouterActeur = function () {
-            vm.selectedItemActeur.$selected = false;
-            NouvelItemActeur = true ;
+        vm.ajouterAgence_p = function () {
+            vm.selectedItemAgence_p.$selected = false;
+            NouvelItemAgence_p = true ;
 		    var items = {
 				$edit: true,
 				$selected: true,
 				supprimer:0,
-                nom: '',
-                representant: '',
-                contact: '',
-                adresse: '',
+                Code: '',
+                Nom: '',
+                Contact: '',
+                Telephone: '',
+                Representant: '',
+                ile_id: '',
+                programme_id: ''
 			};
-			vm.allRecordsActeur.push(items);
-		    vm.allRecordsActeur.forEach(function(it) {
+			vm.allRecordsAgence_p.push(items);
+		    vm.allRecordsAgence_p.forEach(function(it) {
 				if(it.$selected==true) {
-					vm.selectedItemActeur = it;
+					vm.selectedItemAgence_p = it;
 				}
 			});			
         };
-        vm.annulerActeur = function(item) {
+        vm.annulerAgence_p = function(item) {
 			if (!item.id) {
-				vm.allRecordsActeur.pop();
+				vm.allRecordsAgence_p.pop();
 				return;
 			}          
 			item.$selected=false;
 			item.$edit=false;
-			NouvelItemActeur = false;
+			NouvelItemAgence_p = false;
 			 item.nom = currentItem.nom;
 			 item.representant = currentItem.representant;
 			 item.contact = currentItem.contact;
 			 item.adresse = currentItem.adresse;
-			 item.id_type_acteur = currentItem.id_type_acteur;
+			 item.id_type_Agence_p = currentItem.id_type_Agence_p;
 			 item.typeacteur = currentItem.typeacteur;
 			vm.selectedItemActeur = {} ;
 			vm.selectedItemActeur.$selected = false;
        };
-        vm.modifierActeur = function(item) {
-			NouvelItemActeur = false ;
-			vm.selectedItemActeur = item;
-			currentItem = angular.copy(vm.selectedItemActeur);
-			$scope.vm.allRecordsActeur.forEach(function(it) {
+        vm.modifierAgence_p = function(item) {
+			NouvelItemAgence_p = false ;
+			//vm.selectedItemAgence_p = item;			
+			currentItemAgence_p = angular.copy(vm.selectedItemAgence_p);
+			$scope.vm.allRecordsAgence_p.forEach(function(it) {
 				it.$edit = false;
 			});        
 			item.$edit = true;	
 			item.$selected = true;	
-			item.nom = vm.selectedItemActeur.nom;
-			item.representant = vm.selectedItemActeur.representant;
-			item.contact = vm.selectedItemActeur.contact;
-			item.adresse = vm.selectedItemActeur.adresse;
-			if(vm.selectedItemActeur.id_type_acteur) {
-				item.id_type_acteur = parseInt(vm.selectedItemActeur.id_type_acteur);
-			}
-			item.typeacteur = parseInt(vm.selectedItemActeur.typeacteur);
-			vm.selectedItemActeur.$edit = true;	
+			item.Code = vm.selectedItemAgence_p.Code;
+			item.Nom = vm.selectedItemAgence_p.Nom;
+			item.Contact = vm.selectedItemAgence_p.Contact;
+			item.Telephone = vm.selectedItemAgence_p.Telephone;
+			item.Representant = vm.selectedItemAgence_p.Representant;
+			item.ile_id = vm.selectedItemAgence_p.ile.id;
+			item.programme_id = vm.selectedItemAgence_p.programme.id;
+			
+			vm.selectedItemAgence_p.$edit = true;	
         };
-        vm.supprimerActeur = function() {
+        vm.supprimerAgence_p = function() {
 			var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -324,30 +443,39 @@
                 .ok('supprimer')
                 .cancel('annuler');
 			$mdDialog.show(confirm).then(function() {          
-				ajoutActeur(vm.selectedItemActeur,1);
+				ajoutAgence_p(vm.selectedItemAgence_p,1);
 			}, function() {
 			});
         }
-        function test_existenceActeur (item,suppression) {    
-			if(item.nom.length > 0) {
-				var doublon = 0;
-				if (suppression!=1) {
-					vm.allRecordsActeur.forEach(function(dispo) {   
-						if((dispo.nom==item.nom) && dispo.id!=item.id) {
-							doublon=1;	
-						} 
-					});
-					if(doublon==1) {
-						vm.showAlert('Information !','ERREUR ! : Nom déjà utilisé')
-					} else {
-						insert_in_baseActeur(item,0);
-					}
-				} else {
-				  insert_in_baseActeur(item,suppression);
-				}  
-			} else {
-				vm.showAlert('Erreur',"Veuillez saisir le nom de l'AGEX !");
-			}		
+        function test_existenceAgence_p (item,suppression)
+        {
+			if (suppression!=1) 
+            {
+                var ag = vm.allRecordsAgence_p.filter(function(obj)
+                {
+                   return obj.id == currentItemAgence_p.id;
+                });
+                if(ag[0])
+                {
+                   if((ag[0].Code!=currentItemAgence_p.Code)
+                        ||(ag[0].Nom!=currentItemAgence_p.Nom)
+                        ||(ag[0].Contact!=currentItemAgence_p.Contact)
+                        ||(ag[0].Contact!=currentItemAgence_p.Telephone)
+                        ||(ag[0].Representant!=currentItemAgence_p.Representant)
+                        ||(ag[0].ile.id!=currentItemAgence_p.ile_id)
+                        ||(ag[0].programme.id!=currentItemAgence_p.programme_id))                    
+                      { 
+                        insert_in_baseAgence_p(item,suppression);
+                      }
+                      else
+                      {
+                        item.$selected=false;
+						item.$edit=false;
+                      }                    
+                }
+            }
+            else
+              insert_in_baseAgence_p(item,suppression);			
         }		
 	// ACTEURS REGIONAL	
 		function ajoutActeurregional(entite,suppression) {
@@ -526,7 +654,7 @@
 			});
 		}	
         vm.modifierTypeacteur = function (item) { 
-			vm.allRecordsTypeacteur.forEach(function(prg) {
+			vm.allRecordsAgent_ex.forEach(function(prg) {
 				if(prg.id==item.id_type_acteur) {
 					item.typeacteur=[];
 					var itemss = {

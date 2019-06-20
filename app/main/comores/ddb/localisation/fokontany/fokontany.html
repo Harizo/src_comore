@@ -6,10 +6,10 @@
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
                 <span class="parent">Données de bases</span>
                 <span class="parent"> </span>
-                <span class="parent" href="javascript:;">  Fokontany</span>
+                <span class="parent" href="javascript:;">  Village</span>
             </div>
 
-            <div class="title">Fokontany</div>
+            <div class="title">Village</div>
         </div>
     </div>
     <div class="content"layout="column">
@@ -27,12 +27,12 @@
 			</div>  
 			<div style="clear:both;"></div>
 			<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-				<md-tab label="Ajout Fokontany">
+				<md-tab label="Ajout Village">
 					<div class="simple-table-container md-whiteframe-4dp">
 					<md-tab-body>
-						<div layout="column" layout-gt-xs="row" flex>
+						<!--div layout="column" layout-gt-xs="row" flex>
 							<md-input-container flex="100" flex-gt-xs="20">
-								<label>Filtre fokontany par REGION et/ou DISTRICT</label>
+								<label>Filtre village par REGION et/ou DISTRICT</label>
 							</md-input-container>
 							<md-input-container flex="100" flex-gt-xs="20">
 								<label>Région</label>
@@ -52,7 +52,7 @@
 									</md-option>
 								</md-select>
 							</md-input-container>
-							<!--md-input-container flex="100" flex-gt-xs="20">
+							<md-input-container flex="100" flex-gt-xs="20">
 								<label>Commune</label>
 								<md-select ng-model="vm.id_commune" ng-change="vm.modifierFiltreCommune()">
 									<md-option value="">&nbsp;</md-option>
@@ -60,17 +60,17 @@
 										{{com.nom}} - {{com.district.nom}}
 									</md-option>
 								</md-select>
-							</md-input-container-->
+							</md-input-container>
 							
-						</div>
-						<form name="fokontanyform" class="md-inline-form"  novalidate>
+						</div-->
+						<form name="villageform" class="md-inline-form"  novalidate>
 							<div layout="column" layout-gt-xs="row" flex>
-								<input type="hidden" ng-model="vm.fokontany.id"></input>
+								<input type="hidden" ng-model="vm.village.id"></input>
 								<md-input-container flex="100" flex-gt-xs="33">
-									<input readonly type="text" name="code" ng-model="vm.fokontany.code"
-										placeholder="Code" ng-init="vm.fokontany.code=''"
+									<input type="text" name="Code" ng-model="vm.village.Code"
+										placeholder="Code" ng-init="vm.village.Code=''"
 									required>
-									<div ng-messages="fokontanyform.code.$error"
+									<div ng-messages="villageform.Code.$error"
 										role="alert">
 										<div ng-message="required">
 											<span>Code obligatoire.</span>
@@ -78,32 +78,40 @@
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="nom" ng-model="vm.fokontany.nom"
-									placeholder="Nom " ng-init="vm.fokontany.nom=''"
+									<input type="text" name="Village" ng-model="vm.village.Village"
+									placeholder="Village " ng-init="vm.village.Village=''"
 									required>
-									<div ng-messages="fokontanyform.nom.$error"
+									<div ng-messages="villageform.Village.$error"
 										role="alert">
 										<div ng-message="required">
-											<span>Nom obligatoire.</span>
+											<span>Village obligatoire.</span>
 										</div>
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="25">
 									<label>Commune</label>
-									<md-select name="id_commune" ng-model="vm.fokontany.id_commune" ng-init="vm.fokontany.id_commune=''" ng-change="vm.modifierCommune(vm.fokontany)" required>
-										<md-option ng-repeat="co in vm.listecommune" value='{{co.id}}'>
-											{{co.nom}} ({{co.nomdistrict}})
+									<md-select name="commune_id" ng-model="vm.village.commune_id" ng-init="vm.village.commune_id=''" ng-change="vm.modifierCommune(vm.village)" required>
+										<md-option ng-repeat="co in vm.allcommune" value='{{co.id}}'>
+										{{co.Commune}}
 										</md-option>
 									</md-select>
-									<div ng-messages="id_commune.$error" role="alert">
+									<div ng-messages="villageform.commune_id.$error" role="alert">
 										<div ng-message="required">
 											<span>Commune obligatoire.</span>
 										</div>
 									</div>
 								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<label>Programme</label>
+									<md-select ng-model="vm.village.programme_id" ng-init="vm.village.programme_id=''" disabled>
+										<md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
+											{{programme.libelle}}
+										</md-option>
+									</md-select>
+								</md-input-container>
 							</div>
 							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-								ng-disabled="fokontanyform.$invalid " ng-click="vm.ajout(vm.fokontany,0)">
+								ng-disabled="villageform.$invalid " ng-click="vm.ajout(vm.village,0)">
 								Enregistrer
 							</md-button>
 							<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -117,12 +125,12 @@
 			</md-tabs>
 			<div style="clear:both;"></div>
 			<md-tabs md-dynamic-height>
-				<md-tab label="Liste Fokontany">
+				<md-tab label="Liste Village">
 					<table class="dataTable row-border hover" datatable="ng"
 						dt-options="vm.dtOptions">
 						<thead>
 							<tr>
-								<th class="secondary-text" ng-repeat="fkt in ::vm.fokontany_column">
+								<th class="secondary-text" ng-repeat="fkt in ::vm.village_column">
 									<div class="table-header">
 										<span class="column-title">{{fkt.titre}}</span>
 									</div>
@@ -130,10 +138,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="fokontany in vm.allfokontany"  ng-class="{selected: fokontany.$selected}" ng-click="vm.selection(fokontany)">
-								<td>{{fokontany.code}}</td>
-								<td>{{fokontany.nom}}</td>
-								<td>{{fokontany.commune[0].nom}}</td>
+							<tr ng-repeat="village in vm.allvillage"  ng-class="{selected: village.$selected}" ng-click="vm.selection(village)">
+								<td>{{village.Code}}</td>
+								<td>{{village.Village}}</td>
+								<td>{{village.commune.Commune}}</td>
+								<td>{{village.programme.libelle}}</td>
 							</tr>
 						</tbody>
 					</table>

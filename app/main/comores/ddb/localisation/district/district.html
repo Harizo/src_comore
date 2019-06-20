@@ -7,10 +7,10 @@
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
                 <span class="parent">Données de bases</span>
                 <span class="parent"> </span>
-                <span class="parent" href="javascript:;"> > District</span>
+                <span class="parent" href="javascript:;"> > Préfecture</span>
             </div>
 
-            <div class="title">District</div>
+            <div class="title">Préfecture</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -22,14 +22,14 @@
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
                   <md-tab-body>
-                    <form name="districtform" class="md-inline-form"  novalidate>
+                    <form name="prefectureform" class="md-inline-form"  novalidate>
                       <div layout="column" layout-gt-xs="row" flex>
-                        <input type="hidden" ng-model="vm.district.id"></input>
+                        <input type="hidden" ng-model="vm.prefecture.id"></input>
                         <md-input-container flex="100" flex-gt-xs="33">
-                          <input type="text" name="code" ng-model="vm.district.code"
-                              placeholder="Code" ng-init="vm.district.code=''"
+                          <input type="text" name="Code" ng-model="vm.prefecture.Code"
+                              placeholder="Code" ng-init="vm.prefecture.Code=''"
                               required>
-                              <div ng-messages="districtform.code.$error"
+                              <div ng-messages="prefectureform.Code.$error"
                                 role="alert">
                                 <div ng-message="required">
                                   <span>Code obligatoire.</span>
@@ -37,27 +37,41 @@
                               </div>
                         </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="33">
-                          <input type="text" name="nom" ng-model="vm.district.nom"
-                              placeholder="Nom " ng-init="vm.district.nom=''"
+                          <input type="text" name="Region" ng-model="vm.prefecture.Region"
+                              placeholder="Prefecture " ng-init="vm.prefecture.Region=''"
                               required>
-                              <div ng-messages="districtform.nom.$error"
+                              <div ng-messages="prefectureform.Region.$error"
                                 role="alert">
                                 <div ng-message="required">
-                                  <span>Nom obligatoire.</span>
+                                  <span>Prefecture obligatoire.</span>
                                 </div>
                               </div>
                         </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="33">
-                          <label>Region</label>
-                            <md-select ng-model="vm.district.region_id" ng-change="vm.modifierregion(vm.district)">
-                              <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
-                                {{region.nom}}
+                          <label>Ile</label>
+                            <md-select name="ile_id" ng-model="vm.prefecture.ile_id" ng-change="vm.modifierile(vm.prefecture)" required>
+                              <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
+                                {{il.Ile}}
+                              </md-option>
+                            </md-select>
+                            <div ng-messages="prefectureform.ile_id.$error"
+                                role="alert">
+                                <div ng-message="required">
+                                  <span>Ile obligatoire.</span>
+                                </div>
+                              </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <label>Programme</label>
+                            <md-select ng-model="vm.prefecture.programme_id" disabled>
+                              <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
+                                {{programme.libelle}}
                               </md-option>
                             </md-select>
                         </md-input-container>
                       </div>
                       <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                          ng-disabled="districtform.$invalid " ng-click="vm.ajout(vm.district,0)">
+                          ng-disabled="prefectureform.$invalid " ng-click="vm.ajout(vm.prefecture,0)">
                           Enregistrer
                       </md-button>
                       <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -81,12 +95,12 @@
         </div>  
         <div style="clear:both;"></div>
         <md-tabs md-dynamic-height>
-          <md-tab label="Liste District">
+          <md-tab label="Liste préfecture">
               <table class="dataTable row-border hover" datatable="ng"
                 dt-options="vm.dtOptions">
                 <thead>
                   <tr>
-                    <th class="secondary-text" ng-repeat="di in ::vm.district_column">
+                    <th class="secondary-text" ng-repeat="di in ::vm.prefecture_column">
                       <div class="table-header">
                           <span class="column-title">{{di.titre}}</span>
                       </div>
@@ -94,10 +108,11 @@
                   </tr>
                 </thead>
                   <tbody>
-                    <tr ng-repeat="district in vm.alldistrict"  ng-class="{selected: district.$selected}" ng-click="vm.selection(district)">
-                      <td>{{district.code}}</td>
-                      <td>{{district.nom}}</td>
-                      <td>{{district.region_nom}}</td>
+                    <tr ng-repeat="prefecture in vm.allprefecture"  ng-class="{selected: prefecture.$selected}" ng-click="vm.selection(prefecture)">
+                      <td>{{prefecture.Code}}</td>
+                      <td>{{prefecture.Region}}</td>
+                      <td>{{prefecture.ile.Ile}}</td>
+                      <td>{{prefecture.programme.libelle}}</td>
                     </tr>
                   </tbody>
               </table>

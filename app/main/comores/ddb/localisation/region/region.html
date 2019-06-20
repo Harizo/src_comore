@@ -12,10 +12,10 @@
                 <span class="parent" href="javascript:;"> Localisation</span>
 
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
-                <span class="parent" href="javascript:;"> Region</span>
+                <span class="parent" href="javascript:;"> Ile</span>
             </div>
 
-            <div class="title">Region</div>
+            <div class="title">Ile</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -37,16 +37,16 @@
         <div style="clear:both;"></div>
                     <!-- BASIC FORM -->
         <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-          <md-tab label="Ajout Region">
+          <md-tab label="Ajout Ile">
             <md-tab-body>
-              <form name="regionform" class="md-inline-form" novalidate>
+              <form name="ileform" class="md-inline-form" novalidate>
                 <div layout="column" layout-gt-xs="row" flex>
-                  <input type="hidden" ng-model="vm.region.id"></input>
+                  <input type="hidden" ng-model="vm.ile.id"></input>
                     <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="code" ng-model="vm.region.code"
-                        placeholder="Code" ng-init="vm.region.code=''"
+                      <input type="text" name="Code" ng-model="vm.ile.Code"
+                        placeholder="Code" ng-init="vm.ile.Code=''"
                         required>
-                        <div ng-messages="regionform.code.$error"
+                        <div ng-messages="ileform.Code.$error"
                           role="alert">
                           <div ng-message="required">
                             <span>Code obligatoire.</span>
@@ -54,10 +54,10 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="nom" ng-model="vm.region.nom"
-                        placeholder="Nom " ng-init="vm.region.nom=''"
+                      <input type="text" name="Ile" ng-model="vm.ile.Ile"
+                        placeholder="Ile " ng-init="vm.ile.Ile=''"
                         required>
-                        <div ng-messages="regionform.nom.$error"
+                        <div ng-messages="ileform.Ile.$error"
                           role="alert">
                           <div ng-message="required">
                             <span>Nom obligatoire.</span>
@@ -66,20 +66,23 @@
                     </md-input-container>
 
                     <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="number" name="surface" ng-model="vm.region.surface"
-                        placeholder="Superficie " ng-init="vm.region.surface=''"
-                        >
-                        <!--div ng-messages="regionform.surface.$error"
-                          role="alert">
+                      <label>Programme</label>
+                        <md-select name="programme_id" ng-model="vm.ile.programme_id" required>
+                          <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
+                                {{programme.libelle}}
+                          </md-option>
+                        </md-select>
+                        <div ng-messages="ileform.programme_id.$error"
+                                        role="alert">
                           <div ng-message="required">
-                            <span>Superficie obligatoire.</span>
+                              <span>Programme obligatoire.</span>
                           </div>
-                        </div-->
+                        </div>
                     </md-input-container>
 
                 </div>
                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                      ng-disabled="regionform.$invalid" ng-click="vm.ajout(vm.region,0)">
+                      ng-disabled="ileform.$invalid" ng-click="vm.ajout(vm.ile,0)">
                       Enregistrer
                 </md-button>
                 <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -98,7 +101,7 @@
               dt-options="vm.dtOptions">
               <thead>
                 <tr>
-                  <th class="secondary-text" ng-repeat="re in ::vm.region_column">
+                  <th class="secondary-text" ng-repeat="re in ::vm.ile_column">
                     <div class="table-header">
                       <span class="column-title">{{re.titre}}</span>
                     </div>
@@ -106,10 +109,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="region in vm.allregion"  ng-class="{selected: region.$selected}" ng-click="vm.selection(region)">
-                  <td>{{region.code}}</td>
-                  <td>{{region.nom}}</td>
-                  <td>{{region.surface | number}}</td>
+                <tr ng-repeat="ile in vm.allile"  ng-class="{selected: ile.$selected}" ng-click="vm.selection(ile)">
+                  <td>{{ile.Code}}</td>
+                  <td>{{ile.Ile}}</td>
+                  <td>{{ile.programme.libelle}}</td>
                 </tr>
               </tbody>
             </table>

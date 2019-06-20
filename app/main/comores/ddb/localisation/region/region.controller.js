@@ -7,12 +7,13 @@
         .controller('RegionController', RegionController);
     /** @ngInject */
     function RegionController($mdDialog, $scope, apiFactory, $state)  {
-		var vm = this;
+		var vm   = this;
 		vm.ajout = ajout ;
-		var NouvelItem=false;
+		var NouvelItem = false;
 		var currentItem;
 		vm.selectedItem = {} ;
-		vm.allregion = [] ;     
+		vm.allregion    = [] ;
+    vm.allprogramme = [] ;    
 		//variale affichage bouton nouveau
 		vm.afficherboutonnouveau = 1 ;
 		//variable cache masque de saisie
@@ -25,114 +26,147 @@
 			responsive: true
 		};
 		//col table
-		vm.region_column = [{titre:"Code"},{titre:"Nom"},{titre:"superficie(km2)"}];
-		apiFactory.getAll("region/index").then(function(result) {
-			vm.allregion = result.data.response;    
+		vm.ile_column = [{titre:"Code"},{titre:"Ile"},{titre:"programme"}];
+		apiFactory.getAll("ile/index").then(function(result)
+    {
+			vm.allile = result.data.response;
+      //console.log(vm.allile);    
 		});
-       function ajout(region,suppression) {
-              if (NouvelItem==false) {
-                test_existance (region,suppression); 
-              } else {
-                insert_in_base(region,suppression);
-              }
+
+    apiFactory.getAll("programme/index").then(function(result)
+    {
+      vm.allprogramme = result.data.response;
+      console.log(vm.allprogramme);    
+    });
+        function ajout(ile,suppression)
+        {
+            if (NouvelItem==false)
+            {
+                test_existance (ile,suppression); 
+            } 
+            else
+            {
+                insert_in_base(ile,suppression);
+            }
         }
-        function insert_in_base(region,suppression) {
+        function insert_in_base(ile,suppression)
+        {
             //add
             var config = {
                 headers : {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                }
+                      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                  }
             };
             var getId = 0;
-            if (NouvelItem==false) {
-               getId = vm.selectedItem.id; 
+            if (NouvelItem==false)
+            {
+                getId = vm.selectedItem.id; 
             } 
             var datas = $.param({
                 supprimer:suppression,
                 id:getId,      
-                code: region.code,
-                nom: region.nom,
-                surface:region.surface,               
+                Code: ile.Code,
+                Ile: ile.Ile,
+                programme_id:ile.programme_id,               
             });
             //factory
-            apiFactory.add("region/index",datas, config).success(function (data) {
-				if (NouvelItem == false) {
-                    // Update or delete: id exclu                 
-                    if(suppression==0) {
-						vm.selectedItem.nom = vm.region.nom;
-						vm.selectedItem.code = vm.region.code;
-						vm.selectedItem.surface = vm.region.surface;
-						vm.afficherboutonModifSupr = 0 ;
-						vm.afficherboutonnouveau = 1 ;
-						vm.selectedItem.$selected = false;
-						vm.selectedItem ={};
-                    } else {    
-						vm.allregion = vm.allregion.filter(function(obj) {
-							return obj.id !== currentItem.id;
-						});
-                    }
-				}  else {
-                    var item = {
-                        nom: region.nom,
-                        code: region.code,
-                        id:String(data.response) ,
-                        surface:region.surface 
-                    };                
-                    vm.allregion.push(item);
-                    vm.region = {} ;                   
-                    NouvelItem=false;
-				}
-					vm.affichageMasque = 0 ;
-                }).error(function (data) {
-                    alert('Error');
-                });                
+            apiFactory.add("ile/index",datas, config).success(function (data)
+            { 
+              var prog = vm.allprogramme.filter(function(obj)
+              {
+                  return obj.id == vm.ile.programme_id;
+              });
+              
+      				if (NouvelItem == false)
+              {
+                  // Update or delete: id exclu                 
+                  if(suppression==0)
+                  {
+          						vm.selectedItem.Ile = vm.ile.Ile;
+          						vm.selectedItem.Code = vm.ile.Code;
+          						vm.selectedItem.programme = prog[0];
+          						vm.afficherboutonModifSupr = 0 ;
+          						vm.afficherboutonnouveau = 1 ;
+          						vm.selectedItem.$selected = false;
+          						//vm.selectedItem ={};
+                  }
+                  else
+                  {    
+      						  vm.allile = vm.allile.filter(function(obj)
+                    {
+      							return obj.id !== currentItem.id;
+      						  });
+                  }
+      				}
+              else
+              {
+                var item = {
+                      Ile: ile.Ile,
+                      Code: ile.Code,
+                      id:String(data.response) ,
+                      programme:prog[0] 
+                };                
+                vm.allile.push(item);
+                vm.ile = {} ;                   
+                NouvelItem=false;
+      				}
+      				vm.affichageMasque = 0 ;
+          }).error(function (data)
+            {
+                alert('Error');
+            });                
         }
-		vm.selection= function (item) {
-			vm.selectedItem = item;
-			vm.nouvelItem = item;
-			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
-			vm.afficherboutonModifSupr = 1 ;
-			vm.affichageMasque = 0 ;
-			vm.afficherboutonnouveau = 1 ;
-		};
-		$scope.$watch('vm.selectedItem', function() {
-			if (!vm.allregion) return;
-			vm.allregion.forEach(function(item) {
-				item.$selected = false;
-			});
-			vm.selectedItem.$selected = true;
-		});
+    		vm.selection= function (item)
+        {
+      			vm.selectedItem = item;
+      			vm.nouvelItem = item;
+      			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+      			vm.afficherboutonModifSupr = 1 ;
+      			vm.affichageMasque = 0 ;
+      			vm.afficherboutonnouveau = 1 ;
+    		};
+    		$scope.$watch('vm.selectedItem', function()
+        {
+    			if (!vm.allile) return;
+    			vm.allile.forEach(function(item) {
+    				item.$selected = false;
+    			});
+    			vm.selectedItem.$selected = true;
+    		});
       //function cache masque de saisie
-        vm.ajouter = function () {
-			vm.selectedItem.$selected = false;
-			vm.affichageMasque = 1 ;
-			vm.region = {} ;
-			NouvelItem = true ;
+        vm.ajouter = function ()
+        {
+      			vm.selectedItem.$selected = false;
+      			vm.affichageMasque = 1 ;
+      			vm.ile = {} ;
+      			NouvelItem = true ;
         };
-        vm.annuler = function() {
-          vm.selectedItem = {} ;
-          vm.selectedItem.$selected = false;
+        vm.annuler = function()
+        {
+            vm.selectedItem = {} ;
+            vm.selectedItem.$selected = false;
+            vm.affichageMasque = 0 ;
+            vm.afficherboutonnouveau = 1 ;
+            vm.afficherboutonModifSupr = 0 ;
+            NouvelItem = false;
+        };
+        vm.modifier = function()
+        {
+            NouvelItem = false ;
+            vm.affichageMasque = 1 ;
+            vm.ile.id = vm.selectedItem.id ;
+            vm.ile.Code = vm.selectedItem.Code ;
+            vm.ile.Ile = vm.selectedItem.Ile ;
+            vm.ile.programme_id = vm.selectedItem.programme.id ;
+      		  
+            vm.afficherboutonModifSupr = 0;
+            vm.afficherboutonnouveau = 0;  
+        };
+        vm.supprimer = function()
+        {
           vm.affichageMasque = 0 ;
-          vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
-          NouvelItem = false;
-        };
-        vm.modifier = function() {
-          NouvelItem = false ;
-          vm.affichageMasque = 1 ;
-          vm.region.id = vm.selectedItem.id ;
-          vm.region.code = vm.selectedItem.code ;
-          vm.region.nom = vm.selectedItem.nom ;
-		  if(vm.selectedItem.surface) {
-			vm.region.surface = parseInt(vm.selectedItem.surface) ;
-		  }
-          vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau = 0;  
-        };
-        vm.supprimer = function() {
-          vm.affichageMasque = 0 ;
-          vm.afficherboutonModifSupr = 0 ;
-         var confirm = $mdDialog.confirm()
+          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
                 .ariaLabel('Lucky day')
@@ -140,24 +174,35 @@
                 .parent(angular.element(document.body))
                 .ok('ok')
                 .cancel('annuler');
-          $mdDialog.show(confirm).then(function() {
-            vm.ajout(vm.selectedItem,1);
-          }, function() {
+          $mdDialog.show(confirm).then(function()
+          {
+              vm.ajout(vm.selectedItem,1);
+          }, function(){
             //alert('rien');
           });
         };
-        function test_existance (item,suppression) {          
-            if (suppression!=1) {
-                vm.allregion.forEach(function(reg) {               
-					if (reg.id==item.id) {
-						// if((reg.nom!=item.nom) || (reg.code!=item.code) || (reg.surface!=item.surface)) {
-							insert_in_base(item,suppression);
-							vm.affichageMasque = 0 ;
-					/*	} else {
-							vm.affichageMasque = 0 ;
-						}*/
-					}
+        function test_existance (item,suppression)
+        {          
+            if (suppression!=1)
+            {
+               var reg = vm.allile.filter(function(obj)
+                {
+                   return obj.id == item.id;
                 });
+                if(reg[0])
+                {
+                   if((reg[0].Code!=item.Code)
+                        ||(reg[0].Ile!=item.Ile)
+                        ||(reg[0].programme.id!=item.programme_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
             }  else
               insert_in_base(item,suppression);
         }

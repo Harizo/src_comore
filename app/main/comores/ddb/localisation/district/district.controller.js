@@ -34,7 +34,7 @@
     };
 
     //col table
-    vm.district_column = [
+    vm.prefecture_column = [
       {
         titre:"Code"
       },
@@ -42,50 +42,57 @@
         titre:"Nom"
       },
       {
-        titre:"Region"
+        titre:"Ile"
+      },
+      {
+        titre:"Programme"
       }
     ];
 
-      apiFactory.getAll("region/index").then(function(result)
+      apiFactory.getAll("ile/index").then(function(result)
       {
-        vm.allregion= result.data.response;
+        vm.allile= result.data.response;
+      });
+      apiFactory.getAll("programme/index").then(function(result)
+      {
+        vm.allprogramme= result.data.response;
       });
 
-      apiFactory.getAll("district/index").then(function(result){
-        vm.alldistrictss = result.data.response;
-
-        for (var i = 0; i < vm.alldistrictss.length; i++) 
+      apiFactory.getAll("region/index").then(function(result){
+        vm.allprefecture = result.data.response;
+       // console.log(vm.allprefecture);
+       /* for (var i = 0; i < vm.allprefecture.length; i++) 
         {
           var item = {
-                  id: vm.alldistrictss[i].id,
-                  nom: vm.alldistrictss[i].nom,
-                  code: vm.alldistrictss[i].code,
-                  region_id: vm.alldistrictss[i].region_id,
-                  region_nom: vm.alldistrictss[i].region.nom
+                  id: vm.allprefecture[i].id,
+                  nom: vm.allprefecture[i].nom,
+                  code: vm.allprefecture[i].code,
+                  ile_id: vm.allprefecture[i].ile_id,
+                  ile_nom: vm.allprefecture[i].ile.nom
                  
               };
               
-              vm.alldistrict.push(item);             
-        }
+              vm.allprefecture.push(item);             
+        }*/
       });
 
 
-       function ajout(district,suppression)   
+       function ajout(prefecture,suppression)   
         {
               if (NouvelItem==false) 
               {
-                test_existance (district,suppression); 
+                test_existance (prefecture,suppression); 
               }
               else
               {
-                insert_in_base(district,suppression);
+                insert_in_base(prefecture,suppression);
               }
                 
                 
             
         }
 
-        function insert_in_base(district,suppression)
+        function insert_in_base(prefecture,suppression)
         {
            
             //add
@@ -105,15 +112,23 @@
             {
                 supprimer:suppression,
                 id:getId,      
-                code: district.code,
-                nom: district.nom,
-                region_id:district.region_id
-                
+                Code: prefecture.Code,
+                Region: prefecture.Region,
+                ile_id:prefecture.ile_id,
+                programme_id:prefecture.programme_id                
             });
-        
+          
             //factory
-            apiFactory.add("district/index",datas, config)
-                .success(function (data) {
+            apiFactory.add("region/index",datas, config).success(function (data)
+            {   var prog = vm.allprogramme.filter(function(obj)
+                {
+                    return obj.id == vm.prefecture.programme_id;
+                });
+            console.log(prog);
+                var il = vm.allile.filter(function(obj)
+                {
+                    return obj.id == vm.prefecture.ile_id;
+                });
 
                   if (NouvelItem == false) 
                   {
@@ -121,10 +136,10 @@
                     
                     if(suppression==0) 
                     {
-                      vm.selectedItem.nom = vm.district.nom;
-                      vm.selectedItem.code = vm.district.code;
-                      vm.selectedItem.region_id = vm.district.region_id;
-                      vm.selectedItem.region_nom = vm.district.region_nom;
+                      vm.selectedItem.Region = vm.prefecture.Region;
+                      vm.selectedItem.Code = vm.prefecture.Code;
+                      vm.selectedItem.ile = il[0];
+                      vm.selectedItem.programme = prog[0];
                       vm.afficherboutonModifSupr = 0 ;
                       vm.afficherboutonnouveau = 1 ;
                       vm.selectedItem.$selected = false;
@@ -132,7 +147,7 @@
                     } 
                     else 
                     {    
-                      vm.alldistrict = vm.alldistrict.filter(function(obj) {
+                      vm.allprefecture = vm.allprefecture.filter(function(obj) {
 
                         return obj.id !== currentItem.id;
                       });
@@ -141,17 +156,15 @@
                   else
                   {
                     var item = {
-                        nom: district.nom,
-                        code: district.code,
+                        Region: prefecture.Region,
+                        Code: prefecture.Code,
                         id:String(data.response) ,
-                        region_id:district.region_id ,
-                        region_nom:district.region_nom 
+                        ile:il[0],
+                        programme:prog[0] 
                     };
                   
-                    vm.alldistrict.push(item);
-                    vm.district.code='';
-                    vm.district.nom='';
-                    vm.district.region_id='';
+                    vm.allprefecture.push(item);
+                    vm.prefecture={};
                     
                     NouvelItem=false;
                   }
@@ -179,8 +192,8 @@
       };
 
       $scope.$watch('vm.selectedItem', function() {
-        if (!vm.alldistrict) return;
-        vm.alldistrict.forEach(function(item) {
+        if (!vm.allprefecture) return;
+        vm.allprefecture.forEach(function(item) {
             item.$selected = false;
         });
         vm.selectedItem.$selected = true;
@@ -189,12 +202,12 @@
       //function cache masque de saisie
         vm.ajouter = function () 
         {
-			vm.titrepage="Ajout district";
+			vm.titrepage="Ajout prefecture";
           vm.selectedItem.$selected = false;
           vm.affichageMasque = 1 ;
-          vm.district.code='';
-          vm.district.nom='';
-          vm.district.district_id='';
+          vm.prefecture.code='';
+          vm.prefecture.nom='';
+          vm.prefecture.prefecture_id='';
           NouvelItem = true ;
 
         };
@@ -212,20 +225,14 @@
 
         vm.modifier = function() 
         {
-			vm.titrepage="Modifier district";
+          vm.titrepage="Modifier prefecture";
           NouvelItem = false ;
           vm.affichageMasque = 1 ;
-          vm.district.id = vm.selectedItem.id ;
-          vm.district.code = vm.selectedItem.code ;
-          vm.district.nom = vm.selectedItem.nom ;
-          vm.allregion.forEach(function(reg) {
-            if(reg.id==vm.selectedItem.region_id) {
-              vm.district.region_id = reg.id ;
-              vm.district.region_nom = reg.nom ;
-            }
-          });
-
-          
+          vm.prefecture.id = vm.selectedItem.id ;
+          vm.prefecture.Code = vm.selectedItem.Code ;
+          vm.prefecture.Region = vm.selectedItem.Region;
+          vm.prefecture.ile_id = vm.selectedItem.ile.id;
+          vm.prefecture.programme_id = vm.selectedItem.programme.id;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;  
 
@@ -252,15 +259,14 @@
           });
         };
         
-        vm.modifierregion = function (item) 
+        vm.modifierile = function (item) 
         {
-          vm.allregion.forEach(function(reg) {
-              if(reg.id==item.region_id) {
-                 item.region_id = reg.id; 
-                 item.region_nom = reg.nom;
-                 
-              }
+          var ile = vm.allile.filter(function(obj)
+          {
+              return obj.id == item.ile_id;
           });
+          //console.log(ile);
+          item.programme_id=ile[0].programme.id;
         }
 
         function test_existance (item,suppression) 
@@ -268,24 +274,25 @@
            
             if (suppression!=1) 
             {
-                vm.alldistrict.forEach(function(dist) {
-                
-                  if (dist.id==item.id) 
-                  {
-                    if((dist.nom!=item.nom)
-                    ||(dist.code!=item.code)
-                    ||(dist.region_id!=item.region_id))
-                    
-                    {
-                      insert_in_base(item,suppression);
-                      vm.affichageMasque = 0 ;
-                    }
-                    else
-                    {
-                      vm.affichageMasque = 0 ;
-                    }
-                  }
+                var pref = vm.allprefecture.filter(function(obj)
+                {
+                   return obj.id == item.id;
                 });
+                if(pref[0])
+                {
+                   if((pref[0].Code!=item.Code)
+                        ||(pref[0].Region!=item.Region)
+                        ||(pref[0].ile.id!=item.ile_id)
+                        ||(pref[0].programme.id!=item.programme_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
             }
             else
               insert_in_base(item,suppression);

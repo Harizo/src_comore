@@ -28,7 +28,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('comores.ddb.localisation.region', {
-            title: 'Région',
+            title: 'Ile',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_localisation_region',
 			weight: 1
