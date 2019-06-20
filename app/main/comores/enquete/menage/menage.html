@@ -210,13 +210,13 @@
                             </div>
                         </form>
                         
-                        <table class="dataTable row-border hover" datatable="ng"
+                        <table class="dataTable row-border hover cell-border text-center" datatable="ng"
                           dt-options="vm.dtOptions">
                           <thead>
                             <tr>
                               <th class="secondary-text" ng-repeat="re in ::vm.menage_column">
                                 <div class="table-header">
-                                  <span class="column-title">{{re.titre}}</span>
+                                  <span class="column-title text-center">{{re.titre}}</span>
                                 </div>
                               </th>
                             </tr>
@@ -225,6 +225,9 @@
                             <tr ng-repeat="menage in vm.all_menages"  ng-class="{selected: menage.$selected}" ng-click="vm.selection(menage)">
                               <td>{{menage.NumeroEnregistrement}}</td>
                               <td>{{menage.nomchefmenage}}</td>
+                              <td>{{menage.agechefdemenage}} ans</td>
+                              <td>{{menage.SexeChefMenage}}</td>
+                              <td>{{menage.Addresse}}</td>
                               <td>{{menage.PersonneInscription}}</td>                
                             </tr>
                           </tbody>
@@ -448,13 +451,13 @@
                               
                             </section>
                         </form>
-                        <table class="dataTable row-border hover" datatable="ng"
+                        <table class="dataTable row-border hover cell-border text-center" datatable="ng"
                           dt-options="vm.dtOptions">
                           <thead>
                             <tr>
                               <th class="secondary-text" ng-repeat="re in ::vm.individu_column">
                                 <div class="table-header">
-                                  <span class="column-title">{{re.titre}}</span>
+                                  <span class="column-title text-center">{{re.titre}}</span>
                                 </div>
                               </th>
                             </tr>

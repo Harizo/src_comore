@@ -16,7 +16,7 @@
         responsive: true
       };
 
-      vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Personne inscrire"}];
+      vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Age chef de ménage"},{titre:"Sexe"},{titre:"Addresse"},{titre:"Personne inscrire"}];
       vm.individu_column = [{titre:"Nom"},{titre:"Date de naissance"},{titre:"Activité"}];
 
       //initialisation variable
