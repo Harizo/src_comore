@@ -16,7 +16,7 @@
         responsive: true
       };
 
-      vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Nom inscrire"},{titre:"Personne inscrire"}];
+      vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Personne inscrire"}];
       vm.individu_column = [{titre:"Nom"},{titre:"Date de naissance"},{titre:"Activité"}];
 
       //initialisation variable
@@ -136,7 +136,7 @@
         apiFactory.getAPIgeneraliserREST("menage/index","max_id",1).then(function(result)
         { 
           vm.max_id =  result.data.response.id;
-          console.log('id max === '+vm.max_id);
+          
           var tab_ile = vm.all_ile ;
           var tab_reg = [] ;
           var tab_com = [] ;
@@ -207,9 +207,9 @@
         vm.selectedItem = {} ;
         
         vm.filtre.NumeroEnregistrement = '' ;
-        vm.filtre.NomInscrire = '' ;
+        vm.filtre.nomchefmenage = '' ;
         vm.filtre.PersonneInscription = '' ;
-        vm.filtre.AgeInscrire = '' ;
+        vm.filtre.agechefdemenage = '' ;
         vm.filtre.SexeChefMenage = '' ;
         vm.filtre.Addresse = '' ;
         vm.filtre.DateInscription = new Date() ;
@@ -225,9 +225,9 @@
         vm.filtre.DateInscription = new Date(vm.selectedItem.DateInscription);
         vm.filtre.village_id = vm.selectedItem.village_id ;
         //vm.filtre.NumeroEnregistrement = vm.selectedItem.NumeroEnregistrement ;
-        vm.filtre.NomInscrire = vm.selectedItem.NomInscrire ;
+        vm.filtre.nomchefmenage = vm.selectedItem.nomchefmenage ;
         vm.filtre.PersonneInscription = vm.selectedItem.PersonneInscription ;
-        vm.filtre.AgeInscrire = Number(vm.selectedItem.AgeInscrire) ;
+        vm.filtre.agechefdemenage = Number(vm.selectedItem.agechefdemenage) ;
         vm.filtre.SexeChefMenage = vm.selectedItem.SexeChefMenage ;
         vm.filtre.Addresse = vm.selectedItem.Addresse ;
 
@@ -349,7 +349,6 @@
         { 
           vm.enquete_by_menage = result.data.response;   
 
-          console.log(vm.enquete_by_menage); 
 
           if (vm.enquete_by_menage.source_eau) 
           {
@@ -397,7 +396,6 @@
             vm.id_enquete_menage = 0 ; 
           }
 
-          console.log("vm.id_enquete_menage = "+vm.id_enquete_menage);
          
         });
         
@@ -435,11 +433,6 @@
           }
          
 
-          console.log( vm.tab_programme);
-          /*if (vm.enquete_by_menage.source_eau) 
-          {
-            vm.tab_programme = vm.enquete_by_menage.id_programme ;
-          }*/
         });
       }
 
@@ -466,7 +459,6 @@
             vm.id_enquete_individu = 0 ; 
           }
 
-          console.log(result.data.response);
         });
       }
 
@@ -477,7 +469,6 @@
         {
           vm.individu_programme_liaisons = result.data.response; 
 
-          console.log('prog _ indiv == '+vm.individu_programme_liaisons.id_programme);
 
           if (vm.individu_programme_liaisons.id_programme) 
           {
@@ -532,7 +523,7 @@
 
         if (!vm.affichage_masque_individu) 
         {
-          console.log(item.id);
+          
           vm.selectedItem_individu = item;
           vm.nouvelItem_individu   = item;
           vm.get_enquete_individu_by_individu(item.id) ;
@@ -558,7 +549,7 @@
           var idx = list.indexOf(item);
           if (idx > -1) list.splice(idx, 1);
           else list.push(item);
-          console.log(list);
+        
         };
         $scope.exists = function (item, list) {
           if (list) 
@@ -823,9 +814,9 @@
                       village_id: menage.village_id,
                       DateInscription: formatDateBDD(menage.DateInscription),
                       NumeroEnregistrement: menage.NumeroEnregistrement,
-                      NomInscrire: menage.NomInscrire,
+                      nomchefmenage: menage.nomchefmenage,
                       PersonneInscription: menage.PersonneInscription,
-                      AgeInscrire: menage.AgeInscrire,
+                      agechefdemenage: menage.agechefdemenage,
                       SexeChefMenage: menage.SexeChefMenage,
                       Addresse: menage.Addresse
                                                  
@@ -844,9 +835,9 @@
                           village_id: menage.village_id,
                           DateInscription: (menage.DateInscription),
                           NumeroEnregistrement: menage.NumeroEnregistrement,
-                          NomInscrire: menage.NomInscrire,
+                          nomchefmenage: menage.nomchefmenage,
                           PersonneInscription: menage.PersonneInscription,
-                          AgeInscrire: menage.AgeInscrire,
+                          agechefdemenage: menage.agechefdemenage,
                           SexeChefMenage: menage.SexeChefMenage,
                           Addresse: menage.Addresse
 
@@ -862,9 +853,9 @@
              vm.selectedItem.DateInscription =  vm.filtre.DateInscription ;
              vm.selectedItem.village_id = vm.filtre.village_id  ;
              vm.selectedItem.NumeroEnregistrement = vm.filtre.NumeroEnregistrement  ;
-             vm.selectedItem.NomInscrire = vm.filtre.NomInscrire  ;
+             vm.selectedItem.nomchefmenage = vm.filtre.nomchefmenage  ;
              vm.selectedItem.PersonneInscription = vm.filtre.PersonneInscription  ;
-             vm.selectedItem.AgeInscrire = vm.filtre.AgeInscrire  ;
+             vm.selectedItem.agechefdemenage = vm.filtre.agechefdemenage  ;
              vm.selectedItem.SexeChefMenage = vm.filtre.SexeChefMenage  ;
              vm.selectedItem.Addresse = vm.filtre.Addresse  ;
           }

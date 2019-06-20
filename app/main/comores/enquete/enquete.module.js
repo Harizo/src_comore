@@ -17,11 +17,11 @@
         msNavigationServiceProvider.saveItem('comores.enquete', {
             title : 'Traitement',
             icon  : 'icon-data',
-            weight: 2/*,
+            weight: 2,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
 
 
@@ -29,7 +29,7 @@
 
     function testPermission(loginService,$cookieStore,apiFactory)
     {
-        /*var id_user = $cookieStore.get('id');
+        var id_user = $cookieStore.get('id');
        
         var permission = [];
         if (id_user > 0) 
@@ -40,12 +40,12 @@
                
 
                 var permission = user.roles;
-                var permissions = ["enquete"];
+                var permissions = ["TTM"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
 
             });
-        }*/
+        }
      
     }
 

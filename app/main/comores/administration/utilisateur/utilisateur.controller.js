@@ -7,10 +7,11 @@
         .controller('UserController', UserController);
 
     /** @ngInject */
-    function UserController(apiFactory, $location, $mdDialog, $scope)
+    function UserController(apiFactory, $location, $mdDialog, $scope, hashage)
     {
       var vm = this;
-
+     
+      
       vm.allSite = [];
 
       vm.selectedItem = {} ;
@@ -194,11 +195,8 @@
           vm.user.prenom = vm.selectedItem.prenom ;
           vm.user.email = vm.selectedItem.email ;
           vm.user.enabled = vm.selectedItem.enabled ;
-          vm.user.sigle = vm.selectedItem.sigle ;
-		  vm.user.envoi_donnees = parseInt(vm.selectedItem.envoi_donnees) ;
-        
-          vm.searchText="";
-          vm.searchTextPers="";
+             
+       
           
 
           angular.forEach(vm.selectedItem.roles, function(value, key)
@@ -224,41 +222,12 @@
                       break;
                   }
 
-                  case 'PSP':
+                  case 'TTM':
                   {
                       vm.user.psp = true ;
                       break;
                   }
 
-                  case 'TRT':
-                  {
-                      vm.user.trt = true ;
-                      break;
-                  }
-
-                  case 'MTO':
-                  {
-                      vm.user.mto = true ;
-                      break;
-                  }
-
-                  case 'MGS':
-                  {
-                      vm.user.mgs = true ;
-                      break;
-                  }
-
-                  case 'SSI':
-                  {
-                      vm.user.ssi = true ;
-                      break;
-                  }
-
-                  case 'VLD':
-                  {
-                      vm.user.vld = true ;
-                      break;
-                  }
 
                   default:
                   {
@@ -300,18 +269,9 @@
                 tab.push(key.toUpperCase());
               if(key == 'admin' && value == true)
                   tab.push(key.toUpperCase());
-              if(key == 'psp' && value == true)
+              if(key == 'ttm' && value == true)
                   tab.push(key.toUpperCase());
-              if(key == 'trt' && value == true)
-                tab.push(key.toUpperCase());
-              if(key == 'mto' && value == true)
-                tab.push(key.toUpperCase());
-              if(key == 'mgs' && value == true)
-                tab.push(key.toUpperCase());
-              if(key == 'ssi' && value == true)
-                tab.push(key.toUpperCase());
-              if(key == 'vld' && value == true)
-                tab.push(key.toUpperCase());
+              
               
           });
 
@@ -343,11 +303,9 @@
                   supprimer:suppression,
                   id:vm.selectedItem.id,
                   nom: user.nom,
-                  prenom: user.prenom,                           
-                  sigle: user.sigle,                           
+                  prenom: user.prenom,                               
                   email: user.email ,
                   enabled: user.enabled ,
-                  envoi_donnees: user.envoi_donnees ,
                   roles: tab 
                              
                   

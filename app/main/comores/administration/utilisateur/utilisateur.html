@@ -63,34 +63,12 @@
                                 </div>
                             </md-input-container>
 
-                            <md-input-container flex="100" flex-gt-xs="10">
-                              <input type="text" name="sigle" ng-model="vm.user.sigle"
-                                placeholder="Sigle " ng-init="vm.user.sigle=''"
-                                >
-                                <div ng-messages="userForm.sigle.$error"
-                                  role="alert">
-                                  <div ng-message="required">
-                                    <span>Sigle obligatoire.</span>
-                                  </div>
-                                </div>
-                            </md-input-container>
+                            
                             
                         </div>
                         <div layout="column"  layout-gt-xs="row" flex>
                         
-                            <md-input-container flex="100" flex-gt-xs="10">
-                                <label>Etat</label>
-                                <md-select name="enabled" ng-model="vm.user.enabled" >
-                                  <md-option value="1">Actif</md-option>
-                                  <md-option value="0">Inactif</md-option>
-                                </md-select>
-                                <div ng-messages="enabled.$error"
-                                   role="alert">
-                                  <div ng-message="">
-                                      <span>Etat</span>
-                                  </div>
-                                </div>
-                            </md-input-container> 
+                            
                             <md-input-container flex="100" flex-gt-xs="33" >
                               <input type="email" name="email" ng-model="vm.user.email"
                                 placeholder="email " ng-init="vm.user.email=''"
@@ -105,50 +83,20 @@
                                     </div>
                                 </div>
                             </md-input-container>
-                            <md-input-container flex="100" flex-gt-xs="33" >
- 								<md-checkbox ng-model="vm.user.envoi_donnees" aria-label="Checkbox 1"  ng-true-value='1' ng-false-value='0' style="margin: 4px;">
-                                    Envoi des données
-                                </md-checkbox>
-                              <!--input type="checkbox" name="envoi_donnees" ng-model="vm.user.envoi_donnees"
-                                placeholder="Envoi des données " ng-init="vm.user.envoi_donnees='0'">
-                                <div ng-messages="userForm.envoi_donnees.$error"
-                                  role="alert">
-                                  <div ng-message="required">
-                                    <span>email obligatoire.</span>
-                                  </div>
-                                  <div ng-message="pattern">
-                                        <span >L'adresse e-mail doit être valide</span>
-                                    </div>
-                                </div-->
-                            </md-input-container>
-                            
-                            <!--md-input-container flex="100" flex-gt-xs="90" >
-                                <label>Entité</label>
-                                <md-select ng-model="vm.user.entite_id" required ng-change="vm.modifiercategorie(vm.assujettis)">
-                                    <md-input-container multiple>
-                                    <input ng-model="searchTerm"
-                                       type="search"
-                                       placeholder="Rechercher Entité.."
-                                       class="demo-header-searchbox md-text">
-                                    </md-input-container>
-                                    <md-optgroup label="entite">
-                                    <md-option ng-repeat="entite in vm.allSite |
-                                        filter:searchTerm" value="{{entite.id}}">
-                                                                  {{entite.libelle}}
-                                    </md-option>
-                                    </md-optgroup>
+                            <md-input-container flex="100" flex-gt-xs="10">
+                                <label>Etat</label>
+                                <md-select name="enabled" ng-model="vm.user.enabled" >
+                                  <md-option value="1">Actif</md-option>
+                                  <md-option value="0">Inactif</md-option>
                                 </md-select>
-                                
-                                <div ng-messages="assujettisform.type_patrimoine.$error"
-                                     role="alert">
-                                    <div ng-message="required">
-                                        <span>Entité obligatoire.</span>
-                                    </div>
+                                <div ng-messages="enabled.$error"
+                                   role="alert">
+                                  <div ng-message="">
+                                      <span>Etat</span>
+                                  </div>
                                 </div>
-                            </md-input-container--> 
-
-                           
-                         
+                            </md-input-container> 
+       
                         </div>
 
                         <fieldset class="standard" >
@@ -174,26 +122,11 @@
 
                                
                                                  
-                                    <!--md-checkbox ng-model="vm.user.psp" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Prospection
-                                    </md-checkbox>
-
-                                    <md-checkbox ng-model="vm.user.trt" aria-label="Checkbox 1"  style="margin: 4px;">
+                              
+                                    <md-checkbox ng-model="vm.user.ttm" aria-label="Checkbox 1"  style="margin: 4px;">
                                         Traitement
                                     </md-checkbox>
-
-                                    <md-checkbox ng-model="vm.user.mto" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Météo
-                                    </md-checkbox-->
-                                    <md-checkbox ng-model="vm.user.mgs" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Magasin
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="vm.user.ssi" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Données validées
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="vm.user.vld" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Validation des données
-                                    </md-checkbox>
+                                    
 
                                     
                                 
