@@ -14,7 +14,7 @@
         {
             $rootScope.loadingProgress = true;
 
-            /*var enabled = loginService.isEnabled();
+            var enabled = loginService.isEnabled();
             var authorized = toState.data.authorizer;
             var AllPermitted = toState.data.permitted;
             if(cookieService.get("roles"))
@@ -32,7 +32,7 @@
               $location.path("/auth/lock");
             }else if(enabled && authorized && !getPermis){
               $location.path("/erreur");
-            }*/
+            }
 
         });
 

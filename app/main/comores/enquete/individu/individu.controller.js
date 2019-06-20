@@ -17,6 +17,7 @@
 		var currentItemSuiviIndividu={};
 		vm.allRecordsSourcefinancement = [];
 		vm.allRecordsTypedetransfert = [];
+		vm.allRecordsAgencepaiement = [];
 		vm.tab_beneficiaire = [] ;
 		vm.all_menage_programme=[];
 		vm.all_individu_programme=[];
@@ -59,6 +60,9 @@
 		});  
 		apiFactory.getAll("type_transfert/index").then(function(result){
 			vm.allRecordsTypedetransfert = result.data.response;
+		});    
+		apiFactory.getAll("Agence_p/index").then(function(result){
+			vm.allRecordsAgencepaiement = result.data.response;
 		});    
 		//FIN DDB , CLE ETRANGERE	
 		vm.filtre_region = function() {
@@ -119,6 +123,7 @@
 						vm.showAlert("INFORMATION","Aucun détail d'enregistrement trouvé !")	
 					}			
 					item.detail_charge=1;
+					console.log(item.detail_suivi_menage);
 				});
 			}	
 		}
@@ -228,6 +233,7 @@
 						vm.selectedItemDetailSuiviMenage.id_partenaire=suivimenage.id_partenaire;
 						vm.selectedItemDetailSuiviMenage.partenaire=suivimenage.partenaire;
 						vm.selectedItemDetailSuiviMenage.id_acteur=suivimenage.id_acteur;                 
+						vm.selectedItemDetailSuiviMenage.acteur=suivimenage.acteur;                 
 						vm.selectedItemDetailSuiviMenage.id_type_transfert=suivimenage.id_type_transfert;                 
 						vm.selectedItemDetailSuiviMenage.typetransfert=suivimenage.typetransfert;                 
 						vm.selectedItemDetailSuiviMenage.date_suivi=suivimenage.date_suivi; 
@@ -250,6 +256,7 @@
 						id_partenaire: suivimenage.id_partenaire,
 						partenaire: suivimenage.partenaire,
 						id_acteur:suivimenage.id_acteur,
+						acteur:suivimenage.acteur,
 						id_type_transfert: suivimenage.id_type_transfert,
 						typetransfert: suivimenage.typetransfert,
 						date_suivi: (suivimenage.date_suivi),
@@ -388,6 +395,7 @@
 						vm.selectedItemDetailSuiviIndividu.id_partenaire=suiviindividu.id_partenaire;
 						vm.selectedItemDetailSuiviIndividu.partenaire=suiviindividu.partenaire;
 						vm.selectedItemDetailSuiviIndividu.id_acteur=suiviindividu.id_acteur;                 
+						vm.selectedItemDetailSuiviIndividu.acteur=suiviindividu.acteur;                 
 						vm.selectedItemDetailSuiviIndividu.id_type_transfert=suiviindividu.id_type_transfert;                 
 						vm.selectedItemDetailSuiviIndividu.typetransfert=suiviindividu.typetransfert;                 
 						vm.selectedItemDetailSuiviIndividu.date_suivi=suiviindividu.date_suivi; 
@@ -411,6 +419,7 @@
 						id_partenaire: suiviindividu.id_partenaire,
 						partenaire: suiviindividu.partenaire,
 						id_acteur:suiviindividu.id_acteur,
+						acteur:suiviindividu.acteur,
 						id_type_transfert: suiviindividu.id_type_transfert,
 						typetransfert: suiviindividu.typetransfert,
 						date_suivi: (suiviindividu.date_suivi),
@@ -475,6 +484,28 @@
 					vm.suivimenage.typetransfert=[];
 			}
 		}
+        vm.modifierAgencePaiementSuiviMenage = function (item) { 
+			vm.nontrouvee=true;
+			vm.allRecordsAgencepaiement.forEach(function(srcf) {
+				if(srcf.id==item.id_acteur) {
+					vm.suivimenage.id_acteur = srcf.id; 
+					vm.suivimenage.acteur=[];
+					var itemss = {
+						id: srcf.id,
+						Nom: srcf.Nom,
+						Contact: srcf.Contact,
+						Code: srcf.Code,
+						Representant: srcf.Representant,
+					};
+					vm.suivimenage.acteur.push(itemss);
+					vm.nontrouvee=false;
+				}
+			});
+			if(vm.nontrouvee==true) {				
+					vm.suivimenage.id_acteur = ''; 
+					vm.suivimenage.acteur=[];
+			}
+		}
         vm.modifierPartenaireSuiviIndividu = function (item) { 
 			vm.nontrouvee=true;
 			vm.allRecordsSourcefinancement.forEach(function(srcf) {
@@ -513,5 +544,27 @@
 					vm.suiviindividu.typetransfert=[];
 			}
 		}
-    }
+		vm.modifierAgencePaiementSuiviIndividu = function (item) { 
+			vm.nontrouvee=true;
+			vm.allRecordsAgencepaiement.forEach(function(srcf) {
+				if(srcf.id==item.id_acteur) {
+					vm.suiviindividu.id_acteur = srcf.id; 
+					vm.suiviindividu.acteur=[];
+					var itemss = {
+						id: srcf.id,
+						Nom: srcf.Nom,
+						Contact: srcf.Contact,
+						Code: srcf.Code,
+						Representant: srcf.Representant,
+					};
+					vm.suiviindividu.acteur.push(itemss);
+					vm.nontrouvee=false;
+				}
+			});
+			if(vm.nontrouvee==true) {				
+					vm.suiviindividu.id_acteur = ''; 
+					vm.suiviindividu.acteur=[];
+			}
+		}
+     }
   })();

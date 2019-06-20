@@ -11,7 +11,7 @@
                     <span class="parent" href="javascript:;"> Ménage</span>
                 </div>
     
-                <div class="title">Ménage : {{vm.selectedItem.NumeroEnregistrement}} - {{vm.selectedItem.NomInscrire}}</div>
+                <div class="title">Ménage : {{vm.selectedItem.NumeroEnregistrement}} - {{vm.selectedItem.nomchefmenage}}</div>
             </div>
         </div>
         <div class="content" layout="column">
@@ -128,34 +128,34 @@
                                     </div>
                                 </md-input-container>
                                 <md-input-container flex-gt-sm ng-show="vm.affichage_masque">
-                                    <input type="text"  name="NomInscrire" ng-model="vm.filtre.NomInscrire"
-                                    placeholder="Nom Inscrire " ng-init="vm.filtre.NomInscrire=''" >
-                                    <div ng-messages="filtrepardateform.NomInscrire.$error"
+                                    <input type="text"  name="nomchefmenage" ng-model="vm.filtre.nomchefmenage"
+                                    placeholder="Chef de ménage" ng-init="vm.filtre.nomchefmenage=''" >
+                                    <div ng-messages="filtrepardateform.nomchefmenage.$error"
                                         role="alert">
                                         <div ng-message="required">
-                                            <span>NomInscrire obligatoire.</span>
+                                            <span>Chef de ménage obligatoire.</span>
                                         </div>
                                     </div>
                                 </md-input-container>
                                 <md-input-container flex-gt-sm ng-show="vm.affichage_masque">
                                     <input type="text"  name="PersonneInscription" ng-model="vm.filtre.PersonneInscription"
-                                    placeholder="PersonneInscription " ng-init="vm.filtre.PersonneInscription=''">
+                                    placeholder="Personne Inscrire " ng-init="vm.filtre.PersonneInscription=''">
                                     <div ng-messages="filtrepardateform.PersonneInscription.$error"
                                         role="alert">
                                         <div ng-message="required">
-                                            <span>PersonneInscription obligatoire.</span>
+                                            <span>Personne Inscrire obligatoire.</span>
                                         </div>
                                     </div>
                                 </md-input-container>
                             </div>
                             <div layout="column" layout-gt-xs="row" flex>
                               <md-input-container  flex="100" flex-gt-xs="10" ng-show="vm.affichage_masque">
-                                  <input type="number"  name="AgeInscrire" ng-model="vm.filtre.AgeInscrire"
-                                  placeholder="AgeInscrire " ng-init="vm.filtre.AgeInscrire=''">
-                                  <div ng-messages="filtrepardateform.AgeInscrire.$error"
+                                  <input type="number"  name="agechefdemenage" ng-model="vm.filtre.agechefdemenage"
+                                  placeholder="Age chef de ménage " ng-init="vm.filtre.agechefdemenage=''">
+                                  <div ng-messages="filtrepardateform.agechefdemenage.$error"
                                       role="alert">
                                       <div ng-message="required">
-                                          <span>AgeInscrire obligatoire.</span>
+                                          <span>agechefdemenage obligatoire.</span>
                                       </div>
                                   </div>
                               </md-input-container>
@@ -210,13 +210,13 @@
                             </div>
                         </form>
                         
-                        <table class="dataTable row-border hover" datatable="ng"
+                        <table class="dataTable row-border hover cell-border text-center" datatable="ng"
                           dt-options="vm.dtOptions">
                           <thead>
                             <tr>
                               <th class="secondary-text" ng-repeat="re in ::vm.menage_column">
                                 <div class="table-header">
-                                  <span class="column-title">{{re.titre}}</span>
+                                  <span class="column-title text-center">{{re.titre}}</span>
                                 </div>
                               </th>
                             </tr>
@@ -224,7 +224,10 @@
                           <tbody>
                             <tr ng-repeat="menage in vm.all_menages"  ng-class="{selected: menage.$selected}" ng-click="vm.selection(menage)">
                               <td>{{menage.NumeroEnregistrement}}</td>
-                              <td>{{menage.NomInscrire}}</td>
+                              <td>{{menage.nomchefmenage}}</td>
+                              <td>{{menage.agechefdemenage}} ans</td>
+                              <td>{{menage.SexeChefMenage}}</td>
+                              <td>{{menage.Addresse}}</td>
                               <td>{{menage.PersonneInscription}}</td>                
                             </tr>
                           </tbody>
@@ -386,7 +389,7 @@
 
                             <md-input-container flex="100" flex-gt-xs="30" ng-show="vm.affichage_masque_individu">
                               <input type="text"  name="Nom" ng-model="vm.individu_masque.Nom"
-                                placeholder="Nom" ng-init="vm.individu_masque.Nom=''" >
+                                placeholder="Nom et Prénom" ng-init="vm.individu_masque.Nom=''" >
                               <div ng-messages="individu_form.Nom.$error"
                                 role="alert">
                                 <div ng-message="required">
@@ -448,13 +451,13 @@
                               
                             </section>
                         </form>
-                        <table class="dataTable row-border hover" datatable="ng"
+                        <table class="dataTable row-border hover cell-border text-center" datatable="ng"
                           dt-options="vm.dtOptions">
                           <thead>
                             <tr>
                               <th class="secondary-text" ng-repeat="re in ::vm.individu_column">
                                 <div class="table-header">
-                                  <span class="column-title">{{re.titre}}</span>
+                                  <span class="column-title text-center">{{re.titre}}</span>
                                 </div>
                               </th>
                             </tr>

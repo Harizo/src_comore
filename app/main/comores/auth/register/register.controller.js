@@ -7,7 +7,7 @@
         .controller('RegisterController', RegisterController);
 
     /** @ngInject */
-    function RegisterController(apiFactory, $location, $mdDialog)
+    function RegisterController(apiFactory, $location, $mdDialog,hashage)
     {
       var vm = this;
 
@@ -32,7 +32,7 @@
           nom: utilisateur.firstname,
           prenom: utilisateur.lastname,
           email: utilisateur.email,
-          password: utilisateur.password
+          password: hashage.sha1(utilisateur.password)
         });
 
         //ajout user

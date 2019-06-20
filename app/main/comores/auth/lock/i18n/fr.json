@@ -1,7 +1,7 @@
 {
     "LOCK": {
         "TITLE": "Votre compte n'est pas activé!",
-        "SUBTITLE": "ce compte n'est pas active ou a été fermé. Enter votre mot de passe pour continuer.",
+        "SUBTITLE": "ce compte n'est pas active ou a été fermé. .",
         "USERNAME": "Identifiant",
         "PASSWORD": "Mot de passe",
         "UNLOCK": "Activer",
