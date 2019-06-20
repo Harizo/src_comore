@@ -540,6 +540,19 @@
                             </md-radio-group>
                         </fieldset>
 
+                        <fieldset class="standard " >
+                            <legend class="md-grey-800-bg">Vaccins</legend>
+                            <div layout="row" layout-wrap flex>
+                                
+                                <div flex="50" ng-repeat="item in vm.allVaccin">
+                                    <md-checkbox ng-checked="exists(item.id, vm.tab_reponse_vaccin)" ng-click="vm.toggle(item.id, vm.tab_reponse_vaccin)">
+                                        {{item.description}}
+                                    </md-checkbox>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
                         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                      
                           <md-button class="md-raised md-primary" ng-if="vm.id_enquete_individu != 0" ng-disabled="vm.disable_button" ng-click="vm.save_reponse_individu(vm.reponse_individu)">Mettre à jour</md-button>

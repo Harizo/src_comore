@@ -30,6 +30,7 @@
         vm.tab_reponse_revetement_mur = [] ;
         vm.tab_reponse_type_culture = [] ;
         vm.tab_reponse_type_elevage = [] ;
+        vm.tab_reponse_vaccin = [] ;
         vm.tab_programme = [] ;//liste programme associé au menage
         vm.tab_programme_individu = [] ;//liste programme associé au individu
         vm.reponse_individu = {} ;
@@ -129,6 +130,11 @@
         vm.allRecordsHandicapmoteur = result.data.response;
 
       });   
+
+      apiFactory.getTable("enquete_menage/index","vaccin").then(function(result){
+        vm.allVaccin = result.data.response;
+
+      });  
       //FIN QUESTIONNAIRE INDIVIDU
       
       vm.get_max_id_generer_ref = function()
@@ -450,6 +456,11 @@
           vm.reponse_individu.id_handicap_parole = vm.enquete_individu.id_handicap_parole ;
           vm.reponse_individu.id_handicap_visuel = vm.enquete_individu.id_handicap_visuel ;
 
+          if (vm.enquete_individu.vaccins) 
+          {
+            vm.tab_reponse_vaccin = vm.enquete_individu.vaccins ;
+          }
+
           if (vm.enquete_individu.id) 
           {
             vm.id_enquete_individu = vm.enquete_individu.id ;
@@ -691,7 +702,8 @@
                       id_handicap_parole: reponse_individu.id_handicap_parole,
                       id_handicap_auditif: reponse_individu.id_handicap_auditif,
                       id_handicap_mental: reponse_individu.id_handicap_mental,
-                      id_handicap_moteur: reponse_individu.id_handicap_moteur
+                      id_handicap_moteur: reponse_individu.id_handicap_moteur,
+                      vaccins: vm.tab_reponse_vaccin
                                                  
                     });
 
@@ -704,7 +716,8 @@
                       id_handicap_parole: reponse_individu.id_handicap_parole,
                       id_handicap_auditif: reponse_individu.id_handicap_auditif,
                       id_handicap_mental: reponse_individu.id_handicap_mental,
-                      id_handicap_moteur: reponse_individu.id_handicap_moteur
+                      id_handicap_moteur: reponse_individu.id_handicap_moteurid_handicap_moteur,
+                      vaccins: vm.tab_reponse_vaccin
                                                  
                     });
 
