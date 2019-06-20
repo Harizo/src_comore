@@ -18,17 +18,17 @@
             <div class="form-wrapper">
                 <div style="clear:both;"></div>
                 <md-tabs md-dynamic-height>
-                    <md-tab label="Type acteur" ng-click="vm.Select_table(1)">
+                    <md-tab label="Agence d'execution" ng-click="vm.Select_table(1)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
-                                        Type acteur
-                                    <button ng-click="vm.ajouterTypeacteur()" title="Ajouter un type d'acteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                        Agence d'execution
+                                    <button ng-click="vm.ajouterAgent_ex()" title="Ajouter un type d'acteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
                                 </legend>
-                                <table ng-table="tablePrestataireTypeacteur" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                <table ng-table="tablePrestataireAgent_ex" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.typeacteur_column">
+                                            <th class="secondary-text" ng-repeat="c in ::vm.agent_ex_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -36,113 +36,80 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="presta in vm.allRecordsTypeacteur"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionTypeacteur(presta)">										
+                                        <tr ng-repeat="agent_ex in vm.allRecordsAgent_ex"  ng-class="{selected: agent_ex.$selected}" ng-click="vm.selectionAgent_ex(agent_ex)">           
                                             <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="agent_ex.$edit">
                                                     <md-input-container style="width:100%;">
-                                                        <label>Type acteur du projet</label>
-                                                        <input name="description" type="text" ng-model="presta.description"/>
-                                                    </md-input-container>	
+                                                        <label>Code</label>
+                                                        <input name="Code" type="text" ng-model="agent_ex.Code"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                                <span ng-if="!agent_ex.$edit">{{agent_ex.Code}}</span>
                                             </td>
                                             <td>
-                                                <a ng-if="!presta.$edit" ng-click="vm.modifierTypeacteur(presta)" title="Modifier">
-                                                    <span class="icon-table-edit"></span>
-                                                </a>
-                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerTypeacteur(presta)" title="Supprimer">
-                                                    <span class="icon-delete"></span>
-                                                </a>
-                                                <a ng-if="presta.$edit" ng-click="vm.annulerTypeacteur(presta)" title="Annuler modification">
-                                                    <span class="icon-cancel"></span>
-                                                </a>
-                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
-                                                    <span class="icon-content-save"></span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </fieldset>
-                        </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Acteurs" ng-click="vm.Select_table(2)">
-                        <md-tab-body>
-                            <fieldset>
-                                <legend>
-                                        Acteurs
-                                    <button ng-click="vm.ajouterActeur()" title="Ajouter un Acteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
-                                </legend>
-                                <table ng-table="tablePrestataireActeur" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
-                                    <thead>
-                                        <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.acteur_column">
-                                                <div class="table-header">
-                                                    <span class="column-title">{{c.titre}}</span>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="presta in vm.allRecordsActeur"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionActeur(presta)">										
-                                             <td>
-                                                <span ng-if="presta.$edit">
-													<md-select style="width:100%;" name="id_type_acteur_reg" ng-model="presta.id_type_acteur"  ng-change="vm.modifierTypeacteur(presta)" required>
-														<md-option value=''>&nbsp;</md-option>
-														<md-option ng-repeat="ta in vm.allRecordsTypeacteur" value='{{ta.id}}'>
-															{{ta.description}}
-														</md-option>
-													</md-select>
-                                                </span>
-                                                <span ng-if="!presta.$edit">{{presta.typeacteur[0].description}}</span>
-                                            </td>
-                                           <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="agent_ex.$edit">
                                                     <md-input-container style="width:100%;">
                                                         <label>Nom</label>
-                                                        <input name="nom" type="text" ng-model="presta.nom" required/>
-                                                    </md-input-container>	
+                                                        <input name="Nom" type="text" ng-model="agent_ex.Nom"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.nom}}</span>
+                                                <span ng-if="!agent_ex.$edit">{{agent_ex.Nom}}</span>
                                             </td>
                                             <td>
-                                                <span ng-if="presta.$edit">
-                                                    <md-input-container style="width:100%;">
-                                                        <label>Représentant</label>
-                                                        <input name="representant" type="text" ng-model="presta.representant"/>
-                                                    </md-input-container>	
-                                                </span>
-                                                <span ng-if="!presta.$edit">{{presta.representant}}</span>
-                                            </td>
-                                            <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="agent_ex.$edit">
                                                     <md-input-container style="width:100%;">
                                                         <label>Contact</label>
-                                                        <input name="contact" type="text" ng-model="presta.contact"/>
-                                                    </md-input-container>	
+                                                        <input name="Contact" type="text" ng-model="agent_ex.Contact"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.contact}}</span>
+                                                <span ng-if="!agent_ex.$edit">{{agent_ex.Contact}}</span>
                                             </td>
                                             <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="agent_ex.$edit">
                                                     <md-input-container style="width:100%;">
-                                                        <label>Adresse</label>
-                                                        <input name="adresse" type="text" ng-model="presta.adresse"/>
-                                                    </md-input-container>	
+                                                        <label>Representant</label>
+                                                        <input name="Representant" type="text" ng-model="agent_ex.Representant"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.adresse}}</span>
+                                                <span ng-if="!agent_ex.$edit">{{agent_ex.Representant}}</span>
                                             </td>
                                             <td>
-                                                <a ng-if="!presta.$edit" ng-click="vm.modifierActeur(presta)" title="Modifier">
+                                                <span ng-if="agent_ex.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Ile</label>
+                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)">
+                                                          <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
+                                                            {{il.Ile}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agent_ex.$edit">{{agent_ex.ile.Ile}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agent_ex.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Programme</label>
+                                                        <md-select ng-model="agent_ex.programme_id" disabled>
+                                                          <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
+                                                            {{programme.libelle}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>  
+                                                </span>
+                                                <span ng-if="!agent_ex.$edit">{{agent_ex.programme.libelle}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!agent_ex.$edit" ng-click="vm.modifierAgent_ex(agent_ex)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerActeur(presta)" title="Supprimer">
+                                                <a ng-if="!agent_ex.$edit" ng-click="vm.supprimerAgent_ex(agent_ex)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
-                                                <a ng-if="presta.$edit" ng-click="vm.annulerActeur(presta)" title="Annuler modification">
+                                                <a ng-if="agent_ex.$edit" ng-click="vm.annulerAgent_ex(agent_ex)" title="Annuler modification">
                                                     <span class="icon-cancel"></span>
                                                 </a>
-                                                <a ng-if="presta.$edit && presta.nom >'' && presta.id_type_acteur >0" ng-click="vm.ajoutActeur(presta,0)" title="Sauvegarder">
+                                                <a ng-if="agent_ex.$edit && agent_ex.Code && agent_ex.Contact && agent_ex.Nom && agent_ex.Representant && agent_ex.ile_id && agent_ex.programme_id>''" ng-click="vm.ajout(agent_ex,0)" title="Sauvegarder">
                                                     <span class="icon-content-save"></span>
                                                 </a>
                                             </td>
@@ -151,18 +118,128 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Acteurs régional" ng-click="vm.Select_table(3)">
+                    </md-tab>       
+                    <md-tab label="Agence de paiement" ng-click="vm.Select_table(2)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Agence de paiement
+                                    <button ng-click="vm.ajouterAgence_p()" title="Ajouter un agence de paiement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tablePrestataireagence_p" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.agence_p_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="agence_p in vm.allRecordsAgence_p"  ng-class="{selected: agence_p.$selected}" ng-click="vm.selectionAgence_p(agence_p)">                                       
+                                             <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Code</label>
+                                                        <input name="Code" type="text" ng-model="agence_p.Code"/>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.Code}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Nom</label>
+                                                        <input name="Nom" type="text" ng-model="agence_p.Nom"/>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.Nom}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Contact</label>
+                                                        <input name="Contact" type="text" ng-model="agence_p.Contact"/>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.Contact}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Telephone</label>
+                                                        <input name="Telephone" type="text" ng-model="agence_p.Telephone"/>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.Telephone}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Representant</label>
+                                                        <input name="Representant" type="text" ng-model="agence_p.Representant"/>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.Representant}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Ile</label>
+                                                        <md-select name="ile_id" ng-model="agence_p.ile_id" ng-change="vm.modifierile(agence_p)">
+                                                          <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
+                                                            {{il.Ile}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.ile.Ile}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="agence_p.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Programme</label>
+                                                        <md-select ng-model="agence_p.programme_id" disabled>
+                                                          <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
+                                                            {{programme.libelle}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>  
+                                                </span>
+                                                <span ng-if="!agence_p.$edit">{{agence_p.programme.libelle}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!agence_p.$edit" ng-click="vm.modifierAgence_p(agence_p)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!agence_p.$edit" ng-click="vm.supprimerAgence_p(agence_p)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="agence_p.$edit" ng-click="vm.annulerAgence_p(agence_p)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="agence_p.$edit && agence_p.Code && agence_p.Contact && agence_p.Telephone && agence_p.Nom && agence_p.Representant && agence_p.ile_id && agence_p.programme_id" ng-click="vm.ajoutAgence_p(agence_p,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>       
+                    <md-tab label="Cellule de protection sociale" ng-click="vm.Select_table(3)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
                                         Acteurs régional
-                                    <button ng-click="vm.ajouterActeurregional()" title="Ajouter un Acteur régional" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <button ng-click="vm.ajouterP_sociale()" title="Ajouter un Cellule de protection sociale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
                                 </legend>
-                                <table ng-table="tablePrestataireActeurregional" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                <table ng-table="tablePrestatairePsociale" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.acteurregional_column">
+                                            <th class="secondary-text" ng-repeat="c in ::vm.protection_sociale_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -170,75 +247,102 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="presta in vm.allRecordsActeurregional"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionActeurregional(presta)">										
-                                            <td>
-                                                <span ng-if="presta.$edit">
-													<md-select style="width:100%;" name="id_type_acteur_reg" ng-model="presta.id_type_acteur"  ng-change="vm.modifierTypeacteur(presta)" required>
-														<md-option value=''>&nbsp;</md-option>
-														<md-option ng-repeat="tar in vm.allRecordsTypeacteur" value='{{tar.id}}'>
-															{{tar.description}}
-														</md-option>
-													</md-select>
+                                        <tr ng-repeat="p_sociale in vm.allProtection_sociale"  ng-class="{selected: p_sociale.$selected}" ng-click="vm.selectionp_sociale(p_sociale)">                                       
+                                             <td>
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Code</label>
+                                                        <input name="Code" type="text" ng-model="p_sociale.Code"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.typeacteur[0].description}}</span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.Code}}</span>
                                             </td>
                                             <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
                                                         <label>Nom</label>
-                                                        <input name="nom" type="text" ng-model="presta.nom" required/>
-                                                    </md-input-container>	
+                                                        <input name="Nom" type="text" ng-model="p_sociale.Nom"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.nom}}</span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.Nom}}</span>
                                             </td>
                                             <td>
-                                                <span ng-if="presta.$edit">
-													<md-select style="width:100%;" name="id_region" ng-model="presta.id_region"  ng-change="vm.modifierRegion(presta)" required>
-														<md-option ng-repeat="co in vm.allregion" value='{{co.id}}'>
-															{{co.nom}}
-														</md-option>
-													</md-select>
-                                                </span>
-                                                <span ng-if="!presta.$edit">{{presta.region[0].nom}}</span>
-                                            </td>
-                                            <td>
-                                                <span ng-if="presta.$edit">
-                                                    <md-input-container style="width:100%;">
-                                                        <label>Représentant</label>
-                                                        <input name="representant" type="text" ng-model="presta.representant"/>
-                                                    </md-input-container>	
-                                                </span>
-                                                <span ng-if="!presta.$edit">{{presta.representant}}</span>
-                                            </td>
-                                            <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
                                                         <label>Contact</label>
-                                                        <input name="contact" type="text" ng-model="presta.contact"/>
-                                                    </md-input-container>	
+                                                        <input name="Contact" type="text" ng-model="p_sociale.Contact"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.contact}}</span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.Contact}}</span>
                                             </td>
                                             <td>
-                                                <span ng-if="presta.$edit">
+                                                <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
-                                                        <label>Adresse</label>
-                                                        <input name="adresse" type="text" ng-model="presta.adresse"/>
-                                                    </md-input-container>	
+                                                        <label>Telephone</label>
+                                                        <input name="NumeroTelephone" type="text" ng-model="p_sociale.NumeroTelephone"/>
+                                                    </md-input-container>   
                                                 </span>
-                                                <span ng-if="!presta.$edit">{{presta.adresse}}</span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.NumeroTelephone}}</span>
                                             </td>
                                             <td>
-                                                <a ng-if="!presta.$edit" ng-click="vm.modifierActeurregional(presta)" title="Modifier">
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Representant</label>
+                                                        <input name="Representant" type="text" ng-model="p_sociale.Representant"/>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.Representant}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Ile</label>
+                                                        <md-select name="ile_id" ng-model="p_sociale.ile_id" ng-change="vm.modifierile(p_sociale)">
+                                                          <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
+                                                            {{il.Ile}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.ile.Ile}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Village</label>
+                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-change="vm.modifierile(p_sociale)">
+                                                          <md-option ng-repeat="vil in vm.allvillage" value="{{vil.id}}">
+                                                            {{vil.Village}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.village.Village}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Programme</label>
+                                                        <md-select ng-model="p_sociale.programme_id" disabled>
+                                                          <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
+                                                            {{programme.libelle}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>  
+                                                </span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.programme.libelle}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!p_sociale.$edit" ng-click="vm.modifierProtection_sociale(p_sociale)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerActeurregional(presta)" title="Supprimer">
+                                                <a ng-if="!p_sociale.$edit" ng-click="vm.supprimerProtection_sociale(p_sociale)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
-                                                <a ng-if="presta.$edit" ng-click="vm.annulerActeurregional(presta)" title="Annuler modification">
+                                                <a ng-if="p_sociale.$edit" ng-click="vm.annulerProtection_sociale(p_sociale)" title="Annuler modification">
                                                     <span class="icon-cancel"></span>
                                                 </a>
-                                                <a ng-if="presta.$edit && presta.nom >'' && presta.id_type_acteur >0" ng-click="vm.ajoutActeurregional(presta,0)" title="Sauvegarder">
+                                                <a ng-if="p_sociale.$edit && p_sociale.Code && p_sociale.Contact && p_sociale.Telephone && p_sociale.Nom && p_sociale.Representant && p_sociale.ile_id && p_sociale.programme_id" ng-click="vm.ajoutProtection_sociale(p_sociale,0)" title="Sauvegarder">
                                                     <span class="icon-content-save"></span>
                                                 </a>
                                             </td>
@@ -247,7 +351,7 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab>       
                 </md-tabs>
             </div>
         </div>

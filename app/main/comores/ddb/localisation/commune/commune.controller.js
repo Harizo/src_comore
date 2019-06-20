@@ -16,6 +16,7 @@
 
       vm.selectedItem = {} ;
       vm.allcommune = [] ;
+      vm.allprefecture = [] ;
       
 
       //variale affichage bouton nouveau
@@ -38,36 +39,32 @@
         titre:"Code"
       },
       {
-        titre:"Nom"
+        titre:"Commune"
       },
       {
-        titre:"District"
+        titre:"Préfecture"
+      },
+      {
+        titre:"Programme"
       }
     ];
     
-    apiFactory.getAll("district/index").then(function(result)
+    apiFactory.getAll("region/index").then(function(result)
     {
-      vm.alldistrict = result.data.response;
+      vm.allprefecture = result.data.response;
+     // console.log(vm.allprefecture);
     });
 
-    apiFactory.getAll("commune/index").then(function(result){
-      vm.allcommuness = result.data.response;
-          for (var i = 0; i < vm.allcommuness.length; i++) 
-          {
-            var item = {
-                    id: vm.allcommuness[i].id,
-                    nom: vm.allcommuness[i].nom,
-                    code: vm.allcommuness[i].code,
-                    district_id: vm.allcommuness[i].district_id,
-                    district_nom: vm.allcommuness[i].district.nom
-                   
-                };
-                
-                vm.allcommune.push(item);             
-          } 
+    apiFactory.getAll("commune/index").then(function(result)
+    {
+      vm.allcommune = result.data.response;
+     //console.log(vm.allcommune);
     });
     
-     
+    apiFactory.getAll("programme/index").then(function(result)
+    {
+        vm.allprogramme= result.data.response;
+    }); 
         function ajout(commune,suppression)   
         {
               if (NouvelItem==false) 
@@ -103,15 +100,24 @@
             {
                 supprimer:suppression,
                 id:getId,      
-                code: commune.code,
-                nom: commune.nom,
-                district_id:commune.district
+                Code: commune.Code,
+                Commune: commune.Commune,
+                region_id:commune.prefecture_id,
+                programme_id:commune.programme_id
                 
             });
         
             //factory
-            apiFactory.add("commune/index",datas, config)
-                .success(function (data) {
+            apiFactory.add("commune/index",datas, config).success(function (data)
+            { 
+              var prog = vm.allprogramme.filter(function(obj)
+                {
+                    return obj.id == vm.commune.programme_id;
+                });
+              var pref = vm.allprefecture.filter(function(obje)
+                {
+                    return obje.id == vm.commune.prefecture_id;
+                });
 
                   if (NouvelItem == false) 
                   {
@@ -119,10 +125,10 @@
                     
                     if(suppression==0) 
                     {
-                      vm.selectedItem.nom = vm.commune.nom;
-                      vm.selectedItem.code = vm.commune.code;
-                      vm.selectedItem.district_id = vm.commune.district_id;
-                      vm.selectedItem.district_nom = vm.commune.district_nom;
+                      vm.selectedItem.Commune = vm.commune.Commune;
+                      vm.selectedItem.Code = vm.commune.Code;
+                      vm.selectedItem.prefecture = pref[0];
+                      vm.selectedItem.programme = prog[0];
                       vm.afficherboutonModifSupr = 0 ;
                       vm.afficherboutonnouveau = 1 ;
                       vm.selectedItem.$selected = false;
@@ -139,17 +145,15 @@
                   else
                   {
                     var item = {
-                        nom: commune.nom,
-                        code: commune.code,
+                        Commune: commune.Commune,
+                        Code: commune.Code,
                         id:String(data.response) ,
-                        district_id:commune.district ,
-                        district_nom:commune.district_nom 
+                        prefecture:pref[0] ,
+                        programme:prog[0] 
                     };
         
                     vm.allcommune.push(item);
-                    vm.commune.code='';
-                    vm.commune.nom='';
-                    vm.commune.district='';
+                    vm.commune={};
                     
                     NouvelItem=false;
                   }
@@ -192,9 +196,7 @@
         {
           vm.selectedItem.$selected = false;
           vm.affichageMasque = 1 ;
-          vm.commune.code='';
-          vm.commune.nom='';
-          vm.commune.district='';
+          vm.commune={};
           NouvelItem = true ;
 
         };
@@ -207,7 +209,7 @@
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
           NouvelItem = false;
-
+          vm.commune= {};
         };
 
         vm.modifier = function() 
@@ -216,16 +218,11 @@
           NouvelItem = false ;
           vm.affichageMasque = 1 ;
           vm.commune.id = vm.selectedItem.id ;
-          vm.commune.code = vm.selectedItem.code ;
-          vm.commune.nom = vm.selectedItem.nom ;
-          vm.alldistrict.forEach(function(dist) {
-            if(dist.id==vm.selectedItem.district_id) {
-              vm.commune.district = dist.id ;
-              vm.commune.district_nom = dist.nom ;
-            }
-          });
+          vm.commune.Code = vm.selectedItem.Code ;
+          vm.commune.Commune = vm.selectedItem.Commune ;
+          vm.commune.programme_id = vm.selectedItem.programme.id;
+          vm.commune.prefecture_id = vm.selectedItem.prefecture.id;
 
-          
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;  
 
@@ -252,13 +249,13 @@
           });
         };
         
-        vm.modifierdistrict = function (item) {
-          vm.alldistrict.forEach(function(dist) {
-              if(dist.id==item.district) {
-                 item.district = dist.id; 
-                 item.district_nom = dist.nom;
-              }
+        vm.modifierprefecture = function (item) {
+          var pref = vm.allprefecture.filter(function(obj)
+          {
+              return obj.id == item.prefecture_id;
           });
+          //console.log(prefecture);
+          item.programme_id=pref[0].programme.id;
         }
 
         function test_existance (item,suppression) 
@@ -266,24 +263,25 @@
            
             if (suppression!=1) 
             {
-                vm.allcommune.forEach(function(comm) {
-                
-                  if (comm.id==item.id) 
-                  {
-                    if((comm.nom!=item.nom)
-                    ||(comm.code!=item.code)
-                    ||(comm.district_id!=item.district_id))
-                    
-                    {
-                      insert_in_base(item,suppression);
-                      vm.affichageMasque = 0 ;
-                    }
-                    else
-                    {
-                      vm.affichageMasque = 0 ;
-                    }
-                  }
+                var com = vm.allcommune.filter(function(obj)
+                {
+                   return obj.id == item.id;
                 });
+                if(com[0])
+                {
+                   if((com[0].Code!=item.Code)
+                        ||(com[0].Commune!=item.Commune)
+                        ||(com[0].prefecture.id!=item.prefecture_id)
+                        ||(com[0].programme.id!=item.programme_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
             }
             else
               insert_in_base(item,suppression);
