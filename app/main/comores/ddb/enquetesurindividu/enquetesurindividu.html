@@ -306,6 +306,54 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
+                    <md-tab label="Vaccin" ng-click="vm.Select_table(7)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Vaccin
+                                    <button ng-click="vm.ajouterVaccin()" title="Ajouter un vaccin" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                </legend>
+                                <table ng-table="tableVaccin" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="presta in vm.allRecordsVaccin"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionVaccin(presta)">										
+                                            <td>
+                                                <span ng-if="presta.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="presta.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!presta.$edit">{{presta.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!presta.$edit" ng-click="vm.modifierVaccin(presta)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!presta.$edit" ng-click="vm.supprimerVaccin(presta)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit" ng-click="vm.annulerVaccin(presta)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="presta.$edit && presta.description >''" ng-click="vm.ajout(presta,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
                 </md-tabs>
             </div>
         </div>

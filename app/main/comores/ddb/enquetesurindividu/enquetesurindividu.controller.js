@@ -18,12 +18,14 @@
 		vm.selectedItemHandicapauditif = {} ;
 		vm.selectedItemHandicapmental = {} ;
 		vm.selectedItemHandicapmoteur = {} ;
+		vm.selectedItemVaccin = {} ;
 		vm.allRecordsLiendeparente = [] ;
 		vm.allRecordsHandicapvisuel = [] ;
 		vm.allRecordsHandicapparole = [] ;
 		vm.allRecordsHandicapauditif = [] ;
 		vm.allRecordsHandicapmental = [] ;
 		vm.allRecordsHandicapmoteur = [] ;
+		vm.allRecordsVaccin = [] ;
 		vm.nom_table ="liendeparente";
 		vm.cas=1;
 		//variale affichage bouton nouveau
@@ -49,6 +51,9 @@
 							vm.allRecordsHandicapvisuel = result.data.response;
 							apiFactory.getTable("enquete_menage/index","liendeparente").then(function(result){
 								vm.allRecordsLiendeparente = result.data.response;
+							});    
+							apiFactory.getTable("enquete_menage/index","vaccin").then(function(result){
+								vm.allRecordsVaccin = result.data.response;
 							});    
 						});    
 					});    
@@ -87,6 +92,11 @@
 					case 6:  {
 						vm.nom_table="handicap_moteur";
 						vm.cas=6;
+						break;
+					}
+					case 7:  {
+						vm.nom_table="vaccin";
+						vm.cas=7;
 						break;
 					}
 					default: {
@@ -168,6 +178,13 @@
 								vm.selectedItemHandicapmoteur ={};
 								break;
 							}
+							case 7:  {
+								vm.selectedItemVaccin.description = possession.description;
+								vm.selectedItemVaccin.$selected = false;
+								vm.selectedItemVaccin.$edit = false;
+								vm.selectedItemVaccin ={};
+								break;
+							}
 							default: {
 								break;
 							}
@@ -207,6 +224,12 @@
 							case 6:  {
 								vm.allRecordsHandicapmoteur = vm.allRecordsHandicapmoteur.filter(function(obj) {
 									return obj.id !== vm.selectedItemHandicapmoteur.id;
+								});
+								break;
+							}
+							case 7:  {
+								vm.allRecordsVaccin = vm.allRecordsVaccin.filter(function(obj) {
+									return obj.id !== vm.selectedItemVaccin.id;
 								});
 								break;
 							}
@@ -637,6 +660,72 @@
 			});
         }
 		// Handicap moteur
+		// Vaccin
+        vm.selectionVaccin= function (item) {     
+            vm.selectedItemVaccin = item;
+        };
+        $scope.$watch('vm.selectedItemVaccin', function() {
+			if (!vm.allRecordsVaccin) return;
+			vm.allRecordsVaccin.forEach(function(item) {
+				item.$selected = false;
+			});
+			vm.selectedItemVaccin.$selected = true;
+        });
+        vm.ajouterVaccin = function () {
+            vm.selectedItemVaccin.$selected = false;
+            NouvelItem = true ;
+		    var items = {
+				$edit: true,
+				$selected: true,
+				supprimer:0,
+                description: '',
+			};
+			vm.allRecordsVaccin.push(items);
+		    vm.allRecordsVaccin.forEach(function(it) {
+				if(it.$selected==true) {
+					vm.selectedItemVaccin = it;
+				}
+			});			
+        };
+        vm.annulerVaccin = function(item) {
+			if (!item.id) {
+				vm.allRecordsVaccin.pop();
+				return;
+			}          
+			item.$selected=false;
+			item.$edit=false;
+			NouvelItem = false;
+			 item.description = currentItem.description;
+			vm.selectedItemVaccin = {} ;
+			vm.selectedItemVaccin.$selected = false;
+       };
+        vm.modifierVaccin = function(item) {
+			NouvelItem = false ;
+			vm.selectedItemVaccin = item;
+			currentItem = angular.copy(vm.selectedItemVaccin);
+			$scope.vm.allRecordsLiendeparente.forEach(function(it) {
+				it.$edit = false;
+			});        
+			item.$edit = true;	
+			item.$selected = true;	
+			vm.selectedItemVaccin.description = vm.selectedItemVaccin.description;
+			vm.selectedItemVaccin.$edit = true;	
+        };
+        vm.supprimerVaccin = function() {
+			var confirm = $mdDialog.confirm()
+                .title('Etes-vous sûr de supprimer cet enregistrement ?')
+                .textContent('')
+                .ariaLabel('Lucky day')
+                .clickOutsideToClose(true)
+                .parent(angular.element(document.body))
+                .ok('supprimer')
+                .cancel('annuler');
+			$mdDialog.show(confirm).then(function() {          
+				ajout(vm.selectedItemVaccin,1);
+			}, function() {
+			});
+        }
+		// Vaccin
         function test_existence (item,suppression) {    
 			if(item.description.length > 0) {
 				var doublon = 0;
@@ -684,6 +773,14 @@
 						}
 						case 6:  {
 							vm.allRecordsHandicapmoteur.forEach(function(dispo) {   
+								if((dispo.description==item.description) && dispo.id!=item.id) {
+									doublon=1;	
+								} 
+							});
+							break;
+						}
+						case 7:  {
+							vm.allRecordsVaccin.forEach(function(dispo) {   
 								if((dispo.description==item.description) && dispo.id!=item.id) {
 									doublon=1;	
 								} 
