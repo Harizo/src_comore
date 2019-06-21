@@ -17,10 +17,10 @@
         <div class="content" layout="column">
             <div class="form-wrapper">
                 <div style="clear:both;"></div>
-                <md-tabs md-dynamic-height>
-                    <md-tab label="Agence d'execution" ng-click="vm.Select_table(1)">
+                <md-tabs md-dynamic-height layout="column" flex>
+                    <md-tab label="Agence d'execution" ng-click="vm.Select_table(1)" layout="column" flex>
                         <md-tab-body>
-                            <fieldset>
+                            <fieldset style="width: 100%">
                                 <legend>
                                         Agence d'execution
                                     <button ng-click="vm.ajouterAgent_ex()" title="Ajouter un type d'acteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
@@ -39,7 +39,7 @@
                                         <tr ng-repeat="agent_ex in vm.allRecordsAgent_ex"  ng-class="{selected: agent_ex.$selected}" ng-click="vm.selectionAgent_ex(agent_ex)">           
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Code</label>
                                                         <input name="Code" type="text" ng-model="agent_ex.Code"/>
                                                     </md-input-container>   
@@ -48,7 +48,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Nom</label>
                                                         <input name="Nom" type="text" ng-model="agent_ex.Nom"/>
                                                     </md-input-container>   
@@ -57,7 +57,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Contact</label>
                                                         <input name="Contact" type="text" ng-model="agent_ex.Contact"/>
                                                     </md-input-container>   
@@ -66,18 +66,18 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="border: 1px solid blue">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Representant</label>
-                                                        <input name="Representant" type="text" ng-model="agent_ex.Representant"style="border: 1px solid red;"/>
+                                                        <input name="Representant" type="text" ng-model="agent_ex.Representant" />
                                                     </md-input-container>   
                                                 </span>
                                                 <span ng-if="!agent_ex.$edit">{{agent_ex.Representant}}</span>
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;border: 1px solid blue">
+                                                    <md-input-container style="width:100%;">
                                                       <label>Ile</label>
-                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)" style="border: 1px solid red">
+                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)" style="display: inline-block;">
                                                           <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
                                                             {{il.Ile}}
                                                           </md-option>
@@ -88,9 +88,9 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container>
+                                                    <md-input-container style="width:100%;">
                                                       <label>Programme</label>
-                                                       <md-select ng-model="agent_ex.programme_id" disabled>
+                                                        <md-select ng-model="agent_ex.programme_id" disabled>
                                                           <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
                                                             {{programme.libelle}}
                                                           </md-option>
@@ -140,7 +140,7 @@
                                         <tr ng-repeat="agence_p in vm.allRecordsAgence_p"  ng-class="{selected: agence_p.$selected}" ng-click="vm.selectionAgence_p(agence_p)">                                       
                                              <td>
                                                 <span ng-if="agence_p.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Code</label>
                                                         <input name="Code" type="text" ng-model="agence_p.Code"/>
                                                     </md-input-container>   
@@ -149,7 +149,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agence_p.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Nom</label>
                                                         <input name="Nom" type="text" ng-model="agence_p.Nom"/>
                                                     </md-input-container>   
@@ -158,7 +158,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agence_p.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Contact</label>
                                                         <input name="Contact" type="text" ng-model="agence_p.Contact"/>
                                                     </md-input-container>   
@@ -167,7 +167,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agence_p.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Telephone</label>
                                                         <input name="Telephone" type="text" ng-model="agence_p.Telephone"/>
                                                     </md-input-container>   
@@ -176,7 +176,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agence_p.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Representant</label>
                                                         <input name="Representant" type="text" ng-model="agence_p.Representant"/>
                                                     </md-input-container>   
@@ -250,7 +250,7 @@
                                         <tr ng-repeat="p_sociale in vm.allProtection_sociale"  ng-class="{selected: p_sociale.$selected}" ng-click="vm.selectionProtection_sociale(p_sociale)">                                       
                                              <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Code</label>
                                                         <input name="Code" type="text" ng-model="p_sociale.Code"/>
                                                     </md-input-container>   
@@ -259,7 +259,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Nom</label>
                                                         <input name="Nom" type="text" ng-model="p_sociale.Nom"/>
                                                     </md-input-container>   
@@ -268,7 +268,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Contact</label>
                                                         <input name="Contact" type="text" ng-model="p_sociale.Contact"/>
                                                     </md-input-container>   
@@ -277,7 +277,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Telephone</label>
                                                         <input name="NumeroTelephone" type="text" ng-model="p_sociale.NumeroTelephone"/>
                                                     </md-input-container>   
@@ -286,7 +286,7 @@
                                             </td>
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                         <label>Representant</label>
                                                         <input name="Representant" type="text" ng-model="p_sociale.Representant"/>
                                                     </md-input-container>   

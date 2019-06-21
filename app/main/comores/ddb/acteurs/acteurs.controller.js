@@ -620,7 +620,7 @@
         };
         vm.annulerProtection_sociale = function(item) {
 			if (!item.id) {
-				vm.allRecordsProtection_sociale.pop();
+				vm.allProtection_sociale.pop();
 				return;
 			}          
 			item.$selected=false;
@@ -688,6 +688,26 @@
 	      });
 
         }
+      /*  vm.modifierprefectureprotection = function (item) 
+        {
+          apiFactory.getCommuneByPrefecture("commune/index",item.region_id).then(function(result)
+	      {
+	        vm.listecommune= result.data.response;
+	       // console.log(vm.listevillage);
+	        vm.prefectureSelected = true;
+	      });
+
+        }
+        vm.modifiercommuneprotection = function (item) 
+        {
+          apiFactory.getVillageByCommune("village/index",item.commune_id).then(function(result)
+	      {
+	        vm.listevillagee= result.data.response;
+	       //console.log(vm.listevillage);
+	        vm.communeSelected = true;
+	      });
+
+        }*/
         function test_existenceProtection_sociale (item,suppression)
         {    console.log(currentItemProtection_sociale);
 			if (suppression!=1) 
