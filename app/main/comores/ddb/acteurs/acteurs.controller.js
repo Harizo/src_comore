@@ -230,8 +230,9 @@
 			vm.selectedItemAgent_ex.$selected = false;
        };
         vm.modifierAgent_ex = function(item) {
+        	console.log(vm.selectedItemAgent_ex);
 			NouvelItemAgent_ex = false ;
-			//vm.selectedItemAgent_ex = item;
+			vm.selectedItemAgent_ex = item;
 			currentItemAgent_ex = angular.copy(vm.selectedItemAgent_ex);
 			$scope.vm.allRecordsAgent_ex.forEach(function(it) {
 				it.$edit = false;
@@ -430,7 +431,7 @@
        };
         vm.modifierAgence_p = function(item) {
 			NouvelItemAgence_p = false ;
-			//vm.selectedItemAgence_p = item;			
+			vm.selectedItemAgence_p = item;			
 			currentItemAgence_p = angular.copy(vm.selectedItemAgence_p);
 			$scope.vm.allRecordsAgence_p.forEach(function(it) {
 				it.$edit = false;
@@ -639,7 +640,7 @@
        };
         vm.modifierProtection_sociale = function(item) {
 			NouvelItemProtection_sociale = false ;
-			//vm.selectedItemProtection_sociale = item;
+			vm.selectedItemProtection_sociale = item;
 			currentItemProtection_sociale = angular.copy(vm.selectedItemProtection_sociale);
 			$scope.vm.allProtection_sociale.forEach(function(it) {
 				it.$edit = false;
@@ -719,7 +720,7 @@
             }else
               insert_in_baseProtection_sociale(item,suppression);		
         }
-        vm.modifierRegion = function (item) { 
+      /*  vm.modifierRegion = function (item) { 
 			vm.allregion.forEach(function(prg) {
 				if(prg.id==item.id_region) {
 					item.region=[];
@@ -744,6 +745,6 @@
 				}
 			});
 			console.log(item.typeacteur);
-		}	
+		}*/	
     }
   })();

@@ -66,18 +66,18 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="border: 1px solid blue">
                                                         <label>Representant</label>
-                                                        <input name="Representant" type="text" ng-model="agent_ex.Representant"/>
+                                                        <input name="Representant" type="text" ng-model="agent_ex.Representant"style="border: 1px solid red;"/>
                                                     </md-input-container>   
                                                 </span>
                                                 <span ng-if="!agent_ex.$edit">{{agent_ex.Representant}}</span>
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;border: 1px solid blue">
                                                       <label>Ile</label>
-                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)">
+                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)" style="border: 1px solid red">
                                                           <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
                                                             {{il.Ile}}
                                                           </md-option>
@@ -88,9 +88,9 @@
                                             </td>
                                             <td>
                                                 <span ng-if="agent_ex.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container>
                                                       <label>Programme</label>
-                                                        <md-select ng-model="agent_ex.programme_id" disabled>
+                                                       <md-select ng-model="agent_ex.programme_id" disabled>
                                                           <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
                                                             {{programme.libelle}}
                                                           </md-option>
