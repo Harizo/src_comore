@@ -35,9 +35,12 @@
 		vm.afficherboutonnouveauIndividu = 1 ;
 		vm.suivimenage={};
 		vm.suiviindividu={};
+		vm.affichesuiviindividupardefaut =1;
+		vm.affichesuiviindividunutrition =0;
 		vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Personne inscrire"},{titre:"Age"},{titre:"Addresse"}];
 		vm.individu_column = [{titre:"N° d'enregistrement"},{titre:"Chef Ménage"},{titre:"Nom"},{titre:"Date Naissance"},{titre:"Addresse"}];
 		vm.suivi_menage_column = [{titre:"Nom"},{titre:"Partenaire"},{titre:"Acteur"},{titre:"Type-Transf"},{titre:"Date"},{titre:"Montant"}];
+		vm.suivi_nutrition_menage_column = [{titre:"Nom"},{titre:"Poids"},{titre:"Périm-Bra"},{titre:"Age:mois"},{titre:"Taille"},{titre:"Z-score"},{titre:"Mois-grossesse"}];
 		vm.dtOptions =
 		{
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -98,6 +101,15 @@
 					vm.all_individu_programme = []; 
 					vm.showAlert("INFORMATION","Aucun enregistrement trouvé !")	
 				}			
+				if(parseInt(vm.id_programme)==3) {
+					// Nutrition
+					vm.affichesuiviindividupardefaut =0;
+					vm.affichesuiviindividunutrition =1;				
+				} else {
+					vm.affichesuiviindividupardefaut =1;
+					vm.affichesuiviindividunutrition =0;				
+				}
+				var zz = " par défaut= " + vm.affichesuiviindividupardefaut + "   nutrition= " +vm.affichesuiviindividunutrition;
 			});
 		}
         function formatDate(date) {
@@ -110,7 +122,6 @@
 		// DEBUT FONCTION CONCERNANT MENAGE
 		vm.selection= function (item) {
 			vm.selectedItemMenage = item;
-			console.log(vm.selectedItemMenage);
 			if(parseInt(vm.selectedItemMenage.detail_charge)==0) {
 				apiFactory.getAPIgeneraliserREST("suivi_menage/index","id_programme",vm.id_programme,"id_menage",vm.selectedItemMenage.id_menage).then(function(result)
 				{ 
@@ -123,7 +134,6 @@
 						vm.showAlert("INFORMATION","Aucun détail d'enregistrement trouvé !")	
 					}			
 					item.detail_charge=1;
-					console.log(item.detail_suivi_menage);
 				});
 			}	
 		}
@@ -167,7 +177,6 @@
 			NouvelItemSuiviMenage = false;
         };
 		vm.modifierSuiviMenage = function() {
-			console.log(vm.selectedItemDetailSuiviMenage);
 			NouvelItemSuiviMenage = false ;
 			vm.suivimenage.id=vm.selectedItemDetailSuiviMenage.id;
 			vm.suivimenage.id_menage=vm.selectedItemMenage.id_menage;
@@ -242,7 +251,6 @@
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItemDetailSuiviMenage.$selected = false;
 						vm.selectedItemDetailSuiviMenage ={};
-						console.log(suivimenage);
                     } else {                      
 						vm.allsuivimenage = vm.allsuivimenage.filter(function(obj) {
 							return obj.id !== currentItem.id;
@@ -273,7 +281,6 @@
 		// DEBUT FONCTION CONCERNANT INDIVIDU
 		vm.selectionIndividu= function (item) {
 			vm.selectedItemIndividu = item;
-			console.log(vm.selectedItemIndividu);
 			if(parseInt(vm.selectedItemIndividu.detail_charge)==0) {
 				apiFactory.getAPIgeneraliserREST("suivi_individu/index","id_programme",vm.id_programme,"id_individu",vm.selectedItemIndividu.id_individu).then(function(result)
 				{ 
@@ -314,11 +321,28 @@
 		});
         vm.ajouterSuiviIndividu = function () {
 			vm.affichageMasqueIndividu = 1 ;
+			if(parseInt(vm.id_programme)==3) {
+				// Nutrition
+				vm.affichesuiviindividupardefaut =0;
+				vm.affichesuiviindividunutrition =1;				
+			} else {
+				vm.affichesuiviindividupardefaut =1;
+				vm.affichesuiviindividunutrition =0;				
+			}
 			NouvelItemSuiviIndividu = true ;
 			vm.suiviindividu.id=0;
 			vm.suiviindividu.id_individu=vm.selectedItemIndividu.id_individu;
+			vm.suiviindividu.id_acteur=null;
+			vm.suiviindividu.id_partenaire=null;
+			vm.suiviindividu.id_type_transfert=null;
 			vm.suiviindividu.date_suivi=null;
 			vm.suiviindividu.montant=null;
+			vm.suiviindividu.poids=null;
+			vm.suiviindividu.taille=null;
+			vm.suiviindividu.perimetre_bracial=null;
+			vm.suiviindividu.age_mois=null;
+			vm.suiviindividu.zscore=null;
+			vm.suiviindividu.mois_grossesse=null;
 		}      
         vm.annulerSuiviIndividu = function() {
 			vm.selectedItemDetailSuiviIndividu = {} ;
@@ -329,7 +353,14 @@
 			NouvelItemSuiviIndividu = false;
         };
 		vm.modifierSuiviIndividu = function() {
-			console.log(vm.selectedItemDetailSuiviIndividu);
+			if(parseInt(vm.id_programme)==3) {
+				// Nutrition
+				vm.affichesuiviindividupardefaut =0;
+				vm.affichesuiviindividunutrition =1;				
+			} else {
+				vm.affichesuiviindividupardefaut =1;
+				vm.affichesuiviindividunutrition =0;				
+			}
 			NouvelItemSuiviIndividu = false ;
 			vm.suiviindividu.id=vm.selectedItemDetailSuiviIndividu.id;
 			vm.suiviindividu.id_individu=vm.selectedItemIndividu.id_individu;
@@ -342,6 +373,23 @@
 			vm.suiviindividu.id_partenaire=parseInt(vm.selectedItemDetailSuiviIndividu.id_partenaire);
 			vm.suiviindividu.id_acteur=parseInt(vm.selectedItemDetailSuiviIndividu.id_acteur);
 			vm.suiviindividu.id_type_transfert=parseInt(vm.selectedItemDetailSuiviIndividu.id_type_transfert);
+			
+			vm.suiviindividu.perimetre_bracial=parseFloat(vm.selectedItemDetailSuiviIndividu.perimetre_bracial);
+			if(vm.selectedItemDetailSuiviIndividu.montant) {
+				vm.suiviindividu.taille=parseInt(vm.selectedItemDetailSuiviIndividu.taille);
+			}	
+			if(vm.selectedItemDetailSuiviIndividu.montant) {
+				vm.suiviindividu.poids=parseFloat(vm.selectedItemDetailSuiviIndividu.poids);
+			}	
+			if(vm.selectedItemDetailSuiviIndividu.montant) {
+				vm.suiviindividu.zscore=parseFloat(vm.selectedItemDetailSuiviIndividu.zscore);
+			}	
+			if(vm.selectedItemDetailSuiviIndividu.montant) {
+				vm.suiviindividu.age_mois=parseInt(vm.selectedItemDetailSuiviIndividu.age_mois);
+			}	
+			if(vm.selectedItemDetailSuiviIndividu.montant) {
+				vm.suiviindividu.mois_grossesse=parseInt(vm.selectedItemDetailSuiviIndividu.mois_grossesse);
+			}	
 			vm.affichageMasqueIndividu = 1 ;
 			vm.afficherboutonModifSuprIndividu = 0;
 			vm.afficherboutonnouveauIndividu = 0;  
@@ -386,6 +434,12 @@
                     id_type_transfert: suiviindividu.id_type_transfert,
                     date_suivi: formatDate(suiviindividu.date_suivi),
                     montant: suiviindividu.montant,
+                    poids: suiviindividu.poids,
+                    perimetre_bracial: suiviindividu.perimetre_bracial,
+                    age_mois: suiviindividu.age_mois,
+                    taille: suiviindividu.taille,
+                    zscore: suiviindividu.zscore,
+                    mois_grossesse: suiviindividu.mois_grossesse,
             });  
             //factory
             apiFactory.add("suivi_individu/index",datas, config).success(function (data) {
@@ -400,11 +454,16 @@
 						vm.selectedItemDetailSuiviIndividu.typetransfert=suiviindividu.typetransfert;                 
 						vm.selectedItemDetailSuiviIndividu.date_suivi=suiviindividu.date_suivi; 
 						vm.selectedItemDetailSuiviIndividu.montant=suiviindividu.montant;
+						vm.selectedItemDetailSuiviIndividu.poids=suiviindividu.poids;
+						vm.selectedItemDetailSuiviIndividu.perimetre_bracial=suiviindividu.perimetre_bracial;
+						vm.selectedItemDetailSuiviIndividu.age_mois=suiviindividu.age_mois;
+						vm.selectedItemDetailSuiviIndividu.taille=suiviindividu.taille;
+						vm.selectedItemDetailSuiviIndividu.zscore=suiviindividu.zscore;
+						vm.selectedItemDetailSuiviIndividu.mois_grossesse=suiviindividu.mois_grossesse;
 						vm.afficherboutonModifSuprIndividu = 0 ;
 						vm.afficherboutonnouveauIndividu = 1 ;
 						vm.selectedItemDetailSuiviIndividu.$selected = false;
 						vm.selectedItemDetailSuiviIndividu ={};
-						console.log(suiviindividu);
                     } else {                      
 						vm.allsuivimenage = vm.allsuivimenage.filter(function(obj) {
 							return obj.id !== currentItem.id;
@@ -425,6 +484,12 @@
 						date_suivi: (suiviindividu.date_suivi),
 						montant: suiviindividu.montant,
 						id:String(data.response) ,
+						poids: suiviindividu.poids,
+						perimetre_bracial: suiviindividu.perimetre_bracial,
+						age_mois: suiviindividu.age_mois,
+						taille: suiviindividu.taille,
+						zscore: suiviindividu.zscore,
+						mois_grossesse: suiviindividu.mois_grossesse,
 					};
 					vm.selectedItemIndividu.detail_suivi_individu.push(item); 
                     NouvelItemSuiviIndividu=false;
