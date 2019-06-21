@@ -15,7 +15,8 @@
             //'app.comores.registresocial',
             'app.comores.recommandation',
           //  'app.comores.beneficiaire',
-            'app.comores.enquete'
+            'app.comores.enquete',
+            'app.comores.reporting'
        ])
         .config(config);
 
