@@ -101,7 +101,7 @@
           var email = utilisateur.email;
           var pwd = hashage.sha1(utilisateur.password);
           //CONNEXION A L'APPLICATION
-          $location.path("/accueil");//esorina rehefa vita ny connexion,any @index.run mbola misy
+         // $location.path("/accueil");//esorina rehefa vita ny connexion,any @index.run mbola misy
           $http.get(apiUrl+'utilisateurs?email='+email+'&pwd='+pwd)
             .success(function(data){
               if(data.status == true)
