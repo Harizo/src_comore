@@ -372,7 +372,7 @@
 								</md-button>
 							</div>
 							<div style="widht:100%;"  ng-show="vm.affichageMasqueIndividu==1"> 
-								<form name="form_suivi_individu" class="md-inline-form" novalidate >
+								<form name="form_suivi_individu" class="md-inline-form" ng-show="vm.affichesuiviindividupardefaut ==1" novalidate >
 									<div layout="column" layout-gt-xs="row">
 										<md-input-container>
 										<span>Date</span>
@@ -442,31 +442,138 @@
 											Annuler
 										</md-button>
 										<input type="hidden" name="id" ng-model="vm.suiviindividu.id" ng-init="vm.suiviindividu.id=0"/>
-										<input type="hidden" name="id_menage" ng-model="vm.suiviindividu.id_menage" ng-init="vm.suiviindividu.id_menage=0"/>
+										<input type="hidden" name="id_individu" ng-model="vm.suiviindividu.id_individu" ng-init="vm.suiviindividu.id_individu=0"/>
+								</form>
+								<form name="form_suivi_individu_nutrition" class="md-inline-form" ng-show="vm.affichesuiviindividunutrition ==1" novalidate >
+									<div layout="column" layout-gt-xs="row">
+										<md-input-container>
+										<span>Date</span>
+										</md-input-container>
+										<md-datepicker name="date_suivi" ng-model="vm.suiviindividu.date_suivi"   md-placeholder="Enter date de suivi" required>                       
+										</md-datepicker>
+									</div>
+									<div layout="column" layout-gt-sm="row">
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="poids" ng-model="vm.suiviindividu.poids"
+											placeholder="Poids ">
+											<div ng-messages="form_suivi_individu_nutrition.poids.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Poids obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="perimetre_bracial" ng-model="vm.suiviindividu.perimetre_bracial"
+											placeholder="Périmètre brachial " required>
+											<div ng-messages="form_suivi_individu_nutrition.perimetre_bracial.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Périmètre brachial obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="age_mois" ng-model="vm.suiviindividu.age_mois"
+											placeholder="Age : en mois" >
+											<div ng-messages="form_suivi_individu_nutrition.age_mois.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Age : en mois obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="taille" ng-model="vm.suiviindividu.taille"
+											placeholder="Taille(cm)" >
+											<div ng-messages="form_suivi_individu_nutrition.taille.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Taille(cm) obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="zscore" ng-model="vm.suiviindividu.zscore"
+											placeholder="Z-score" >
+											<div ng-messages="form_suivi_individu_nutrition.zscore.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Z-score obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="mois_grossesse" min='1'  max='9' ng-model="vm.suiviindividu.mois_grossesse"
+											placeholder="Nb mois de grossesse" >
+											<div ng-messages="form_suivi_individu_nutrition.mois_grossesse.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Nb mois de grossesse obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+									</div>
+										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+											ng-disabled="form_suivi_individu_nutrition.$invalid " ng-click="vm.Enregistrer_suivi_individu(vm.suiviindividu,0)">
+											Enregistrer
+										</md-button>
+										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerSuiviIndividu()">
+											Annuler
+										</md-button>
+										<input type="hidden" name="id" ng-model="vm.suiviindividu.id" ng-init="vm.suiviindividu.id=0"/>
+										<input type="hidden" name="id_individu" ng-model="vm.suiviindividu.id_individu" ng-init="vm.suiviindividu.id_individu=0"/>
 								</form>
 							</div> 
-							<table id="TableIndividu" class="dataTable row-border hover" datatable="ng"
-							  dt-options="vm.dtOptions">
-							  <thead>
-								<tr>
-								  <th class="secondary-text" ng-repeat="re in ::vm.suivi_menage_column">
-									<div class="table-header">
-									  <span class="column-title">{{re.titre}}</span>
-									</div>
-								  </th>
-								</tr>
-							  </thead>
-							  <tbody>
-								<tr ng-repeat="mp in vm.selectedItemIndividu.detail_suivi_individu"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
-								  <td>{{mp.Nom}}</td>
-								  <td>{{mp.partenaire[0].nom}}</td>                
-								  <td>{{mp.acteur[0].Nom}}</td>                
-								  <td>{{mp.typetransfert[0].description}}</td>                
-								  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
-								  <td>{{mp.montant |number:0}}</td>                
-								</tr>
-							  </tbody>
-							</table>
+							<div style="widht:100%;"  ng-show="vm.affichesuiviindividupardefaut==1"> 
+								<table id="TableIndividu" class="dataTable row-border hover" datatable="ng"
+								  dt-options="vm.dtOptions">
+								  <thead>
+									<tr>
+									  <th class="secondary-text" ng-repeat="re in ::vm.suivi_menage_column">
+										<div class="table-header">
+										  <span class="column-title">{{re.titre}}</span>
+										</div>
+									  </th>
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr ng-repeat="mp in vm.selectedItemIndividu.detail_suivi_individu"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
+									  <td>{{mp.Nom}}</td>
+									  <td>{{mp.partenaire[0].nom}}</td>                
+									  <td>{{mp.acteur[0].Nom}}</td>                
+									  <td>{{mp.typetransfert[0].description}}</td>                
+									  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
+									  <td>{{mp.montant |number:0}}</td>                
+									</tr>
+								  </tbody>
+								</table>
+							</div>	
+							<div style="widht:100%;"  ng-show="vm.affichesuiviindividupardefaut==0"> 
+								<table id="TableIndividunutrition" class="dataTable row-border hover" datatable="ng"
+								  dt-options="vm.dtOptions">
+								  <thead>
+									<tr>
+									  <th class="secondary-text" ng-repeat="re in ::vm.suivi_nutrition_menage_column">
+										<div class="table-header">
+										  <span class="column-title">{{re.titre}}</span>
+										</div>
+									  </th>
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr ng-repeat="mp in vm.selectedItemIndividu.detail_suivi_individu"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
+									  <td>{{mp.Nom}}</td>
+									  <td>{{mp.poids | number:2}}</td>                
+									  <td>{{mp.perimetre_bracial | number:2}}</td>                
+									  <td>{{mp.age_mois | number:2}}</td>                
+									  <td>{{mp.taille | number:2}}</td>                
+									  <td>{{mp.zscore | number:2}}</td>                
+									  <td>{{mp.mois_grossesse | number:2}}</td>                
+									</tr>
+								  </tbody>
+								</table>
+							</div>		
 						</md-tab-body>
                     </md-tab>
                     <md-tab>

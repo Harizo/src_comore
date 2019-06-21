@@ -139,7 +139,7 @@
                                 </md-input-container>
                                 <md-input-container flex-gt-sm ng-show="vm.affichage_masque">
                                     <input type="text"  name="PersonneInscription" ng-model="vm.filtre.PersonneInscription"
-                                    placeholder="Personne Inscrire " ng-init="vm.filtre.PersonneInscription=''">
+                                    placeholder="Nom de l'enquêteur" ng-init="vm.filtre.PersonneInscription=''">
                                     <div ng-messages="filtrepardateform.PersonneInscription.$error"
                                         role="alert">
                                         <div ng-message="required">
@@ -549,6 +549,46 @@
                                         {{item.description}}
                                     </md-checkbox>
                                 </div>
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="standard " >
+                            <legend class="md-grey-800-bg">Enfants et femmes enceintes</legend>
+                            <div layout="column" layout-gt-xs="row" layout-wrap >
+
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" max="12" min="0" name="enfant_femme_age" ng-model="vm.reponse_individu.enfant_femme.age_mois"
+                                    placeholder="Age(Mois)" ng-init="vm.enfant_femme.age_mois=''" >
+                                    
+                                </md-input-container>
+                                
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" max="300" min="0" name="enfant_femme_poids" ng-model="vm.reponse_individu.enfant_femme.poids"
+                                    placeholder="Poids(Kg)" ng-init="vm.enfant_femme.poids=''" >
+                                    
+                                </md-input-container>
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" max="250" min="0" name="enfant_femme_taille" ng-model="vm.reponse_individu.enfant_femme.taille"
+                                    placeholder="Taille(cm)" ng-init="vm.eqt_indiv_taille_enfant=''" >
+                                    
+                                </md-input-container>
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" max="1" min="-5" name="enfant_femme.zscore" ng-model="vm.reponse_individu.enfant_femme.zscore"
+                                    placeholder="Zscore" ng-init="vm.enfant_femme.zscore=''" >
+                                    
+                                </md-input-container>
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" min="0" name="enfant_femme_perimetre_bracial" ng-model="vm.reponse_individu.enfant_femme.perimetre_bracial"
+                                    placeholder="Périmètre brachial(cm)" ng-init="vm.enfant_femme.perimetre_bracial=''" >
+                                    
+                                </md-input-container>
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" min="1" name="enfant_femm_mois_grossesse" ng-model="vm.reponse_individu.enfant_femme.mois_grossesse"
+                                    placeholder="Mois de grossesse" ng-init="vm.enfant_femm_mois_grossesse=''" >
+                                    
+                                </md-input-container>
+                                
 
                             </div>
                         </fieldset>
