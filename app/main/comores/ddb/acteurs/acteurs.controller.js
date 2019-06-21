@@ -11,21 +11,24 @@
 		vm.titrepage ="Ajout Tutelle";
 		vm.ajout = ajout ;
 		vm.ajoutAgence_p = ajoutAgence_p ;
-		vm.ajoutActeurregional = ajoutActeurregional ;
+		vm.ajoutProtection_sociale = ajoutProtection_sociale ;
 		var NouvelItemAgent_ex=false;
 		var NouvelItemAgence_p=false;
-		var NouvelItemActeurregional=false;
+		var NouvelItemProtection_sociale=false;
 		var currentItemAgent_ex;
 		var currentItemAgence_p;
+		var currentItemProtection_sociale;
 		vm.selectedItemAgent_ex = {} ;
 		vm.selectedItemAgence_p = {} ;
-		vm.selectedItemActeurregional = {} ;
+		vm.selectedItemProtection_sociale = {} ;
+		vm.ileSelected = false;
 		//vm.allregion =[];
 		vm.allRecordsAgent_ex = [] ;
 		vm.allRecordsAgence_p = [] ;
-		vm.allRecordsActeurregional = [] ;
+		vm.allProtection_sociale = [] ;
+		vm.listevillage = [] ;
 		vm.nom_table="type_acteur";
-		vm.cas=1;
+		//vm.cas=1;
 		//variale affichage bouton nouveau
 		//variable cache masque de saisie
 		//style
@@ -55,7 +58,17 @@
 		{titre:"Programme"},
 		{titre:"Action"}
 		];
-		vm.acteurregional_column = [{titre:"Type Act"},{titre:"Nom"},{titre:"Région"},{titre:"Représentant"},{titre:"Contact"},{titre:"Adresse"},{titre:"Actions"}];
+		vm.protection_sociale_column = [
+		{titre:"Code"},
+		{titre:"Nom"},
+		{titre:"Contact"},
+		{titre:"NumeroTelephone"},
+		{titre:"Representant"},
+		{titre:"Ile"},
+		{titre:"Village"},
+		{titre:"Programme"},
+		{titre:"Action"}
+		];
 		apiFactory.getAll("ile/index").then(function(result)
 	      {
 	        vm.allile= result.data.response;
@@ -70,11 +83,12 @@
 			apiFactory.getAll("agence_p/index").then(function(result){
 				vm.allRecordsAgence_p = result.data.response;
 				//console.log(vm.allRecordsAgence_p);
-				apiFactory.getAll("acteur_regional/index").then(function(result){
-					vm.allRecordsActeurregional = result.data.response;
-					apiFactory.getAll("region/index").then(function(result){
+				apiFactory.getAll("protection_sociale/index").then(function(result){
+					vm.allProtection_sociale = result.data.response;
+					console.log(vm.allProtection_sociale);
+					/*apiFactory.getAll("region/index").then(function(result){
 						vm.allregion = result.data.response;
-					});    
+					}); */   
 				});    
 			});    
 		});    
@@ -179,7 +193,7 @@
 				item.$selected = false;
 			});
 			vm.selectedItemAgent_ex.$selected = true;
-			console.log(vm.allRecordsAgent_ex);
+			//console.log(vm.allRecordsAgent_ex);
         });
         //function cache masque de saisie
         vm.ajouterAgent_ex = function () {
@@ -216,8 +230,9 @@
 			vm.selectedItemAgent_ex.$selected = false;
        };
         vm.modifierAgent_ex = function(item) {
+        	console.log(vm.selectedItemAgent_ex);
 			NouvelItemAgent_ex = false ;
-			//vm.selectedItemAgent_ex = item;
+			vm.selectedItemAgent_ex = item;
 			currentItemAgent_ex = angular.copy(vm.selectedItemAgent_ex);
 			$scope.vm.allRecordsAgent_ex.forEach(function(it) {
 				it.$edit = false;
@@ -356,7 +371,7 @@
 				} else {
 					entite.id=data.response;
 					entite.programme=prog[0];
-					entite.ile=il[0]	
+					entite.ile=il[0];	
 					NouvelItemAgence_p=false;
 				}
 				entite.$selected=false;
@@ -416,7 +431,7 @@
        };
         vm.modifierAgence_p = function(item) {
 			NouvelItemAgence_p = false ;
-			//vm.selectedItemAgence_p = item;			
+			vm.selectedItemAgence_p = item;			
 			currentItemAgence_p = angular.copy(vm.selectedItemAgence_p);
 			$scope.vm.allRecordsAgence_p.forEach(function(it) {
 				it.$edit = false;
@@ -460,7 +475,7 @@
                    if((ag[0].Code!=currentItemAgence_p.Code)
                         ||(ag[0].Nom!=currentItemAgence_p.Nom)
                         ||(ag[0].Contact!=currentItemAgence_p.Contact)
-                        ||(ag[0].Contact!=currentItemAgence_p.Telephone)
+                        ||(ag[0].Telephone!=currentItemAgence_p.Telephone)
                         ||(ag[0].Representant!=currentItemAgence_p.Representant)
                         ||(ag[0].ile.id!=currentItemAgence_p.ile_id)
                         ||(ag[0].programme.id!=currentItemAgence_p.programme_id))                    
@@ -478,134 +493,171 @@
               insert_in_baseAgence_p(item,suppression);			
         }		
 	// ACTEURS REGIONAL	
-		function ajoutActeurregional(entite,suppression) {
-            test_existenceActeurregional (entite,suppression); 
+		function ajoutProtection_sociale(entite,suppression) {
+           
+            if (NouvelItemProtection_sociale==false) 
+              {
+                test_existenceProtection_sociale (entite,suppression); 
+              }
+              else
+              {
+                insert_in_baseProtection_sociale(entite,suppression);
+              } 
         }
-        function insert_in_baseActeurregional(entite,suppression) {  
+        function insert_in_baseProtection_sociale(entite,suppression) {  
 			//add
+			
 			var config = {
 				headers : {
 					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
 				}
 			};
 			var getId = 0;
-			if (NouvelItemActeurregional==false) {
-			   getId = vm.selectedItemActeurregional.id; 
+			if (NouvelItemProtection_sociale==false) {
+			   getId = vm.selectedItemProtection_sociale.id; 
 			} 
 			var datas = $.param({
 				supprimer:suppression,
 				id:getId,      
-				nom: entite.nom,
-				representant: entite.representant,
-				contact: entite.contact,
-				adresse: entite.adresse,
-				id_type_acteur: entite.id_type_acteur,
-				id_region: entite.id_region,
+				Code: entite.Code,      
+				Nom: entite.Nom,      
+				Contact: entite.Contact,
+				NumeroTelephone: entite.NumeroTelephone,      
+				Representant: entite.Representant,      
+				ile_id: entite.ile_id,
+				village_id: entite.village_id,      
+				programme_id: entite.programme_id
 			});       
 			//factory
-			apiFactory.add("acteur_regional/index",datas, config).success(function (data) {
-				if (NouvelItemActeurregional == false) {
+			apiFactory.add("protection_sociale/index",datas, config).success(function (data)
+			{	
+				var prog = vm.allprogramme.filter(function(obj)
+                {
+                    return obj.id == entite.programme_id;
+                });
+            	//console.log(prog[0]);
+                var il = vm.allile.filter(function(obj)
+                {
+                    return obj.id == entite.ile_id;
+                });
+                var vil = vm.listevillage.filter(function(obj)
+                {
+                    return obj.id == entite.village_id;
+                });
+				if (NouvelItemProtection_sociale == false) {
 					// Update or delete: id exclu                   
 					if(suppression==0) {
-					  vm.selectedItemActeurregional.nom = entite.nom;
-					  vm.selectedItemActeurregional.representant = entite.representant;
-					  vm.selectedItemActeurregional.contact = entite.contact;
-					  vm.selectedItemActeurregional.adresse = entite.adresse;
-					  vm.selectedItemActeurregional.id_region = entite.id_region;
-					  vm.selectedItemActeurregional.region = entite.region;
-					  vm.selectedItemActeurregional.id_type_acteur = entite.id_type_acteur;
-					  vm.selectedItemActeurregional.typeacteur = entite.typeacteur;
-					  vm.selectedItemActeurregional.$selected = false;
-					  vm.selectedItemActeurregional.$edit = false;
-					  vm.selectedItemActeurregional ={};
+					  vm.selectedItemProtection_sociale.Code = entite.Code;
+					  vm.selectedItemProtection_sociale.Nom = entite.Nom;
+					  vm.selectedItemProtection_sociale.Contact = entite.Contact;
+					  vm.selectedItemProtection_sociale.NumeroTelephone = entite.NumeroTelephone;
+					  vm.selectedItemProtection_sociale.Representant = entite.Representant;
+					  vm.selectedItemProtection_sociale.ile = il[0];
+					  vm.selectedItemProtection_sociale.village = vil[0];
+					  vm.selectedItemProtection_sociale.programme = prog[0];
+
+					  vm.selectedItemProtection_sociale.$selected = false;
+					  vm.selectedItemProtection_sociale.$edit = false;
+					  vm.selectedItemProtection_sociale ={};
 					} else {    
-						vm.allRecordsActeurregional = vm.allRecordsActeurregional.filter(function(obj) {
-							return obj.id !== vm.selectedItemActeurregional.id;
+						vm.allProtection_sociale = vm.allProtection_sociale.filter(function(obj) {
+							return obj.id !== vm.selectedItemProtection_sociale.id;
 						});
 					}
 				} else {
-					entite.id=data.response;	
-					NouvelItemActeurregional=false;
+					entite.id=data.response;
+					entite.programme=prog[0];
+					entite.ile=il[0];
+					entite.village=vil[0]	
+					NouvelItemProtection_sociale=false;
 				}
 				entite.$selected=false;
 				entite.$edit=false;
+				vm.ileSelected = false;
 			}).error(function (data) {
 				vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
 			});  
         }
-        vm.selectionActeurregional= function (item) {     
-            vm.selectedItemActeurregional = item;
+        vm.selectionProtection_sociale= function (item) {     
+            vm.selectedItemProtection_sociale = item;
+            apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
+	      {
+	        vm.listevillage= result.data.response;
+	       // console.log(vm.listevillage);
+	       
+	      });
         };
-        $scope.$watch('vm.selectedItemActeurregional', function() {
-			if (!vm.allRecordsActeurregional) return;
-			vm.allRecordsActeurregional.forEach(function(item) {
+        $scope.$watch('vm.selectedItemProtection_sociale', function() {
+			if (!vm.allProtection_sociale) return;
+			vm.allProtection_sociale.forEach(function(item) {
 				item.$selected = false;
 			});
-			vm.selectedItemActeurregional.$selected = true;
+			vm.selectedItemProtection_sociale.$selected = true;
         });
         //function cache masque de saisie
-        vm.ajouterActeurregional = function () {
-            vm.selectedItemActeurregional.$selected = false;
-            NouvelItemActeurregional = true ;
+        vm.ajouterProtection_sociale = function () {
+            vm.selectedItemProtection_sociale.$selected = false;
+            NouvelItemProtection_sociale = true ;
 		    var items = {
 				$edit: true,
 				$selected: true,
 				supprimer:0,
-                nom: '',
-                representant: '',
-                contact: '',
-                adresse: '',
+                Code: '',
+                Nom: '',
+                Contact: '',
+                NumeroTelephone: '',
+                Representant: '',
+                ile_id: '',
+                village_id: '',
+                programme_id: ''
 			};
-			vm.allRecordsActeurregional.push(items);
-		    vm.allRecordsActeurregional.forEach(function(it) {
+			vm.allProtection_sociale.push(items);
+		    vm.allProtection_sociale.forEach(function(it) {
 				if(it.$selected==true) {
-					vm.selectedItemActeurregional = it;
+					vm.selectedItemProtection_sociale = it;
 				}
 			});			
         };
-        vm.annulerActeurregional = function(item) {
+        vm.annulerProtection_sociale = function(item) {
 			if (!item.id) {
-				vm.allRecordsActeurregional.pop();
+				vm.allRecordsProtection_sociale.pop();
 				return;
 			}          
 			item.$selected=false;
 			item.$edit=false;
-			NouvelItemActeurregional = false;
+			NouvelItemProtection_sociale = false;
 			 item.nom = currentItem.nom;
-			 item.representant = currentItem.representant;
+			 item.representant = currentItemProtection_sociale.representant;
 			 item.contact = currentItem.contact;
 			 item.adresse = currentItem.adresse;
 			 item.id_type_acteur = currentItem.id_type_acteur;
 			 item.typeacteur = currentItem.typeacteur;
 			 item.region = currentItem.region;
 			 item.id_region = currentItem.id_region;
-			vm.selectedItemActeurregional = {} ;
-			vm.selectedItemActeurregional.$selected = false;
+			vm.selectedItemProtection_sociale = {} ;
+			vm.selectedItemProtection_sociale.$selected = false;
+			vm.ileSelected = false;
        };
-        vm.modifierActeurregional = function(item) {
-			NouvelItemActeurregional = false ;
-			vm.selectedItemActeurregional = item;
-			currentItem = angular.copy(vm.selectedItemActeurregional);
-			$scope.vm.allRecordsActeurregional.forEach(function(it) {
+        vm.modifierProtection_sociale = function(item) {
+			NouvelItemProtection_sociale = false ;
+			vm.selectedItemProtection_sociale = item;
+			currentItemProtection_sociale = angular.copy(vm.selectedItemProtection_sociale);
+			$scope.vm.allProtection_sociale.forEach(function(it) {
 				it.$edit = false;
 			});        
 			item.$edit = true;	
 			item.$selected = true;	
-			item.nom = vm.selectedItemActeurregional.nom;
-			item.representant = vm.selectedItemActeurregional.representant;
-			item.contact = vm.selectedItemActeurregional.contact;
-			item.adresse = vm.selectedItemActeurregional.adresse;
-			if(vm.selectedItemActeur.id_type_acteur) {
-				item.id_type_acteur = parseInt(vm.selectedItemActeur.id_type_acteur);
-			}
-			item.typeacteur = vm.selectedItemActeurregional.typeacteur;
-			if(vm.selectedItemActeur.id_region) {
-				item.id_region = parseInt(vm.selectedItemActeur.id_region);
-			}
-			item.region = parseInt(vm.selectedItemActeur.region);
-			vm.selectedItemActeurregional.$edit = true;	
+			item.Code = vm.selectedItemProtection_sociale.Code;
+			item.Nom = vm.selectedItemProtection_sociale.Nom;
+			item.Contact = vm.selectedItemProtection_sociale.Contact;
+			item.NumeroTelephone = vm.selectedItemProtection_sociale.NumeroTelephone;
+			item.Representant = vm.selectedItemProtection_sociale.Representant;
+			item.ile_id = vm.selectedItemProtection_sociale.ile.id;
+			item.village_id = vm.selectedItemProtection_sociale.village.id;
+			item.programme_id = vm.selectedItemProtection_sociale.programme.id;
+			vm.selectedItemProtection_sociale.$edit = true;	
         };
-        vm.supprimerActeurregional = function() {
+        vm.supprimerProtection_sociale = function() {
 			var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -615,32 +667,60 @@
                 .ok('supprimer')
                 .cancel('annuler');
 			$mdDialog.show(confirm).then(function() {          
-				ajoutActeurregional(vm.selectedItemActeurregional,1);
+				ajoutProtection_sociale(vm.selectedItemProtection_sociale,1);
 			}, function() {
 			});
         }
-        function test_existenceActeurregional (item,suppression) {    
-			if(item.nom.length > 0) {
-				var doublon = 0;
-				if (suppression!=1) {
-					vm.allRecordsActeurregional.forEach(function(dispo) {   
-						if((dispo.nom==item.nom) && dispo.id!=item.id) {
-							doublon=1;	
-						} 
-					});
-					if(doublon==1) {
-						vm.showAlert('Information !','ERREUR ! : Nom déjà utilisé')
-					} else {
-						insert_in_baseActeurregional(item,0);
-					}
-				} else {
-				  insert_in_baseActeurregional(item,suppression);
-				}  
-			} else {
-				vm.showAlert('Erreur',"Veuillez saisir le nom de l'AGEX !");
-			}		
+        vm.modifierileprotection = function (item) 
+        {
+          var ile = vm.allile.filter(function(obj)
+          {
+              return obj.id == item.ile_id;
+          });
+          //console.log(ile);
+          item.programme_id=ile[0].programme.id;
+          //console.log(item.ile_id);
+          apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
+	      {
+	        vm.listevillage= result.data.response;
+	       // console.log(vm.listevillage);
+	        vm.ileSelected = true;
+	      });
+
         }
-        vm.modifierRegion = function (item) { 
+        function test_existenceProtection_sociale (item,suppression)
+        {    console.log(currentItemProtection_sociale);
+			if (suppression!=1) 
+            {
+                var ps = vm.allProtection_sociale.filter(function(obj)
+                {
+                   return obj.id == currentItemProtection_sociale.id;
+                });
+                console.log(ps[0]);
+                console.log(currentItemProtection_sociale);
+                if(ps[0])
+                {
+                   if((ps[0].Code!=currentItemProtection_sociale.Code)
+                        ||(ps[0].Nom!=currentItemProtection_sociale.Nom)
+                        ||(ps[0].Contact!=currentItemProtection_sociale.Contact)
+                        ||(ps[0].NumeroTelephone!=currentItemProtection_sociale.NumeroTelephone)
+                        ||(ps[0].Representant!=currentItemProtection_sociale.Representant)
+                        ||(ps[0].ile.id!=currentItemProtection_sociale.ile_id)
+                        ||(ps[0].programme.id!=currentItemProtection_sociale.programme_id)
+                        ||(ps[0].village.id!=currentItemProtection_sociale.village_id))                    
+                      { 
+                        insert_in_baseProtection_sociale(item,suppression);
+                      }
+                      else
+                      {
+                        item.$selected=false;
+						item.$edit=false;
+                      }                    
+             	} 
+            }else
+              insert_in_baseProtection_sociale(item,suppression);		
+        }
+      /*  vm.modifierRegion = function (item) { 
 			vm.allregion.forEach(function(prg) {
 				if(prg.id==item.id_region) {
 					item.region=[];
@@ -665,6 +745,6 @@
 				}
 			});
 			console.log(item.typeacteur);
-		}	
+		}*/	
     }
   })();
