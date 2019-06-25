@@ -306,11 +306,37 @@
                                                 </span>
                                                 <span ng-if="!p_sociale.$edit">{{p_sociale.ile.Ile}}</span>
                                             </td>
+                                            <!--td>
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Prefecture</label>
+                                                        <md-select name="region_id" ng-model="p_sociale.region_id" ng-disabled="vm.ileSelected==false">
+                                                          <md-option ng-repeat="pref in vm.listeprefecture" value="{{pref.id}}">
+                                                            {{pref.Village}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.region.Region}}</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="p_sociale.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                      <label>Commune</label>
+                                                        <md-select name="village_id" ng-model="p_sociale.commune_id" ng-disabled="vm.prefectureSelected==false">
+                                                          <md-option ng-repeat="com in vm.listecommune" value="{{com.id}}">
+                                                            {{com.Commune}}
+                                                          </md-option>
+                                                        </md-select>
+                                                    </md-input-container>   
+                                                </span>
+                                                <span ng-if="!p_sociale.$edit">{{p_sociale.commune.Commune}}</span>
+                                            </td-->
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">
                                                       <label>Village</label>
-                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-disabled="vm.ileSelected==false">
+                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-click="vm.nouveauVillage()" disabled>
                                                           <md-option ng-repeat="vil in vm.listevillage" value="{{vil.id}}">
                                                             {{vil.Village}}
                                                           </md-option>
@@ -319,6 +345,7 @@
                                                 </span>
                                                 <span ng-if="!p_sociale.$edit">{{p_sociale.village.Village}}</span>
                                             </td>
+                                           
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;">

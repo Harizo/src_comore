@@ -4,6 +4,7 @@
     angular
         .module('app.comores.ddb.acteurs')
         .controller('ActeursController', ActeursController);
+      //.controller('DialogController', DialogueController);
 
     /** @ngInject */
     function ActeursController(apiFactory, $state, $mdDialog, $scope) {
@@ -20,8 +21,9 @@
 		var currentItemProtection_sociale;
 		vm.selectedItemAgent_ex = {} ;
 		vm.selectedItemAgence_p = {} ;
-		vm.selectedItemProtection_sociale = {} ;
+		vm.selectedItemProtection_sociale = {};
 		vm.ileSelected = false;
+		vm.currentId_ile=0;
 		//vm.allregion =[];
 		vm.allRecordsAgent_ex = [] ;
 		vm.allRecordsAgence_p = [] ;
@@ -496,11 +498,11 @@
 		function ajoutProtection_sociale(entite,suppression) {
            
             if (NouvelItemProtection_sociale==false) 
-              {
+              {console.log("falseato")
                 test_existenceProtection_sociale (entite,suppression); 
               }
               else
-              {
+              {console.log("trueato")
                 insert_in_baseProtection_sociale(entite,suppression);
               } 
         }
@@ -583,6 +585,7 @@
             apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
 	      {
 	        vm.listevillage= result.data.response;
+	        vm.currentId_ile=item.ile_id;
 	       // console.log(vm.listevillage);
 	       
 	      });
@@ -680,6 +683,7 @@
           //console.log(ile);
           item.programme_id=ile[0].programme.id;
           //console.log(item.ile_id);
+          vm.currentId_ile=item.ile_id;
           apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
 	      {
 	        vm.listevillage= result.data.response;
@@ -688,28 +692,9 @@
 	      });
 
         }
-      /*  vm.modifierprefectureprotection = function (item) 
-        {
-          apiFactory.getCommuneByPrefecture("commune/index",item.region_id).then(function(result)
-	      {
-	        vm.listecommune= result.data.response;
-	       // console.log(vm.listevillage);
-	        vm.prefectureSelected = true;
-	      });
 
-        }
-        vm.modifiercommuneprotection = function (item) 
-        {
-          apiFactory.getVillageByCommune("village/index",item.commune_id).then(function(result)
-	      {
-	        vm.listevillagee= result.data.response;
-	       //console.log(vm.listevillage);
-	        vm.communeSelected = true;
-	      });
-
-        }*/
         function test_existenceProtection_sociale (item,suppression)
-        {    console.log(currentItemProtection_sociale);
+        {    //console.log(currentItemProtection_sociale);
 			if (suppression!=1) 
             {
                 var ps = vm.allProtection_sociale.filter(function(obj)
@@ -740,6 +725,69 @@
             }else
               insert_in_baseProtection_sociale(item,suppression);		
         }
+    vm.nouveauVillage = function (ev)
+	{	//console.log('eto');
+		var confirm = $mdDialog.confirm({
+			controller: DialogController,
+			templateUrl: 'app/main/comores/ddb/acteurs/dialog.html',
+			parent: angular.element(document.body),
+			targetEvent: ev,
+			
+			})
+
+						$mdDialog.show(confirm).then(function(data)
+						{	//console.log('lasa');
+							if(data.village_id)
+							{
+								vm.selectedItemProtection_sociale.village_id=data.village_id;
+							}else
+							{
+								
+							}
+							
+							//console.log(data.village_id);
+						}, function(){//alert('rien');
+					});
+
+	}
+   function DialogController($mdDialog, $scope)
+  	{ 
+      var dg=$scope;
+
+      apiFactory.getPrefectureByIle("region/index",vm.currentId_ile).then(function(result)
+       {dg.PrefectureListe = result.data.response;
+       	//console.log(dg.listePrefe);
+       });
+
+      dg.cancel = function()
+      {$mdDialog.cancel();};
+
+      dg.modifierprefecture = function (item) 
+        {//console.log(item.prefecture_id);
+          apiFactory.getCommuneByPrefecture("commune/index",item.prefecture_id).then(function(result)
+	      {
+	        dg.CommuneListe= result.data.response;	        
+	       //console.log(dg.CommuneListe);
+	      });
+
+        }
+        dg.modifiercommune = function (item) 
+        {	//console.log(item.commune_id);
+          apiFactory.getVillageByCommune("village/index",item.commune_id).then(function(result)
+	      {
+	        dg.VillageListe= result.data.response;
+	        vm.listevillage=dg.VillageListe;
+	       //console.log(dg.VillageListe);
+	      });
+
+        }
+        dg.dialogResponse = function(response)
+        {
+        	$mdDialog.hide(response);
+        }
+
+}
+
       /*  vm.modifierRegion = function (item) { 
 			vm.allregion.forEach(function(prg) {
 				if(prg.id==item.id_region) {

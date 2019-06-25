@@ -43,6 +43,15 @@
           },
           getVillageByIle: function(controller, id) {
             return $http.get(apiUrl+controller+"?ile_id="+id);
+          },
+          getPrefectureByIle: function(controller, id) {
+            return $http.get(apiUrl+controller+"?ile_id="+id);
+          },
+          getCommuneByPrefecture: function(controller, id) {
+            return $http.get(apiUrl+controller+"?region_id="+id);
+          },
+          getVillageByCommune: function(controller, id) {
+            return $http.get(apiUrl+controller+"?cle_etrangere="+id);
           }
 
 
