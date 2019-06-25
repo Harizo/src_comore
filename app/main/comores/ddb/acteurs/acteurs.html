@@ -77,7 +77,7 @@
                                                 <span ng-if="agent_ex.$edit">
                                                     <md-input-container style="width:100%;">
                                                       <label>Ile</label>
-                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)" style="display: inline-block;">
+                                                        <md-select name="ile_id" ng-model="agent_ex.ile_id" ng-change="vm.modifierile(agent_ex)" style="display: inline-block;" style="width:90px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
                                                             {{il.Ile}}
                                                           </md-option>
@@ -90,7 +90,7 @@
                                                 <span ng-if="agent_ex.$edit">
                                                     <md-input-container style="width:100%;">
                                                       <label>Programme</label>
-                                                        <md-select ng-model="agent_ex.programme_id" disabled>
+                                                        <md-select ng-model="agent_ex.programme_id" disabled style="width:90px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
                                                             {{programme.libelle}}
                                                           </md-option>
@@ -188,7 +188,7 @@
                                                     <md-input-container style="width:100%;">
                                                       <label>Ile</label>
                                                         <md-select name="ile_id" ng-model="agence_p.ile_id" ng-change="vm.modifierile(agence_p)">
-                                                          <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
+                                                          <md-option ng-repeat="il in vm.allile" value="{{il.id}}" style="width:90px;overflow: hidden;text-overflow: ellipsis;">
                                                             {{il.Ile}}
                                                           </md-option>
                                                         </md-select>
@@ -200,7 +200,7 @@
                                                 <span ng-if="agence_p.$edit">
                                                     <md-input-container style="width:100%;">
                                                       <label>Programme</label>
-                                                        <md-select ng-model="agence_p.programme_id" disabled>
+                                                        <md-select ng-model="agence_p.programme_id" disabled style="width:90px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
                                                             {{programme.libelle}}
                                                           </md-option>
@@ -231,7 +231,7 @@
                     </md-tab>       
                     <md-tab label="Cellule de protection sociale" ng-click="vm.Select_table(3)">
                         <md-tab-body>
-                            <fieldset>
+                            <fieldset layout="column" layout-gt-xs="row" flex>
                                 <legend>
                                         Cellule de protection sociale
                                     <button ng-click="vm.ajouterProtection_sociale()" title="Ajouter un Cellule de protection sociale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
@@ -295,9 +295,9 @@
                                             </td>
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                       <label>Ile</label>
-                                                        <md-select name="ile_id" ng-model="p_sociale.ile_id" ng-change="vm.modifierileprotection(p_sociale)">
+                                                        <md-select name="ile_id" ng-model="p_sociale.ile_id" ng-change="vm.modifierileprotection(p_sociale)" style="width:80px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="il in vm.allile" value="{{il.id}}">
                                                             {{il.Ile}}
                                                           </md-option>
@@ -334,9 +334,9 @@
                                             </td-->
                                             <td>
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                       <label>Village</label>
-                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-click="vm.nouveauVillage()" disabled>
+                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-click="vm.nouveauVillage()" disabled style="width:80px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="vil in vm.listevillage" value="{{vil.id}}">
                                                             {{vil.Village}}
                                                           </md-option>
@@ -346,11 +346,11 @@
                                                 <span ng-if="!p_sociale.$edit">{{p_sociale.village.Village}}</span>
                                             </td>
                                            
-                                            <td>
+                                            <td style="width:100%;display: flex !important;">
                                                 <span ng-if="p_sociale.$edit">
-                                                    <md-input-container style="width:100%;">
+                                                    <md-input-container style="width:100%;display: flex !important;">
                                                       <label>Programme</label>
-                                                        <md-select ng-model="p_sociale.programme_id" disabled>
+                                                        <md-select ng-model="p_sociale.programme_id" disabled style="width:80px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="programme in vm.allprogramme" value="{{programme.id}}">
                                                             {{programme.libelle}}
                                                           </md-option>

@@ -227,7 +227,12 @@
 			item.$selected=false;
 			item.$edit=false;
 			NouvelItemAgent_ex = false;
-			 item.description = currentItemAgent_ex.description;
+			item.Code = currentItemAgent_ex.Code;
+			item.Nom = currentItemAgent_ex.Nom;
+			item.Contact = currentItemAgent_ex.Contact;
+			item.Representant = currentItemAgent_ex.Representant;
+			item.ile_id = currentItemAgent_ex.ile.id;
+			item.programme_id = currentItemAgent_ex.programme.id;
 			vm.selectedItemAgent_ex = {} ;
 			vm.selectedItemAgent_ex.$selected = false;
        };
@@ -247,7 +252,8 @@
 			item.Representant = vm.selectedItemAgent_ex.Representant;
 			item.ile_id = vm.selectedItemAgent_ex.ile.id;
 			item.programme_id = vm.selectedItemAgent_ex.programme.id;
-			item.$edit = true;	
+			item.$edit = true;
+			console.log(vm.allRecordsAgent_ex);	
         };
         vm.supprimerAgent_ex = function() {
 			var confirm = $mdDialog.confirm()
@@ -422,12 +428,13 @@
 			item.$selected=false;
 			item.$edit=false;
 			NouvelItemAgence_p = false;
-			 item.nom = currentItem.nom;
-			 item.representant = currentItem.representant;
-			 item.contact = currentItem.contact;
-			 item.adresse = currentItem.adresse;
-			 item.id_type_Agence_p = currentItem.id_type_Agence_p;
-			 item.typeacteur = currentItem.typeacteur;
+			item.Code = currentItemAgence_p.Code;
+			item.Nom = currentItemAgence_p.Nom;
+			item.Contact = currentItemAgence_p.Contact;
+			item.Telephone = currentItemAgence_p.Telephone;
+			item.Representant = currentItemAgence_p.Representant;
+			item.ile_id = currentItemAgence_p.ile.id;
+			item.programme_id = currentItemAgence_p.programme.id;
 			vm.selectedItemActeur = {} ;
 			vm.selectedItemActeur.$selected = false;
        };
@@ -629,14 +636,14 @@
 			item.$selected=false;
 			item.$edit=false;
 			NouvelItemProtection_sociale = false;
-			 item.nom = currentItem.nom;
-			 item.representant = currentItemProtection_sociale.representant;
-			 item.contact = currentItem.contact;
-			 item.adresse = currentItem.adresse;
-			 item.id_type_acteur = currentItem.id_type_acteur;
-			 item.typeacteur = currentItem.typeacteur;
-			 item.region = currentItem.region;
-			 item.id_region = currentItem.id_region;
+			item.Code = currentItemProtection_sociale.Code;
+			item.Nom = currentItemProtection_sociale.Nom;
+			item.Contact = currentItemProtection_sociale.Contact;
+			item.NumeroTelephone = currentItemProtection_sociale.NumeroTelephone;
+			item.Representant = currentItemProtection_sociale.Representant;
+			item.ile_id = currentItemProtection_sociale.ile.id;
+			item.village_id = currentItemProtection_sociale.village.id;
+			item.programme_id = currentItemProtection_sociale.programme.id;
 			vm.selectedItemProtection_sociale = {} ;
 			vm.selectedItemProtection_sociale.$selected = false;
 			vm.ileSelected = false;
