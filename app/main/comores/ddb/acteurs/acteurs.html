@@ -336,7 +336,7 @@
                                                 <span ng-if="p_sociale.$edit">
                                                     <md-input-container style="width:100%;display: flex !important;">
                                                       <label>Village</label>
-                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-click="vm.nouveauVillage()" disabled style="width:80px;overflow: hidden;text-overflow: ellipsis;">
+                                                        <md-select name="village_id" ng-model="p_sociale.village_id" ng-click="vm.nouveauVillage(ev,p_sociale)" disabled style="width:80px;overflow: hidden;text-overflow: ellipsis;">
                                                           <md-option ng-repeat="vil in vm.listevillage" value="{{vil.id}}">
                                                             {{vil.Village}}
                                                           </md-option>

@@ -730,9 +730,11 @@
             }else
               insert_in_baseProtection_sociale(item,suppression);		
         }
-    vm.nouveauVillage = function (ev)
+    vm.nouveauVillage = function (ev,item)
 	{	//console.log('eto');
-		var confirm = $mdDialog.confirm({
+		if (item.ile_id)
+		{
+			var confirm = $mdDialog.confirm({
 			controller: DialogController,
 			templateUrl: 'app/main/comores/ddb/acteurs/dialog.html',
 			parent: angular.element(document.body),
@@ -753,6 +755,21 @@
 							//console.log(data.village_id);
 						}, function(){//alert('rien');
 					});
+		} else {
+		
+         $mdDialog.show(
+      		$mdDialog.alert()
+	        .parent(angular.element(document.querySelector('#popupContainer')))
+	        .clickOutsideToClose(true)
+	        .parent(angular.element(document.body))
+	        .title('Erreur: champ vide')
+	        .textContent('Vous devez d\'abord remplir le champ Ile')
+	        .ariaLabel('Alert Dialog Demo')
+	        .ok('Ok')
+	        .targetEvent(ev)
+    		);
+		}
+		
 
 	}
    function DialogController($mdDialog, $scope)
