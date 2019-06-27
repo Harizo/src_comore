@@ -505,11 +505,11 @@
 		function ajoutProtection_sociale(entite,suppression) {
            
             if (NouvelItemProtection_sociale==false) 
-              {console.log("falseato")
+              {
                 test_existenceProtection_sociale (entite,suppression); 
               }
               else
-              {console.log("trueato")
+              {
                 insert_in_baseProtection_sociale(entite,suppression);
               } 
         }
@@ -708,8 +708,6 @@
                 {
                    return obj.id == currentItemProtection_sociale.id;
                 });
-                console.log(ps[0]);
-                console.log(currentItemProtection_sociale);
                 if(ps[0])
                 {
                    if((ps[0].Code!=currentItemProtection_sociale.Code)
