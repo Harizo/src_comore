@@ -87,7 +87,7 @@
 				//console.log(vm.allRecordsAgence_p);
 				apiFactory.getAll("protection_sociale/index").then(function(result){
 					vm.allProtection_sociale = result.data.response;
-					console.log(vm.allProtection_sociale);
+					//console.log(vm.allProtection_sociale);
 					/*apiFactory.getAll("region/index").then(function(result){
 						vm.allregion = result.data.response;
 					}); */   
