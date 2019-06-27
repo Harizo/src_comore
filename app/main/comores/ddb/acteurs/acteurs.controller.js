@@ -29,6 +29,9 @@
 		vm.allRecordsAgence_p = [] ;
 		vm.allProtection_sociale = [] ;
 		vm.listevillage = [] ;
+		vm.ListePrefecture = [] ;
+		vm.ListeCommune = [] ;
+		vm.communetmp= [];
 		vm.nom_table="type_acteur";
 		//vm.cas=1;
 		//variale affichage bouton nouveau
@@ -589,13 +592,36 @@
         }
         vm.selectionProtection_sociale= function (item) {     
             vm.selectedItemProtection_sociale = item;
-            apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
-	      {
-	        vm.listevillage= result.data.response;
-	        vm.currentId_ile=item.ile_id;
-	       // console.log(vm.listevillage);
-	       
-	      });
+            //console.log(item);
+            if (NouvelItemProtection_sociale==false)
+            {
+            	apiFactory.getVillageByCommune("village/index",item.village.commune_id).then(function(res)
+			      {
+			        vm.listevillage= res.data.response;
+			        vm.currentId_ile=item.ile.id;
+			      // console.log(vm.listevillage);
+			       
+			      });
+		          apiFactory.getPrefectureByIle("region/index",item.ile.id).then(function(result)
+			      {vm.ListePrefecture = result.data.response;
+			      	//console.log(vm.ListePrefecture);
+
+			      });
+
+			      apiFactory.getOne("commune/index",item.village.commune_id).then(function(result)
+			      { 
+			      	vm.communetmp = result.data.response;
+			      	console.log(vm.communetmp.prefecture.id);
+			      	apiFactory.getCommuneByPrefecture("commune/index",vm.communetmp.prefecture.id).then(function(result)
+				      {
+				        vm.ListeCommune= result.data.response;	        
+				       console.log(vm.ListeCommune);
+				      });
+
+			      });
+            }
+           
+          
         };
         $scope.$watch('vm.selectedItemProtection_sociale', function() {
 			if (!vm.allProtection_sociale) return;
@@ -691,12 +717,16 @@
           item.programme_id=ile[0].programme.id;
           //console.log(item.ile_id);
           vm.currentId_ile=item.ile_id;
-          apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
+         /* apiFactory.getVillageByIle("village/index",item.ile_id).then(function(result)
 	      {
 	        vm.listevillage= result.data.response;
 	       // console.log(vm.listevillage);
 	        vm.ileSelected = true;
-	      });
+	      });*/
+	      apiFactory.getPrefectureByIle("region/index",item.ile_id).then(function(result)
+	       {vm.ListePrefecture = result.data.response;
+	       //	console.log(vm.PrefectureListe);
+	       });
 
         }
 
@@ -772,23 +802,77 @@
 		
 
 	}
-   function DialogController($mdDialog, $scope)
+   function DialogController($mdDialog, $scope,$state)
   	{ 
       var dg=$scope;
+      dg.dialog = {} ;
 
-      apiFactory.getPrefectureByIle("region/index",vm.currentId_ile).then(function(result)
+    /*  apiFactory.getPrefectureByIle("region/index",vm.currentId_ile).then(function(result)
        {dg.PrefectureListe = result.data.response;
-       	//console.log(dg.listePrefe);
-       });
+       dg.dialog.prefecture_id=vm.communetmp.prefecture.id;
+		dg.dialog.commune_id=vm.selectedItemProtection_sociale.village.commune_id;
+		dg.dialog.village_id=vm.selectedItemProtection_sociale.village.id;
+       });*/
+
+/*try {
+	
+	dg.dialog.prefecture_id=vm.communetmp.prefecture.id;
+  	dg.dialog.commune_id=vm.selectedItemProtection_sociale.village.commune_id;
+	dg.dialog.village_id=vm.selectedItemProtection_sociale.village.id;
+  	
+}
+catch(err) {
+  
+} 
+finally {
+  	
+  	dg.PrefectureListe =vm.ListePrefecture;
+	dg.CommuneListe= vm.ListeCommune;
+	dg.VillageListe= vm.listevillage;	
+}*/
+	dg.PrefectureListe =vm.ListePrefecture;
+	dg.CommuneListe= vm.ListeCommune;
+	dg.VillageListe= vm.listevillage;
+
+	dg.choixprefecture=false;
+	dg.choixcommune=false;
+
+	function recuperationListe() {
+	    return new Promise((resolve, reject) => {
+	        console.log('recuperationListe');
+	        dg.PrefectureListe =vm.ListePrefecture;
+			dg.CommuneListe= vm.ListeCommune;
+			dg.VillageListe= vm.listevillage;
+	        resolve();
+	    });
+	}
+
+	function affectationValueFormulaire()
+	{
+	   console.log('affectationValueFormulaire');
+	   dg.dialog.prefecture_id=vm.communetmp.prefecture.id;
+	  	dg.dialog.commune_id=vm.selectedItemProtection_sociale.village.commune_id;
+		dg.dialog.village_id=vm.selectedItemProtection_sociale.village.id;
+	}
+
+	if (NouvelItemProtection_sociale==false)
+	{
+		recuperationListe().then(res => affectationValueFormulaire());
+		dg.choixprefecture=true;
+		dg.choixcommune=true;	
+	}
+	
 
       dg.cancel = function()
-      {$mdDialog.cancel();};
+      {	dg.dialog={};
+      	$mdDialog.cancel();};
 
       dg.modifierprefecture = function (item) 
         {//console.log(item.prefecture_id);
           apiFactory.getCommuneByPrefecture("commune/index",item.prefecture_id).then(function(result)
 	      {
-	        dg.CommuneListe= result.data.response;	        
+	        dg.CommuneListe= result.data.response;
+	        dg.choixprefecture=true;	        
 	       //console.log(dg.CommuneListe);
 	      });
 
@@ -799,6 +883,7 @@
 	      {
 	        dg.VillageListe= result.data.response;
 	        vm.listevillage=dg.VillageListe;
+	        dg.choixcommune=true;
 	       //console.log(dg.VillageListe);
 	      });
 
@@ -806,6 +891,7 @@
         dg.dialogResponse = function(response)
         {
         	$mdDialog.hide(response);
+        	dg.dialog={};
         }
 
 }
