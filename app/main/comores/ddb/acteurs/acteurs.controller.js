@@ -838,7 +838,7 @@ finally {
 	dg.choixcommune=false;
 
 	function recuperationListe() {
-	    return new Promise((resolve, reject) => {
+	    return new Promise(function(resolve, reject){
 	        console.log('recuperationListe');
 	        dg.PrefectureListe =vm.ListePrefecture;
 			dg.CommuneListe= vm.ListeCommune;
@@ -849,7 +849,7 @@ finally {
 
 	function affectationValueFormulaire()
 	{
-	   console.log('affectationValueFormulaire');
+	   //console.log('affectationValueFormulaire');
 	   dg.dialog.prefecture_id=vm.communetmp.prefecture.id;
 	  	dg.dialog.commune_id=vm.selectedItemProtection_sociale.village.commune_id;
 		dg.dialog.village_id=vm.selectedItemProtection_sociale.village.id;
@@ -857,7 +857,10 @@ finally {
 
 	if (NouvelItemProtection_sociale==false)
 	{
-		recuperationListe().then(res => affectationValueFormulaire());
+		recuperationListe().then(function(result)
+			{
+				affectationValueFormulaire();
+			});
 		dg.choixprefecture=true;
 		dg.choixcommune=true;	
 	}
