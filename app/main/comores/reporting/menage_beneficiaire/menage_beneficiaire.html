@@ -1,0 +1,89 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Enquête</span>
+                <span class="parent"> </span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Ménage</span>
+            </div>
+
+            <div class="title">Transfert Monétaire</div>
+        </div>
+    </div>
+    <!--FIN HEADER -->
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="Ménage">
+                    <form name="filtrepardateform" class="md-inline-form" novalidate >
+                        <div layout="column" layout-gt-xs="row" flex>
+
+                            <div layout="column" layout-gt-xs="row" >
+                                <md-input-container>
+                                    <span>Du</span>
+                                </md-input-container>
+                                <md-datepicker  ng-model="vm.filtre.date_debut" md-max-date="vm.filtre.date_fin"  md-placeholder="Date début" >                       
+                                </md-datepicker>
+                           
+                            </div>
+
+                            <div layout="column" layout-gt-xs="row">
+                                <md-input-container>
+                                    <span>au</span>
+                                </md-input-container>
+                            
+                           
+                            </div>
+
+                            <div layout="column" layout-gt-xs="row" >
+                        
+                                <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.date_now" ng-model="vm.filtre.date_fin"   md-placeholder="Date fin">                       
+                                </md-datepicker>
+                           
+                            </div>
+                           
+                        </div>
+                        <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                          <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                              ng-if="!vm.affichage_masque" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)">
+                              Actualiser
+                          </md-button>
+                        </section>
+
+                     
+                        </div>
+                    </form>
+                        
+                    <table class="dataTable row-border hover cell-border text-center" datatable="ng"
+                      dt-options="vm.dtOptions">
+                      <thead>
+                        <tr>
+                          <th class="secondary-text" ng-repeat="re in ::vm.transfert_monetaire_menage_column">
+                            <div class="table-header">
+                              <span class="column-title text-center">{{re.titre}}</span>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="transfert_monetaire_menage in vm.transfert_monetaire_menage">
+                          <td>{{transfert_monetaire_menage.numero}}</td>
+                          <td>{{transfert_monetaire_menage.chef_menage}}</td>
+                          <td>{{vm.formatDateListe(transfert_monetaire_menage.date_suivi)}} </td>
+                          <td>{{transfert_monetaire_menage.nom_partenaire}}</td>
+                          <td>{{transfert_monetaire_menage.nom_agence_payement}}</td>
+                          <td>{{transfert_monetaire_menage.type_transfert}}</td>                
+                          <td>{{transfert_monetaire_menage.somme_montant}}</td>                
+                        </tr>
+                      </tbody>
+                    </table>
+                </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+</div>

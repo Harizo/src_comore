@@ -445,6 +445,7 @@
 
       vm.get_enquete_individu_by_individu = function(id_individu)
       {
+        vm.tab_reponse_vaccin = [] ;
         apiFactory.getAPIgeneraliserREST("enquete_individu_traitement/index","cle_etrangere",id_individu).then(function(result)
         {
           vm.enquete_individu = result.data.response ;
@@ -455,11 +456,19 @@
           vm.reponse_individu.id_handicap_moteur = vm.enquete_individu.id_handicap_moteur ;
           vm.reponse_individu.id_handicap_parole = vm.enquete_individu.id_handicap_parole ;
           vm.reponse_individu.id_handicap_visuel = vm.enquete_individu.id_handicap_visuel ;
+          
 
           if (vm.enquete_individu.vaccins) 
           {
             vm.tab_reponse_vaccin = vm.enquete_individu.vaccins ;
           }
+          vm.reponse_individu.enfant_femme = {};
+          vm.reponse_individu.enfant_femme.poids = Number(vm.enquete_individu.poids) ;
+          vm.reponse_individu.enfant_femme.perimetre_bracial = Number(vm.enquete_individu.perimetre_bracial) ;
+          vm.reponse_individu.enfant_femme.age_mois = Number(vm.enquete_individu.age_mois) ;
+          vm.reponse_individu.enfant_femme.taille = Number(vm.enquete_individu.taille) ;
+          vm.reponse_individu.enfant_femme.zscore = Number(vm.enquete_individu.zscore) ;
+          vm.reponse_individu.enfant_femme.mois_grossesse = Number(vm.enquete_individu.mois_grossesse) ;
 
           if (vm.enquete_individu.id) 
           {
@@ -534,7 +543,7 @@
 
         if (!vm.affichage_masque_individu) 
         {
-          
+          vm.reponse_individu.enfant_femme = {};
           vm.selectedItem_individu = item;
           vm.nouvelItem_individu   = item;
           vm.get_enquete_individu_by_individu(item.id) ;
@@ -703,23 +712,16 @@
                       id_handicap_auditif: reponse_individu.id_handicap_auditif,
                       id_handicap_mental: reponse_individu.id_handicap_mental,
                       id_handicap_moteur: reponse_individu.id_handicap_moteur,
-                      vaccins: vm.tab_reponse_vaccin
+                      vaccins: vm.tab_reponse_vaccin,
+                      poids: reponse_individu.enfant_femme.poids,
+                      perimetre_bracial: reponse_individu.enfant_femme.perimetre_bracial,
+                      age_mois: reponse_individu.enfant_femme.age_mois,
+                      taille: reponse_individu.enfant_femme.taille,
+                      zscore: reponse_individu.enfant_femme.zscore,
+                      mois_grossesse: reponse_individu.enfant_femme.mois_grossesse
                                                  
                     });
 
-        console.log({    
-                      supprimer:0,
-                      id: vm.id_enquete_individu ,
-                      id_individu: vm.selectedItem_individu.id,
-                      id_lien_parente: reponse_individu.id_lien_parente,
-                      id_handicap_visuel: reponse_individu.id_handicap_visuel,
-                      id_handicap_parole: reponse_individu.id_handicap_parole,
-                      id_handicap_auditif: reponse_individu.id_handicap_auditif,
-                      id_handicap_mental: reponse_individu.id_handicap_mental,
-                      id_handicap_moteur: reponse_individu.id_handicap_moteurid_handicap_moteur,
-                      vaccins: vm.tab_reponse_vaccin
-                                                 
-                    });
 
         apiFactory.add("enquete_individu_traitement/index",datas, config).success(function (data) 
         {

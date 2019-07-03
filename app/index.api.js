@@ -42,6 +42,15 @@
             return $http.get(apiUrl+controller+"?nom_table="+nom_table);
           },
           getVillageByIle: function(controller, id) {
+            return $http.get(apiUrl+controller+"?ile_id="+id);
+          },
+          getPrefectureByIle: function(controller, id) {
+            return $http.get(apiUrl+controller+"?ile_id="+id);
+          },
+          getCommuneByPrefecture: function(controller, id) {
+            return $http.get(apiUrl+controller+"?region_id="+id);
+          },
+          getVillageByCommune: function(controller, id) {
             return $http.get(apiUrl+controller+"?cle_etrangere="+id);
           }
 
@@ -101,7 +110,7 @@
           var email = utilisateur.email;
           var pwd = hashage.sha1(utilisateur.password);
           //CONNEXION A L'APPLICATION
-          $location.path("/accueil");//esorina rehefa vita ny connexion,any @index.run mbola misy
+          //$location.path("/accueil");//esorina rehefa vita ny connexion,any @index.run mbola misy
           $http.get(apiUrl+'utilisateurs?email='+email+'&pwd='+pwd)
             .success(function(data){
               if(data.status == true)
