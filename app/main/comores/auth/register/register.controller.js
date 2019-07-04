@@ -12,6 +12,7 @@
       var vm = this;
 
       vm.allSite = [];
+      vm.autoriz_click = true ;
 
  
 
@@ -20,6 +21,7 @@
 
       function enregistrer(utilisateur, ev)
       {
+        vm.autoriz_click = false ;
         //add
         var config = {
           headers : {
@@ -38,6 +40,8 @@
         //ajout user
         apiFactory.add("utilisateurs/index", datas, config)
           .success(function () {
+
+            vm.autoriz_click = true ;
 
             $mdDialog.show({
               controller         : function ($scope, $mdDialog)
@@ -63,6 +67,7 @@
 
           })
           .error(function () {
+            vm.autoriz_click = true ;
             $mdDialog.show({
               controller         : function ($scope, $mdDialog)
               {

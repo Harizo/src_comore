@@ -69,18 +69,22 @@
             {
 
                 //**************************************************
-                /*$interval(function(){apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
+                $interval(function()
                 {
-                    var resultat = result.data.response;
-
-                    if (vs.content != resultat) 
+                    apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
                     {
-                        vs.content = resultat ;
-                    };
-                    
-                
+                        /*var resultat = result.data.response;
 
-                });},15000) ;*/
+                        if (vs.content != resultat) 
+                        {
+                            vs.content = resultat ;
+                        };*/
+                        var x = result.data.response;
+                        vs.content = x ;
+                        vs.color = '#F44336' ;
+
+                    });
+                },15000) ;
                 //**************************************************
                 var user = result.data.response;
                
