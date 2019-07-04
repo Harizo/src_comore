@@ -375,19 +375,19 @@
 			vm.suiviindividu.id_type_transfert=parseInt(vm.selectedItemDetailSuiviIndividu.id_type_transfert);
 			
 			vm.suiviindividu.perimetre_bracial=parseFloat(vm.selectedItemDetailSuiviIndividu.perimetre_bracial);
-			if(vm.selectedItemDetailSuiviIndividu.montant) {
+			if(vm.selectedItemDetailSuiviIndividu.taille) {
 				vm.suiviindividu.taille=parseInt(vm.selectedItemDetailSuiviIndividu.taille);
 			}	
-			if(vm.selectedItemDetailSuiviIndividu.montant) {
+			if(vm.selectedItemDetailSuiviIndividu.poids) {
 				vm.suiviindividu.poids=parseFloat(vm.selectedItemDetailSuiviIndividu.poids);
 			}	
-			if(vm.selectedItemDetailSuiviIndividu.montant) {
+			if(vm.selectedItemDetailSuiviIndividu.zscore) {
 				vm.suiviindividu.zscore=parseFloat(vm.selectedItemDetailSuiviIndividu.zscore);
 			}	
-			if(vm.selectedItemDetailSuiviIndividu.montant) {
+			if(vm.selectedItemDetailSuiviIndividu.age_mois) {
 				vm.suiviindividu.age_mois=parseInt(vm.selectedItemDetailSuiviIndividu.age_mois);
 			}	
-			if(vm.selectedItemDetailSuiviIndividu.montant) {
+			if(vm.selectedItemDetailSuiviIndividu.mois_grossesse) {
 				vm.suiviindividu.mois_grossesse=parseInt(vm.selectedItemDetailSuiviIndividu.mois_grossesse);
 			}	
 			vm.affichageMasqueIndividu = 1 ;
