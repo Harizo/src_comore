@@ -18,7 +18,7 @@
             <div class="form-wrapper">
                 <div style="clear:both;"></div>
                 <md-tabs md-dynamic-height>
-                    <md-tab label="Type de logement" ng-click="vm.Select_table(1)">
+                    <!--md-tab label="Type de logement" ng-click="vm.Select_table(1)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -65,8 +65,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Occupation de logement"  ng-click="vm.Select_table(2)">
+                    </md-tab!-->		
+                    <!--md-tab label="Occupation de logement"  ng-click="vm.Select_table(2)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -113,14 +113,26 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab!METY ILAINA-->		
                     <md-tab label="Revetement toit Logt"  ng-click="vm.Select_table(3)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
                                         Revetement toit
-                                    <button ng-click="vm.ajouterRevetementtoit()" title="Ajouter un Revetement toit" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterRevetementtoit()" title="Ajouter un Revetement toit" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">
+                                        +
+                                    </button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterRevetementtoit()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('revetement_toit')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
+
+                                
                                 <table ng-table="tablePrestataireRevetementtoit" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
@@ -167,7 +179,14 @@
                             <fieldset>
                                 <legend>
                                         Revetement sol du logement
-                                    <button ng-click="vm.ajouterRevetementsol()" title="Ajouter un Revetement sol" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterRevetementsol()" title="Ajouter un Revetement sol" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterRevetementsol()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('revetement_sol')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireRevetementsol" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -215,7 +234,14 @@
                             <fieldset>
                                 <legend>
                                         Revetement mur du logement
-                                    <button ng-click="vm.ajouterRevetementmur()" title="Ajouter un Revetement mur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterRevetementmur()" title="Ajouter un Revetement mur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterRevetementmur()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('revetement_mur')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireRevetementmur" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -258,7 +284,7 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
-                    <md-tab label="Source d'éclairage" ng-click="vm.Select_table(6)">
+                    <!--md-tab label="Source d'éclairage" ng-click="vm.Select_table(6)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -305,8 +331,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Combustible" ng-click="vm.Select_table(7)">
+                    </md-tab!-->		
+                    <!--md-tab label="Combustible" ng-click="vm.Select_table(7)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -353,13 +379,21 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab!METY ILAINA-->		
                     <md-tab label="Toilette" ng-click="vm.Select_table(8)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
                                         Toilette
-                                    <button ng-click="vm.ajouterToilette()" title="Ajouter un type de Toilette" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterToilette()" title="Ajouter un type de Toilette" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterToilette()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('toilette')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireToilette" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -407,7 +441,15 @@
                             <fieldset>
                                 <legend>
                                         Source d'eau
-                                    <button ng-click="vm.ajouterSourceeau()" title="Ajouter une Source d'eau" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterSourceeau()" title="Ajouter une Source d'eau" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterSourceeau()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('source_eau')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireSourceeau" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -455,7 +497,15 @@
                             <fieldset>
                                 <legend>
                                         Bien et équipement
-                                    <button ng-click="vm.ajouterBienequipement()" title="Ajouter un type de Bien/équipement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterBienequipement()" title="Ajouter un type de Bien/équipement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterBienequipement()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('bien_equipement')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireBienequipement" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -498,7 +548,7 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
-                    <md-tab label="Moyen de production" ng-click="vm.Select_table(11)">
+                    <!--md-tab label="Moyen de production" ng-click="vm.Select_table(11)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -545,8 +595,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Source de revenu" ng-click="vm.Select_table(12)">
+                    </md-tab!METY ILAINA-->		
+                    <!--md-tab label="Source de revenu" ng-click="vm.Select_table(12)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -593,13 +643,21 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab!-->		
                     <md-tab label="Elevage" ng-click="vm.Select_table(13)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
                                         Elevage
-                                    <button ng-click="vm.ajouterElevage()" title="Ajouter un type d'elevage" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterElevage()" title="Ajouter un type d'elevage" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterElevage()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('type_elevage')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireElevage" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -647,7 +705,14 @@
                             <fieldset>
                                 <legend>
                                         Culture
-                                    <button ng-click="vm.ajouterCulture()" title="Ajouter un type de Culture" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterCulture()" title="Ajouter un type de Culture" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterCulture()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('type_culture')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireCulture" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -690,7 +755,7 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
-                    <md-tab label="Aliment" ng-click="vm.Select_table(15)">
+                    <!--md-tab label="Aliment" ng-click="vm.Select_table(15)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -737,8 +802,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Stratégie alimentaire" ng-click="vm.Select_table(16)">
+                    </md-tab!-->		
+                    <!--md-tab label="Stratégie alimentaire" ng-click="vm.Select_table(16)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -785,8 +850,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Problème sur revenu menage" ng-click="vm.Select_table(17)">
+                    </md-tab!-->		
+                    <!--md-tab label="Problème sur revenu menage" ng-click="vm.Select_table(17)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -833,8 +898,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Stratégie sur revenu" ng-click="vm.Select_table(18)">
+                    </md-tab!-->		
+                    <!--md-tab label="Stratégie sur revenu" ng-click="vm.Select_table(18)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -881,8 +946,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Activité de recours" ng-click="vm.Select_table(19)">
+                    </md-tab!-->		
+                    <!--md-tab label="Activité de recours" ng-click="vm.Select_table(19)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -929,8 +994,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Service bénéficié" ng-click="vm.Select_table(20)">
+                    </md-tab!-->		
+                    <!--md-tab label="Service bénéficié" ng-click="vm.Select_table(20)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -977,8 +1042,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Infrastructure fréquenté" ng-click="vm.Select_table(21)">
+                    </md-tab-->		
+                    <!--md-tab label="Infrastructure fréquenté" ng-click="vm.Select_table(21)">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -1025,7 +1090,7 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab-->		
                 </md-tabs>
             </div>
         </div>

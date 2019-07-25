@@ -33,6 +33,10 @@
                             <!--md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" ng-disabled="vm.selectedItem.utilisateur_id!=vm.user_id" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
                               Supprimer
                             </md-button-->
+
+                            <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.envoie_menage()">
+                              <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+                            </md-button>
                           
                         </div>
                         <form name="filtrepardateform" class="md-inline-form" novalidate >
@@ -46,11 +50,28 @@
                            
                             </div>
                            
-                            <div layout="column" layout-gt-xs="row" flex>
+                            <div layout="column" layout-gt-xs="row" flex >
 
-                                <md-input-container flex="100" flex-gt-xs="90">
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="vm.serveur_central">
                                   <label>Île</label>
                                     <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" required>
+                                     
+                                      <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                        {{ile.Ile}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Île obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="!vm.serveur_central">
+                                  <label>Île</label>
+                                    <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" ng-disabled="true" required>
                                      
                                       <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
                                         {{ile.Ile}}
@@ -229,12 +250,13 @@
                               <td>{{menage.SexeChefMenage}}</td>
                               <td>{{menage.Addresse}}</td>
                               <td>{{menage.PersonneInscription}}</td>                
+                              <td>{{vm.etat_envoie(menage.id_serveur_centrale)}}</td>                
                             </tr>
                           </tbody>
                         </table>
                     </md-tab>   
 
-                    <md-tab label="Questionnaires Ménage" ng-disabled="!vm.selectedItem.id">
+                    <md-tab label="Questionnaires Ménage ( {{vm.etat_envoie(vm.enquete_by_menage.id_serveur_centrale)}} )" ng-disabled="!vm.selectedItem.id">
 
                         <fieldset class="standard " >
                             <legend class="md-grey-800-bg">Source d'eau</legend>
@@ -344,6 +366,10 @@
                      
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_enquete_menage != 0" ng-click="vm.save_reponse_menage()">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_enquete_menage == 0" ng-click="vm.save_reponse_menage()">Enregistrer</md-button>
+
+                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-disabled="(vm.id_enquete_menage == 0)||(vm.selectedItem.id_serveur_centrale == null)" ng-click="vm.envoie_enquete_menage()">
+                            <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+                          </md-button>
                           
                         </section>
 
@@ -369,6 +395,9 @@
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_menage_programme != 0" ng-click="vm.save_reponse_menage_programme()">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_menage_programme == 0" ng-click="vm.save_reponse_menage_programme()">Enregistrer</md-button>
                           
+                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-disabled="(vm.id_menage_programme == 0)||(vm.selectedItem.id_serveur_centrale == null)" ng-click="vm.envoie_menage_programme()">
+                            <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+                          </md-button>
                         </section>
                     </md-tab> 
 
@@ -379,6 +408,10 @@
                             </md-button>
                             <md-button type="submit"  ng-show="(vm.selectedItem_individu.id)" class="md-raised md-blue-800-bg" aria-label="Modifier" ng-click="vm.modifier_individu()" style="width:10%;">
                               Modifier
+                            </md-button>
+
+                            <md-button class="md-fab md-mini " ng-disabled="(vm.selectedItem.id_serveur_centrale == null)" ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-click="vm.envoie_individu()">
+                              <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                             </md-button>
                             
                           
@@ -427,6 +460,22 @@
                                 </div>
                             </md-input-container>
 
+                            <md-input-container flex="100" flex-gt-xs="10"ng-show="vm.affichage_masque_individu">
+                                  <label>Sexe</label>
+                                    <md-select ng-model="vm.individu_masque.sexe" name="sexe"  >
+                                      <md-option  value="1">Homme</md-option>
+                                      <md-option  value="0">Femme</md-option>
+                                      
+
+                                    </md-select>
+                                    <div ng-messages="individu_form.sexe.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Sexe obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
                             <div layout="column" layout-gt-xs="row" ng-show="vm.affichage_masque_individu">
                                 <md-input-container>
                                 <span>Date de naissance</span>
@@ -467,6 +516,8 @@
                               <td>{{indiv.Nom}}</td>
                               <td>{{vm.formatDateListe(indiv.DateNaissance)}}</td>                
                               <td>{{indiv.Activite}}</td>           
+                              <td>{{vm.affichage_sexe_int(indiv.sexe)}}</td>   
+                              <td>{{vm.etat_envoie(indiv.id_serveur_centrale)}}</td>         
                             </tr>
                           </tbody>
                         </table>
@@ -479,6 +530,17 @@
                             <md-radio-group ng-model="vm.reponse_individu.id_lien_parente" ng-click="vm.test_check_id_lien_parente()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsLiendeparente'>
+                                    <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
+                                </div>
+                                </div>
+                            </md-radio-group>
+                        </fieldset>
+
+                        <fieldset class="standard " >
+                            <legend class="md-grey-800-bg">Situation matrimoniale</legend>
+                            <md-radio-group ng-model="vm.reponse_individu.situation_matrimoniale" ng-click="vm.test_check_situation_matrimoniale()">
+                                <div layout="row" layout-wrap flex>
+                                <div flex="50" ng-repeat='t in vm.allRecordssituation_matrimoniale'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
                                 </div>
                                 </div>
@@ -554,11 +616,11 @@
                         </fieldset>
 
                         <fieldset class="standard " >
-                            <legend class="md-grey-800-bg">Enfants et femmes enceintes</legend>
+                            <legend class="md-grey-800-bg">Enfants</legend>
                             <div layout="column" layout-gt-xs="row" layout-wrap >
 
                                 <md-input-container flex-gt-sm>
-                                    <input type="Number" max="12" min="0" name="enfant_femme_age" ng-model="vm.reponse_individu.enfant_femme.age_mois"
+                                    <input type="Number" max="60" min="0" name="enfant_femme_age" ng-model="vm.reponse_individu.enfant_femme.age_mois"
                                     placeholder="Age(Mois)" ng-init="vm.enfant_femme.age_mois=''" >
                                     
                                 </md-input-container>
@@ -583,6 +645,34 @@
                                     placeholder="Périmètre brachial(cm)" ng-init="vm.enfant_femme.perimetre_bracial=''" >
                                     
                                 </md-input-container>
+                              
+                                
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="standard " >
+                            <legend class="md-grey-800-bg">Femmes enceintes</legend>
+                            <div layout="column" layout-gt-xs="row" layout-wrap >
+
+                                
+                                
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" max="300" min="0" name="enfant_femme_poids" ng-model="vm.reponse_individu.enfant_femme.poids"
+                                    placeholder="Poids(Kg)" ng-init="vm.enfant_femme.poids=''" >
+                                    
+                                </md-input-container>
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" max="250" min="0" name="enfant_femme_taille" ng-model="vm.reponse_individu.enfant_femme.taille"
+                                    placeholder="Taille(cm)" ng-init="vm.eqt_indiv_taille_enfant=''" >
+                                    
+                                </md-input-container>
+                               
+                                <md-input-container flex-gt-sm>
+                                    <input type="Number" min="0" name="enfant_femme_perimetre_bracial" ng-model="vm.reponse_individu.enfant_femme.perimetre_bracial"
+                                    placeholder="Périmètre brachial(cm)" ng-init="vm.enfant_femme.perimetre_bracial=''" >
+                                    
+                                </md-input-container>
                                 <md-input-container flex-gt-sm>
                                     <input type="Number" min="1" name="enfant_femm_mois_grossesse" ng-model="vm.reponse_individu.enfant_femme.mois_grossesse"
                                     placeholder="Mois de grossesse" ng-init="vm.enfant_femm_mois_grossesse=''" >
@@ -593,13 +683,15 @@
                             </div>
                         </fieldset>
 
-                        <fieldset class="standard " >
-                            <legend class="md-grey-800-bg">Situation matrimoniale</legend>
-                        </fieldset>
+                        
                         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                      
                           <md-button class="md-raised md-primary" ng-if="vm.id_enquete_individu != 0" ng-disabled="vm.disable_button" ng-click="vm.save_reponse_individu(vm.reponse_individu)">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-if="vm.id_enquete_individu == 0" ng-disabled="vm.disable_button" ng-click="vm.save_reponse_individu(vm.reponse_individu)">Enregistrer</md-button>
+
+                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-disabled="(vm.id_enquete_individu == 0)||(vm.selectedItem.id_serveur_centrale == null)||(vm.selectedItem_individu.id_serveur_centrale == null)" ng-click="vm.envoie_enquete_individu()">
+                            <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+                          </md-button>
                           
                         </section>
                         
@@ -622,6 +714,11 @@
                      
                           <md-button class="md-raised md-primary" ng-if="vm.id_individu_programme != 0" ng-click="vm.save_reponse_individu_programme()">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-if="vm.id_individu_programme == 0" ng-click="vm.save_reponse_individu_programme()">Enregistrer</md-button>
+
+                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-disabled="(vm.id_individu_programme == 0)||(vm.selectedItem_individu.id_serveur_centrale == null)" ng-click="vm.envoie_individu_programme()">
+                            <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+                          </md-button>
+
                           
                         </section>
                     </md-tab> 

@@ -6,8 +6,9 @@
         .controller('DdbprojetController', DdbprojetController);
 
     /** @ngInject */
-    function DdbprojetController(apiFactory, $state, $mdDialog, $scope) {
+    function DdbprojetController(apiFactory, $state, $mdDialog, $scope, serveur_central) {
 		var vm = this;
+		vm.serveur_central = serveur_central ;
 		vm.titrepage ="Ajout Tutelle";
 		vm.ajoutDevise = ajoutDevise ;
 		var NouvelItemDevise=false;
@@ -87,12 +88,12 @@
 		vm.donnateur_column = [{titre:"Nom"},{titre:"Actions"}];
 		vm.financement_column = [{titre:"Intitulé"},{titre:"Actions"}];
 		vm.typebeneficiaire_column = [{titre:"Intitulé"},{titre:"Actions"}];
-		apiFactory.getAll("devise/index").then(function(result){
+		/*apiFactory.getAll("devise/index").then(function(result){
 			vm.allRecordsDevise = result.data.response;
 		});    
 		apiFactory.getAll("tutelle/index").then(function(result){
 			vm.allRecordsTutelle = result.data.response;
-		});    
+		});   */ 
 		apiFactory.getAll("source_financement/index").then(function(result){
 			vm.allRecordsSourcefinancement = result.data.response;
 		});  
@@ -102,7 +103,7 @@
 		apiFactory.getAll("type_secteur/index").then(function(result){
 			vm.allRecordsSecteur = result.data.response;
 		});    
-		apiFactory.getAll("type_action/index").then(function(result){
+		/*apiFactory.getAll("type_action/index").then(function(result){
 			vm.allRecordsTypeaction = result.data.response;
 		});    
 		apiFactory.getAll("axe_strategisue/index").then(function(result){
@@ -110,13 +111,99 @@
 		});    
 		apiFactory.getAll("action_strategique/index").then(function(result){
 			vm.allRecordsActionstrategique = result.data.response;
-		});    
+		});  */  
 		apiFactory.getAll("type_transfert/index").then(function(result){
 			vm.allRecordsTypedetransfert = result.data.response;
 		});    
-		apiFactory.getAll("type_beneficiaire/index").then(function(result){
+		/*apiFactory.getAll("type_beneficiaire/index").then(function(result){
 			vm.allRecordsTypebeneficiaire = result.data.response;
-		});    
+		}); */   
+
+		vm.download_ddb = function(table)
+		{
+			var nbr_data_insert = 0 ;
+			var config = {
+				headers : {
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+				}
+			};
+
+			apiFactory.getAll_serveur_central("enquete_menage/index",table).then(function(result){
+				var ddb = result.data.response;
+
+				console.log(ddb);
+				var datas_suppr = $.param({
+						supprimer:1,
+						nom_table: table,
+					}); 
+
+				apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {//delete
+
+						//add ddb
+							ddb.forEach( function(element, index) {
+
+								
+
+								if (table == 'source_financement') 
+								{
+									var datas = $.param({
+										supprimer:0,
+										id:element.id,      
+										nom: element.nom,
+										nom_table: table,
+									});  
+								}
+								else
+								{
+									var datas = $.param({
+										supprimer:0,
+										id:element.id,      
+										description: element.description,
+										nom_table: table,
+									});  
+								}
+
+
+								apiFactory.add("delete_ddb/index",datas, config).success(function (data) 
+								{
+									nbr_data_insert++ ;
+									if ((index+1) == ddb.length) //affichage Popup
+									{
+										vm.showAlert('Information',nbr_data_insert+' enregistrement ajouté avec Succès !');
+									}
+									
+								}).error(function (data) {
+									vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+								});
+							});
+						//add ddb
+
+					}).error(function (data) {
+						vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+					});
+				
+
+				
+
+				switch (table) 
+				{
+					case "source_financement":
+						vm.allRecordsSourcefinancement = ddb ;
+						break;
+
+					case "type_transfert":
+						vm.allRecordsTypedetransfert = ddb ;
+						break;
+					
+					
+					default:
+
+						break;
+				}
+
+			});  
+		}
+
 		// DEBUT DEVISE
 		function ajoutDevise(entite,suppression) {
             test_existenceDevise (entite,suppression);

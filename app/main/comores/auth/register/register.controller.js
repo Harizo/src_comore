@@ -19,6 +19,12 @@
       //enregistrer
       vm.enregistrer = enregistrer;
 
+      apiFactory.getAll("ile/index").then(function(result)
+        { 
+          vm.all_ile = result.data.response;    
+
+        });
+
       function enregistrer(utilisateur, ev)
       {
         vm.autoriz_click = false ;
@@ -31,6 +37,7 @@
         //
         var datas = $.param(
         {
+          id_ile: utilisateur.id_ile,
           nom: utilisateur.firstname,
           prenom: utilisateur.lastname,
           email: utilisateur.email,

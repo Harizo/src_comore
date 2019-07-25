@@ -6,8 +6,11 @@
         .module('app.comores.ddb.enquetesurmenage')
         .controller('EnquetesurmenageController', EnquetesurmenageController);
     /** @ngInject */
-    function EnquetesurmenageController($mdDialog, $scope, apiFactory, $state)  {
+    function EnquetesurmenageController($mdDialog, $scope, apiFactory, $state, serveur_central)  {
 		var vm = this;
+
+		vm.serveur_central = serveur_central ;
+		
 		vm.titrepage ="Ajout Tutelle";
 		vm.ajout = ajout ;
 		var NouvelItem=false;
@@ -74,69 +77,170 @@
 		vm.revt_toit_titre = [{titre:"Description"},{titre:"Actions"}];
 		vm.revt_sol_titre = [{titre:"Description"},{titre:"Actions"}];
 		vm.revt_mur_titre = [{titre:"Description"},{titre:"Actions"}];
-		apiFactory.getTable("enquete_menage/index","eclairage").then(function(result){
+		
+		/*apiFactory.getTable("enquete_menage/index","eclairage").then(function(result){
 			vm.allRecordsSourceeclairage = result.data.response;
-			apiFactory.getTable("enquete_menage/index","revetement_mur").then(function(result){
-				vm.allRecordsRevetementmur = result.data.response;
-				apiFactory.getTable("enquete_menage/index","revetement_sol").then(function(result){
-					vm.allRecordsRevetementsol = result.data.response;
-					apiFactory.getTable("enquete_menage/index","revetement_toit").then(function(result){
-						vm.allRecordsRevetementtoit = result.data.response;
-						apiFactory.getTable("enquete_menage/index","occupation_logement").then(function(result){
-							vm.allRecordsOccupationlogement = result.data.response;
-							apiFactory.getTable("enquete_menage/index","type_logement").then(function(result){
-								vm.allRecordsTypelogement = result.data.response;
-							});    
-						});    
-					});    
-				});    
-			});    
+			  
+		});*/    
+		apiFactory.getTable("enquete_menage/index","revetement_mur").then(function(result){
+			vm.allRecordsRevetementmur = result.data.response;
+
+		});  
+		apiFactory.getTable("enquete_menage/index","revetement_sol").then(function(result){
+			vm.allRecordsRevetementsol = result.data.response;
+
 		});    
+		apiFactory.getTable("enquete_menage/index","revetement_toit").then(function(result){
+			vm.allRecordsRevetementtoit = result.data.response;
+
+		});   
+		/*apiFactory.getTable("enquete_menage/index","occupation_logement").then(function(result){
+			vm.allRecordsOccupationlogement = result.data.response;
+
+		}); 
+		apiFactory.getTable("enquete_menage/index","type_logement").then(function(result){
+			vm.allRecordsTypelogement = result.data.response;
+		});*/    
+		/*apiFactory.getTable("enquete_menage/index","combustible").then(function(result){
+			vm.allRecordsCombustible = result.data.response;
+		});  */
+		apiFactory.getTable("enquete_menage/index","toilette").then(function(result){
+			vm.allRecordsToilette = result.data.response;
+
+		});   
+		apiFactory.getTable("enquete_menage/index","source_eau").then(function(result){
+			vm.allRecordsSourceeau = result.data.response;
+
+		});  
+		apiFactory.getTable("enquete_menage/index","bien_equipement").then(function(result){
+			vm.allRecordsBienequipement = result.data.response;
+
+		});  
+		/*apiFactory.getTable("enquete_menage/index","moyen_production").then(function(result){
+			vm.allRecordsMoyenproduction = result.data.response;
+
+		});  */
+		/*apiFactory.getTable("enquete_menage/index","source_revenu").then(function(result){
+			vm.allRecordsSourcerevenu = result.data.response;
+
+		}); */
+		apiFactory.getTable("enquete_menage/index","type_elevage").then(function(result){
+			vm.allRecordsElevage = result.data.response;
+
+		});   
 		apiFactory.getTable("enquete_menage/index","type_culture").then(function(result){
 			vm.allRecordsCulture = result.data.response;
-			apiFactory.getTable("enquete_menage/index","type_elevage").then(function(result){
-				vm.allRecordsElevage = result.data.response;
-				apiFactory.getTable("enquete_menage/index","source_revenu").then(function(result){
-					vm.allRecordsSourcerevenu = result.data.response;
-					apiFactory.getTable("enquete_menage/index","moyen_production").then(function(result){
-						vm.allRecordsMoyenproduction = result.data.response;
-						apiFactory.getTable("enquete_menage/index","bien_equipement").then(function(result){
-							vm.allRecordsBienequipement = result.data.response;
-							apiFactory.getTable("enquete_menage/index","source_eau").then(function(result){
-								vm.allRecordsSourceeau = result.data.response;
-								apiFactory.getTable("enquete_menage/index","toilette").then(function(result){
-									vm.allRecordsToilette = result.data.response;
-									apiFactory.getTable("enquete_menage/index","combustible").then(function(result){
-										vm.allRecordsCombustible = result.data.response;
-									});    
-								});    
-							});    
-						});    
-					});    
-				});    
-			});    
+
 		});    
+		/*apiFactory.getTable("enquete_menage/index","type_aliment").then(function(result){
+			vm.allRecordsAliment = result.data.response;
+		}); */
+		/*apiFactory.getTable("enquete_menage/index","strategie_alimentaire").then(function(result){
+			vm.allRecordsStrategiealimentaire = result.data.response;
+
+		});  */ 
+		/*apiFactory.getTable("enquete_menage/index","type_probleme").then(function(result){
+			vm.allRecordsProblememenage = result.data.response;
+
+		}); */
+		/*apiFactory.getTable("enquete_menage/index","strategie_revenu").then(function(result){
+			vm.allRecordsStrategierevenu = result.data.response;
+
+		});*/ 
+		/*apiFactory.getTable("enquete_menage/index","activite_recours_menage").then(function(result){
+			vm.allRecordsActiviterecoursmenage = result.data.response;
+
+		}); */  
+		/*apiFactory.getTable("enquete_menage/index","service_beneficie").then(function(result){
+			vm.allRecordsServicebeneficie = result.data.response;
+
+		});  
 		apiFactory.getTable("enquete_menage/index","infrastructure").then(function(result){
 			vm.allRecordsInfrastructure = result.data.response;
-			apiFactory.getTable("enquete_menage/index","service_beneficie").then(function(result){
-				vm.allRecordsServicebeneficie = result.data.response;
-				apiFactory.getTable("enquete_menage/index","activite_recours_menage").then(function(result){
-					vm.allRecordsActiviterecoursmenage = result.data.response;
-					apiFactory.getTable("enquete_menage/index","strategie_revenu").then(function(result){
-						vm.allRecordsStrategierevenu = result.data.response;
-						apiFactory.getTable("enquete_menage/index","type_probleme").then(function(result){
-							vm.allRecordsProblememenage = result.data.response;
-							apiFactory.getTable("enquete_menage/index","strategie_alimentaire").then(function(result){
-								vm.allRecordsStrategiealimentaire = result.data.response;
-								apiFactory.getTable("enquete_menage/index","type_aliment").then(function(result){
-									vm.allRecordsAliment = result.data.response;
-								});    
-							});    
-						});    
-					});    
-				});    
-			});    
-		});    
+
+		});  */  
+
+		vm.download_ddb = function(table)
+		{
+			var nbr_data_insert = 0 ;
+			var config = {
+				headers : {
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+				}
+			};
+
+			apiFactory.getAll_serveur_central("enquete_menage/index",table).then(function(result){
+				var ddb = result.data.response;
+
+				console.log(ddb);
+				var datas_suppr = $.param({
+						supprimer:1,
+						nom_table: table,
+					}); 
+
+				apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {
+
+						//add ddb
+							ddb.forEach( function(element, index) {
+
+								var datas = $.param({
+									supprimer:0,
+									id:element.id,      
+									description: element.description,
+									nom_table: table,
+								});   
+								apiFactory.add("delete_ddb/index",datas, config).success(function (data) {
+									nbr_data_insert++ ;
+									if ((index+1) == ddb.length) //affichage Popup
+									{
+										vm.showAlert('Information',nbr_data_insert+' enregistrement ajouté avec Succès !');
+									}
+								}).error(function (data) {
+									vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+								});
+							});
+						//add ddb
+
+					}).error(function (data) {
+						vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+					});
+				
+
+				
+
+				switch (table) 
+				{
+					case "revetement_toit":
+						vm.allRecordsRevetementtoit = ddb ;
+						break;
+					case "revetement_sol":
+						vm.allRecordsRevetementsol = ddb ;
+						break;
+					case "revetement_mur":
+						vm.allRecordsRevetementmur = ddb ;
+						break;
+					case "toilette":
+						vm.allRecordsToilette = ddb ;
+						break;
+					case "source_eau":
+						vm.allRecordsSourceeau = ddb ;
+						break;
+					case "bien_equipement":
+						vm.allRecordsBienequipement = ddb ;
+						break;
+					case "type_elevage":
+						vm.allRecordsElevage = ddb ;
+						break;
+					case "type_culture":
+						vm.allRecordsCulture = ddb ;
+						break;
+					default:
+
+						break;
+				}
+
+			});  
+		}
         vm.Select_table= function (nomdetable) {     
             if(parseInt(nomdetable) >0) {
 				var nom_de_table=parseInt(nomdetable);
