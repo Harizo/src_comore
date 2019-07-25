@@ -18,7 +18,7 @@
             <div class="form-wrapper">
                 <div style="clear:both;"></div>
                 <md-tabs md-dynamic-height>
-                    <md-tab label="Ménage Béneficiaire">
+                    <md-tab label="Ménage Béneficiaire" ng-click="vm.Filtrer_Item_Promotion_Genre_et_Nutrition(1)">
                         <form name="filtrepardateform" class="md-inline-form" novalidate >
                             <div layout="column" layout-gt-xs="row" flex>
                                 <md-input-container flex="100" flex-gt-xs="90">
@@ -90,7 +90,7 @@
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>Programme</label>
-                                    <md-select ng-model="vm.id_programme" name="programme" ng-change="vm.filtre_region()" required>
+                                    <md-select ng-model="vm.id_programme" name="programme" ng-change="vm.filtre_region()" ng-disabled="!vm.filtre.id_village"  required>
                                      
                                       <md-option ng-repeat="programme in vm.all_programme" value="{{programme.id}}" >
                                         {{programme.libelle}}
@@ -234,17 +234,17 @@
 							  <tbody>
 								<tr ng-repeat="mp in vm.selectedItemMenage.detail_suivi_menage"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviMenage(mp)">
 								  <td>{{mp.nomchefmenage}}</td>
+								  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 								  <td>{{mp.partenaire[0].nom}}</td>                
 								  <td>{{mp.acteur[0].Nom}}</td>                
 								  <td>{{mp.typetransfert[0].description}}</td>                
-								  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 								  <td>{{mp.montant |number:0}}</td>                
 								</tr>
 							  </tbody>
 							</table>
 						</md-tab-body>
                     </md-tab>
-                    <md-tab label="Individu Béneficiaire">
+                    <md-tab label="Individu Béneficiaire"  ng-click="vm.Filtrer_Item_Promotion_Genre_et_Nutrition(0)">
                         <form name="filtrepardateform" class="md-inline-form" novalidate >
                             <div layout="column" layout-gt-xs="row" flex>
                                 <md-input-container flex="100" flex-gt-xs="90">
@@ -315,7 +315,7 @@
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>Programme</label>
-                                    <md-select ng-model="vm.id_programme" name="programme" ng-change="vm.filtre_region()" required>
+                                    <md-select ng-model="vm.id_programme" name="programme" ng-change="vm.filtre_region()" ng-disabled="!vm.filtre.id_village" required>
                                      
                                       <md-option ng-repeat="programme in vm.all_programme" value="{{programme.id}}" >
                                         {{programme.libelle}}
@@ -524,13 +524,135 @@
 										<input type="hidden" name="id" ng-model="vm.suiviindividu.id" ng-init="vm.suiviindividu.id=0"/>
 										<input type="hidden" name="id_individu" ng-model="vm.suiviindividu.id_individu" ng-init="vm.suiviindividu.id_individu=0"/>
 								</form>
+								<form name="form_suivi_individu_promotiongenre" class="md-inline-form" ng-show="vm.affichesuiviindividugenre ==1" novalidate >
+									<div layout="column" layout-gt-xs="row">
+										<md-input-container>
+										<span>Date</span>
+										</md-input-container>
+										<md-datepicker name="date_suivi" ng-model="vm.suiviindividu.date_suivi"   md-placeholder="Enter date de suivi" required>                       
+										</md-datepicker>
+									</div>
+									<div layout="column" layout-gt-sm="row">
+										<md-input-container flex="100" flex-gt-xs="10">
+											<input type="Number" name="age" ng-model="vm.suiviindividu.age"
+											placeholder="Age">
+											<div ng-messages="form_suivi_individu_promotiongenre.age.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Age obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container  flex="100" flex-gt-xs="50">
+											<input type="text" name="infraction" ng-model="vm.suiviindividu.infraction"
+											placeholder="Infraction" required>
+											<div ng-messages="form_suivi_individu_promotiongenre.infraction.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Infraction obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container  flex="100" flex-gt-xs="20">
+											<input type="text" name="lieu_infraction" ng-model="vm.suiviindividu.lieu_infraction"
+											placeholder="Lieu infraction" required>
+											<div ng-messages="form_suivi_individu_promotiongenre.lieu_infraction.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Lieu infraction obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex="100" flex-gt-xs="20">
+										  <label>Type violence</label>
+											<md-select ng-model="vm.suiviindividu.id_type_violence" name="id_type_violence" ng-change="vm.modifierTypeViolenceSuiviIndividu(vm.suiviindividu)" required>											 
+											  <md-option ng-repeat="tv in vm.allRecordsTypeViolence" value="{{tv.id}}" >
+												{{tv.description}}
+											  </md-option>
+
+											</md-select>
+											<div ng-messages="form_suivi_individu_promotiongenre.id_type_violence.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Type violence obligatoire</span>
+											  </div>
+											</div>
+										</md-input-container>
+									</div>
+										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+											ng-disabled="form_suivi_individu_promotiongenre.$invalid " ng-click="vm.Enregistrer_suivi_individu(vm.suiviindividu,0)">
+											Enregistrer
+										</md-button>
+										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerSuiviIndividu()">
+											Annuler
+										</md-button>
+										<input type="hidden" name="id" ng-model="vm.suiviindividu.id" ng-init="vm.suiviindividu.id=0"/>
+										<input type="hidden" name="id_individu" ng-model="vm.suiviindividu.id_individu" ng-init="vm.suiviindividu.id_individu=0"/>
+								</form>
+								<form name="form_suivi_individu_mariageprecoce" class="md-inline-form" ng-show="vm.affichesuiviindividumariageprecoce ==1" novalidate >
+									<div layout="column" layout-gt-xs="row">
+										<md-input-container>
+										<span>Date</span>
+										</md-input-container>
+										<md-datepicker name="date_suivi" ng-model="vm.suiviindividu.date_suivi"   md-placeholder="Enter date de suivi" required>                       
+										</md-datepicker>
+									</div>
+									<div layout="column" layout-gt-sm="row">
+										<md-input-container  flex="100" flex-gt-xs="25">
+											<input type="text" name="age" ng-model="vm.suiviindividu.Nom" placeholder="Nom" disabled>
+										</md-input-container>
+										<md-input-container  flex="100" flex-gt-xs="15">
+											<input type="Number" name="age" ng-model="vm.suiviindividu.age"
+											placeholder="Age">
+											<div ng-messages="form_suivi_individu_mariageprecoce.age.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Age obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex="100" flex-gt-xs="20">
+										  <label>Type mariage</label>
+											<md-select ng-model="vm.suiviindividu.id_type_mariage" name="id_type_mariage" ng-change="vm.modifierTypeMariageSuiviIndividu(vm.suiviindividu)" required>											 
+											  <md-option ng-repeat="tv in vm.allRecordsTypeMariage" value="{{tv.id}}" >
+												{{tv.description}}
+											  </md-option>
+											</md-select>
+											<div ng-messages="form_suivi_individu_mariageprecoce.id_type_mariage.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Type mariage obligatoire</span>
+											  </div>
+											</div>
+										</md-input-container>
+										<md-input-container  flex="100" flex-gt-xs="40">
+											<input type="text" name="cause_mariage" ng-model="vm.suiviindividu.cause_mariage"
+											placeholder="Cause mariage" required>
+											<div ng-messages="form_suivi_individu_mariageprecoce.cause_mariage.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Cause mariage obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+									</div>
+										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+											ng-disabled="form_suivi_individu_mariageprecoce.$invalid " ng-click="vm.Enregistrer_suivi_individu(vm.suiviindividu,0)">
+											Enregistrer
+										</md-button>
+										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerSuiviIndividu()">
+											Annuler
+										</md-button>
+										<input type="hidden" name="id" ng-model="vm.suiviindividu.id" ng-init="vm.suiviindividu.id=0"/>
+										<input type="hidden" name="id_individu" ng-model="vm.suiviindividu.id_individu" ng-init="vm.suiviindividu.id_individu=0"/>
+								</form>
 							</div> 
 							<div style="widht:100%;"  ng-show="vm.affichesuiviindividupardefaut==1"> 
 								<table id="TableIndividu" class="dataTable row-border hover" datatable="ng"
 								  dt-options="vm.dtOptions">
 								  <thead>
 									<tr>
-									  <th class="secondary-text" ng-repeat="re in ::vm.suivi_menage_column">
+									  <th class="secondary-text" ng-repeat="re in ::vm.suivi_individu_transfert_column">
 										<div class="table-header">
 										  <span class="column-title">{{re.titre}}</span>
 										</div>
@@ -538,12 +660,12 @@
 									</tr>
 								  </thead>
 								  <tbody>
-									<tr ng-repeat="mp in vm.selectedItemIndividu.detail_suivi_individu"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
+									<tr ng-repeat="mp in vm.selectedItemIndividu.transfert_argent track by $index"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
 									  <td>{{mp.Nom}}</td>
+									  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 									  <td>{{mp.partenaire[0].nom}}</td>                
 									  <td>{{mp.acteur[0].Nom}}</td>                
 									  <td>{{mp.typetransfert[0].description}}</td>                
-									  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 									  <td>{{mp.montant |number:0}}</td>                
 									</tr>
 								  </tbody>
@@ -554,25 +676,198 @@
 								  dt-options="vm.dtOptions">
 								  <thead>
 									<tr>
-									  <th class="secondary-text" ng-repeat="re in ::vm.suivi_nutrition_menage_column">
-										<div class="table-header">
-										  <span class="column-title">{{re.titre}}</span>
-										</div>
-									  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Nom</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Date</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Poids</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Périm-Bra</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Age:mois</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Taille</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Z-score</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Mois-grossesse</span>
+											</div>
+										  </th>
+										  <th class="secondary-text" style="visibility:hidden">
+											<div class="table-header">
+											  <span class="column-title">id</span>
+											</div>
+										  </th>
 									</tr>
 								  </thead>
 								  <tbody>
-									<tr ng-repeat="mp in vm.selectedItemIndividu.detail_suivi_individu"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mp)">
-									  <td>{{mp.Nom}}</td>
-									  <td>{{mp.poids | number:2}}</td>                
-									  <td>{{mp.perimetre_bracial | number:2}}</td>                
-									  <td>{{mp.age_mois | number:2}}</td>                
-									  <td>{{mp.taille | number:2}}</td>                
-									  <td>{{mp.zscore | number:2}}</td>                
-									  <td>{{mp.mois_grossesse | number:2}}</td>                
+									<tr ng-repeat="nu in vm.selectedItemIndividu.nutrition track by $index"  ng-class="{selected: nu.$selected}" ng-click="vm.selectionDetailSuiviIndividu(nu)">
+									  <td>{{nu.Nom}}</td>
+									  <td>{{nu.date_suivi |date:'dd/MM/yyyy'}}</td>                
+									  <td>{{nu.poids | number:2}}</td>                
+									  <td>{{nu.perimetre_bracial | number:2}}</td>                
+									  <td>{{nu.age_mois | number:0}}</td>                
+									  <td>{{nu.taille | number:2}}</td>                
+									  <td>{{nu.zscore | number:2}}</td>                
+									  <td>{{nu.mois_grossesse | number:2}}</td>                
+									  <td style="visibility:hidden">{{nu.id}}</td>                
 									</tr>
 								  </tbody>
 								</table>
+							</div>		
+							<div style="widht:100%;"  ng-show="vm.affichesuiviindividupardefaut==2"> 
+								<fieldset class="standard" >
+									<legend  class="md-grey-800-bg">Promotion genre/Mariage précoce</legend>
+									<md-radio-group ng-model="vm.mariage_precode_ou_promotion_genre" ng-change="vm.ChangerPromotiongenre_Mariageprecoce(vm.mariage_precode_ou_promotion_genre)" ng-disabled="vm.disable_radiobutton_promotiongenre_marriage_precoce=1">
+										<div layout="row" layout-wrap flex>
+										<div flex="50">
+											<md-radio-button ng-value="1" >Promotion genre</md-radio-button>
+										</div>
+										<div flex="50">
+											<md-radio-button ng-value="2" >Mariage précoce</md-radio-button>
+										</div>
+										</div>
+									</md-radio-group>
+								</fieldset>
+								<div style="widht:100%;"  ng-show="vm.mariage_precode_ou_promotion_genre==1"> 								
+									<table id="TableIndividupromotiongenre" class="dataTable row-border hover" datatable="ng"
+									  dt-options="vm.dtOptions">
+									  <thead>
+										<tr>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Nom</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Sexe</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Age</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Date/Infr</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Infraction</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Lieu</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">T-Violence</span>
+											</div>
+										  </th>
+										  <th class="secondary-text" style="visibility:hidden">
+											<div class="table-header">
+											  <span class="column-title">id</span>
+											</div>
+										  </th>
+										</tr>
+									  </thead>
+									  <tbody>
+										<tr ng-repeat="mpro in vm.selectedItemIndividu.promotion_genre  track by $index"  ng-class="{selected: mpro.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mpro)">
+										  <td>{{mpro.Nom}}</td>
+										  <td>{{mpro.sexe | number:0}}</td>                
+										  <td>{{mpro.age | number:0}}</td>                
+										  <td>{{mpro.date_suivi |date:'dd/MM/yyyy'}}</td>                
+										  <td>{{mpro.infraction}}</td>                
+										  <td>{{mpro.lieu_infraction}}</td>                
+										  <td>{{mpro.type_violence[0].description}}</td>                
+										  <td style="visibility:hidden">{{mpro.id}}</td>                
+										</tr>
+									  </tbody>
+									</table>
+								</div>		
+								<div style="widht:100%;"  ng-show="vm.mariage_precode_ou_promotion_genre==2"> 								
+									<table id="TableIndividumariageprecoce" class="dataTable row-border hover" datatable="ng"
+									  dt-options="vm.dtOptions">
+									  <thead>
+										<tr>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Nom</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Sexe</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Age</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Date</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Type-mariage</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Cause</span>
+											</div>
+										  </th>
+										  <th class="secondary-text" style="visibility:hidden">
+											<div class="table-header">
+											  <span class="column-title">id</span>
+											</div>
+										  </th>
+										</tr>
+									  </thead>
+									  <tbody>
+										<tr ng-repeat="mprec in vm.selectedItemIndividu.mariage_precoce  track by $index"  ng-class="{selected: mprec.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mprec)">
+										  <td>{{mprec.Nom}}</td>
+										  <td>{{mprec.sexe | number:0}}</td> 
+										  <td>{{mprec.age | number:0}}</td>                
+										  <td>{{mprec.date_suivi |date:'dd/MM/yyyy'}}</td>                
+										  <td>{{mprec.type_mariage[0].description}}</td>                
+										  <td>{{mprec.cause_mariage}}</td>                         
+										  <td style="visibility:hidden">{{mprec.id}}</td>                         
+										</tr>
+									  </tbody>
+									</table>
+								</div>		
 							</div>		
 						</md-tab-body>
                     </md-tab>
