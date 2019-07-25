@@ -1,0 +1,264 @@
+<div id="dashboard-server">
+    <div  class="text-right">
+       
+        <a ui-sref="app.comores_auth_login" ><strong>Se connecter</strong></a>
+        <a ui-sref="app.comores_auth_register" ><small>Créer un compte</small></a>
+    </div>
+    
+    <div class="content" >
+
+        <md-tabs md-dynamic-height>
+            <md-tab label="Tableau de bord" >
+
+                <div layout="row" layout-xs="column">
+                  <div flex>
+                    
+                      <div class="card md-whiteframe-4dp" ng-if="vm.data_via_base_ok">
+                          <c3chart bindto-id="donut-plot1-chart">
+                              <p ng-repeat="(key,data) in vm.data_via_base">
+
+                                  <chart-column ng-if="key!='total'"
+                                            column-name="{{data.libelle}}"
+                                            column-values="{{data.nbr}}"
+                                            column-id="{{data.id}}"
+                                            column-type="donut"/>
+                              </p>
+                              
+                             <chart-donut title="Ménage bénéficiaires" width="50"/>
+                          </c3chart>
+
+                      </div>
+                  </div>
+                  <div flex>
+                    <!--div class="md-title">Nbr Individu avec Handicap</div>
+                    <div class="card md-whiteframe-4dp" >
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="vm.datas"
+                                chart-labels="vm.libelle"></canvas>
+                    </div!-->
+                    
+                      <div class="card md-whiteframe-4dp" ng-if="vm.data_via_base_nbr_individu_ok">
+                          <c3chart bindto-id="donut-plot1-chart2">
+                              <p ng-repeat="(key,data) in vm.data_via_base_nbr_individu">
+
+                                  <chart-column ng-if="key!='total'"
+                                            column-name="{{data.libelle}}"
+                                            column-values="{{data.nbr}}"
+                                            column-id="{{data.id}}"
+                                            column-type="donut"/>
+                              </p>
+                              
+                             <chart-donut title="Individu bénéficiaires" width="50"/>
+                          </c3chart>
+
+                      </div>
+                  </div>
+                  <div flex>
+                    <div class="card md-whiteframe-4dp" ng-if="vm.data_nbr_pers_avec_andicap_ok">
+                          <c3chart bindto-id="donut-plot1-chart3">
+                              <p ng-repeat="(key,data) in vm.data_nbr_pers_avec_andicap">
+
+                                  <chart-column ng-if="key!='total'"
+                                           
+                                            column-values="{{data.nbr}}"
+                                            column-id="{{data.libelle}}"
+                                            column-type="donut"/>
+                              </p>
+                              
+                             <chart-donut title="Handicap" width="70"/>
+                          </c3chart>
+
+                      </div>
+                    
+                  </div>
+                </div>
+                <table class="dataTable row-border hover cell-border text-center" 
+                      dt-options="vm.dtOptions">
+                      <thead>
+                        <tr>
+                        
+                        <!-- nbr_menage_par_programme -->
+
+                          <th class="primary-text md-accent-bg" ng-show="vm.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Programme</span>
+                            </div>
+                          </th>
+                          <th class="primary-text md-accent-bg" ng-show="vm.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre ménage bénéficiaire</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text md-accent-bg" ng-show="vm.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre ménage enregistré</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text md-accent-bg" ng-show="vm.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Statistique</span>
+                            </div>
+                          </th>
+
+                          
+
+                        <!--fin nbr_menage_par_programme -->
+
+                        
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key,data) in vm.data_via_base">
+                          
+
+                           <!--nbr_menage_par_programme -->
+                            <td ng-if="key!='total'" ng-show="vm.pivot=='nbr_menage_par_programme'">{{data.libelle}}</td>                
+                            <td ng-if="key!='total'" ng-show="vm.pivot=='nbr_menage_par_programme'">{{data.nbr}}</td>
+                            <td> - </td>
+                            <!--td ng-if="key!='total'" ng-show="vm.pivot=='nbr_menage_par_programme'">{{data.nbr_menage_enregistrer}}</td!-->
+                            <td ng-if="key!='total'" ng-show="vm.pivot=='nbr_menage_par_programme'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_menage_enregistrer))}} %</td>
+
+                          
+                           <!--fin nbr_menage_par_programme -->  
+                                     
+                        </tr>
+                      </tbody>
+
+                      <tfoot>
+                          <tr>
+
+                              <td></td>
+                              <td>Nombre total de ménage bénéficiaire: {{vm.data_via_base.total}}</td>
+                              
+                              <td>{{vm.data_via_base[0].nbr_menage_enregistrer}} Ménage(s)</td>
+                              <td>Stat générale: {{vm.parseFloat((vm.data_via_base.total * 100)/(vm.data_via_base[0].nbr_menage_enregistrer))}} %</td>
+                          </tr>
+                      </tfoot>
+                </table>
+
+                <table class="dataTable row-border hover cell-border text-center" 
+                      dt-options="vm.dtOptions">
+                      <thead>
+                        <tr>
+                        
+         
+
+                          <th class="primary-text md-accent-bg" >
+                            <div class="table-header">
+                              <span class="column-title text-center">Programme</span>
+                            </div>
+                          </th>
+                          <th class="primary-text md-accent-bg" >
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre individu bénéficiaire</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text md-accent-bg" >
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre individu enregistré</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text md-accent-bg" >
+                            <div class="table-header">
+                              <span class="column-title text-center">Statistique</span>
+                            </div>
+                          </th>
+
+                          
+
+                        <!--fin nbr_menage_par_programme -->
+
+                        
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key,data) in vm.data_via_base_nbr_individu">
+                          
+
+                           <!--nbr_menage_par_programme -->
+                            <td ng-if="key!='total'">{{data.libelle}}</td>                
+                            <td ng-if="key!='total'">{{data.nbr}}</td>
+                            <td> - </td>
+                            <!--td ng-if="key!='total'">{{data.nbr_individu_enregistrer}}</td!-->
+                            <td ng-if="key!='total'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_individu_enregistrer))}} %</td>
+
+                          
+                           <!--fin nbr_menage_par_programme -->  
+                                     
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                          <tr>
+                              <td></td>
+                              <td>Nombre total d'individu bénéficiaire : {{vm.data_via_base_nbr_individu.total}}</td>
+                              
+                              <td>{{vm.data_via_base_nbr_individu[0].nbr_individu_enregistrer}} Individu(s)</td>
+                              <td>Stat générale: {{vm.parseFloat((vm.data_via_base_nbr_individu.total * 100)/(vm.data_via_base_nbr_individu[0].nbr_individu_enregistrer))}} %</td>
+                          </tr>
+                      </tfoot>
+                </table>
+
+                <table class="dataTable row-border hover cell-border text-center" 
+                      dt-options="vm.dtOptions">
+                      <thead>
+                        <tr>
+                        
+                        <!-- nbr_individu_par_programme -->
+
+                          <th class="primary-text md-accent-bg" ng-show="vm.pivot_indiv=='nbr_pers_avec_andicap'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Hadicape</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text md-accent-bg" ng-show="vm.pivot_indiv=='nbr_pers_avec_andicap'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre</span>
+                            </div>
+                          </th>
+
+                          
+                            
+
+                        <!--fin nbr_individu_par_programme -->
+
+                        
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key,data) in vm.data_nbr_pers_avec_andicap">
+                          
+
+                           <!--nbr_menage_par_programme -->
+                            <td ng-if="key!='total'">{{data.libelle}}</td>                
+                            <td ng-if="key!='total'">{{data.nbr}}</td>
+                            
+                           <!--fin nbr_menage_par_programme -->   
+                                     
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                          <tr>
+                              <td></td>
+                              <td>Nombre de cas d'handicap Total: {{vm.data_nbr_pers_avec_andicap.total}}</td>
+                          </tr>
+                      </tfoot>
+                </table>
+
+            </md-tab>
+            
+           
+           
+        </md-tabs>
+     
+        
+
+
+
+    </div>
+
+
+</div>

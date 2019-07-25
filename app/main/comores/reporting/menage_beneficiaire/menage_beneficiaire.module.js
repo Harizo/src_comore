@@ -28,7 +28,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('comores.reporting.menage_beneficiaire', {
-            title: 'Ménage Trans.Monétaire',
+            title: 'Ménage/Individu',
             icon  : 'icon-swap-horizontal',
             state: 'app.comores_reporting_menage_beneficiaire',
 			weight: 1

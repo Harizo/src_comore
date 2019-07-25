@@ -75,6 +75,22 @@
                     </div>
                 </md-input-container>
 
+                <md-input-container class="md-block" >
+                  <label>Île</label>
+                    <md-select ng-model="vm.registerForm.id_ile" name="ile" required>
+                  
+                      <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                        {{ile.Ile}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="registerForm.region.$error"
+                      role="alert">
+                      <div ng-message="required">
+                        <span>Île obligatoire.</span>
+                      </div>
+                    </div>
+                </md-input-container>
+
 
                 <div class="terms" layout="row" layout-align="center center">
                     <md-checkbox name="terms" ng-model="data.cb1" aria-label="I read and accept" required></md-checkbox>

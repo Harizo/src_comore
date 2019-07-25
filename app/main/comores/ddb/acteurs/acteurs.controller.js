@@ -7,8 +7,10 @@
       //.controller('DialogController', DialogueController);
 
     /** @ngInject */
-    function ActeursController(apiFactory, $state, $mdDialog, $scope) {
+    function ActeursController(apiFactory, $state, $mdDialog, $scope, serveur_central) {
 		var vm = this;
+
+		vm.serveur_central = serveur_central ;
 		vm.titrepage ="Ajout Tutelle";
 		vm.ajout = ajout ;
 		vm.ajoutAgence_p = ajoutAgence_p ;
@@ -98,6 +100,153 @@
 				});    
 			});    
 		});    
+
+
+		vm.download_ddb = function(controller,table)
+		{
+			var nbr_data_insert = 0 ;
+			var config = {
+				headers : {
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+				}
+			};
+
+			apiFactory.getAll_acteur_serveur_central(controller).then(function(result){
+				var ddb = result.data.response;
+
+				console.log(ddb);
+				var datas_suppr = $.param({
+						supprimer:1,
+						nom_table: table,
+					}); 
+
+				apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {
+
+						//add ddb
+							ddb.forEach( function(element, index) {
+
+								
+
+								switch (table) {
+									case "see_agex":
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											Code: element.Code,
+											Nom: element.Nom,
+											Contact: element.Contact,
+											Representant: element.Representant,
+											ile_id: element.ile.id,
+											programme_id: element.programme.id
+										});   
+										break;
+									case "see_agent":
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											Code: element.Code,
+											Nom: element.Nom,
+											Contact: element.Contact,
+											Telephone: element.Telephone,
+											Representant: element.Representant,
+											ile_id: element.ile.id,
+											programme_id: element.programme.id
+										}); 
+										break;
+									case "see_celluleprotectionsociale":
+
+										if (!element.village) 
+										{
+											element.village = {} ;
+											element.village.id = null ;
+
+										}
+										if (!element.ile) 
+										{
+											element.ile = {} ;
+											element.ile.id = null ;
+
+										}
+										if (!element.programme) 
+										{
+											element.programme = {} ;
+											element.programme.id = null ;
+
+										}
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											Code: element.Code,
+											Representant: element.Representant,
+											Nom: element.Nom,
+											Contact: element.Contact,
+											NumeroTelephone: element.NumeroTelephone,
+											ile_id: element.ile.id,
+											village_id: element.village.id,
+											programme_id: element.programme.id
+										});    
+										break;
+									default:
+										// statements_def
+										break;
+								}
+
+								var dat = ({
+											supprimer:0,
+											id:element.id,      
+											Code: element.Code,
+											Nom: element.Nom,
+											Contact: element.Contact,
+											Representant: element.Representant,
+											ile_id: element.ile.id,
+											programme_id: element.programme.id
+										});   
+console.log(dat);
+								apiFactory.add(controller,datas, config).success(function (data) {
+									nbr_data_insert++ ;
+									if ((index+1) == ddb.length) //affichage Popup
+									{
+										vm.showAlert('Information',nbr_data_insert+' enregistrement ajouté avec Succès !');
+									}
+								}).error(function (data) {
+									vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+								});
+							});
+						//add ddb
+
+					}).error(function (data) {
+						vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+					});
+				
+
+				
+
+				switch (table) 
+				{
+					case "see_agex":
+						vm.allRecordsAgent_ex = ddb ;
+						break;
+					case "see_agent":
+						vm.allRecordsAgence_p = ddb ;
+						break;
+					case "see_celluleprotectionsociale":
+						vm.allProtection_sociale = ddb ;
+						break;
+					
+					default:
+
+						break;
+				}
+
+			});  
+		}
+
 		function ajout(agent_e,suppression) {
             
             if (NouvelItemAgent_ex==false) 

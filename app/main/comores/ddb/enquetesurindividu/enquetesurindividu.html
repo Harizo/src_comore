@@ -23,7 +23,15 @@
                             <fieldset>
                                 <legend>
                                         Lien de parenté
-                                    <button ng-click="vm.ajouterLiendeparente()" title="Ajouter un type de Lien de parenté" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterLiendeparente()" title="Ajouter un type de Lien de parenté" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterLiendeparente()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('liendeparente')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -71,7 +79,15 @@
                             <fieldset>
                                 <legend>
                                         Handicap visuel
-                                    <button ng-click="vm.ajouterHandicapvisuel()" title="Ajouter un type de handicap visuel" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterHandicapvisuel()" title="Ajouter un type de handicap visuel" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterHandicapvisuel()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('handicap_visuel')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -119,7 +135,15 @@
                             <fieldset>
                                 <legend>
                                         Handicap parole
-                                    <button ng-click="vm.ajouterHandicapparole()" title="Ajouter un type de handicap parole" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterHandicapparole()" title="Ajouter un type de handicap parole" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterHandicapparole()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('handicap_parole')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -167,7 +191,15 @@
                             <fieldset>
                                 <legend>
                                         Handicap auditif
-                                    <button ng-click="vm.ajouterHandicapauditif()" title="Ajouter un type de handicap auditif" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterHandicapauditif()" title="Ajouter un type de handicap auditif" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterHandicapauditif()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('handicap_auditif')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -215,7 +247,15 @@
                             <fieldset>
                                 <legend>
                                         Handicap mental
-                                    <button ng-click="vm.ajouterHandicapmental()" title="Ajouter un type de handicap mental" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterHandicapmental()" title="Ajouter un type de handicap mental" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterHandicapmental()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('handicap_mental')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -263,7 +303,15 @@
                             <fieldset>
                                 <legend>
                                         Handicap moteur
-                                    <button ng-click="vm.ajouterHandicapmoteur()" title="Ajouter un type de handicap moteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterHandicapmoteur()" title="Ajouter un type de handicap moteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterHandicapmoteur()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('handicap_moteur')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataire" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -311,7 +359,15 @@
                             <fieldset>
                                 <legend>
                                         Vaccin
-                                    <button ng-click="vm.ajouterVaccin()" title="Ajouter un vaccin" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterVaccin()" title="Ajouter un vaccin" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterVaccin()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('vaccin')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tableVaccin" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>

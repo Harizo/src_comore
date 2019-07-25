@@ -6,8 +6,9 @@
         .controller('MenageController', MenageController);
 
     /** @ngInject */
-    function MenageController(apiFactory, $state, $mdDialog, $scope) {
+    function MenageController(apiFactory, $state, $mdDialog, $scope, serveur_central,$cookieStore) {
 		var vm = this;
+    vm.serveur_central = serveur_central ;
 	   vm.dtOptions =
       {
         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -16,8 +17,9 @@
         responsive: true
       };
 
-      vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Age chef de ménage"},{titre:"Sexe"},{titre:"Addresse"},{titre:"Personne inscrire"}];
-      vm.individu_column = [{titre:"Nom"},{titre:"Date de naissance"},{titre:"Activité"}];
+      vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},
+      {titre:"Age chef de ménage"},{titre:"Sexe"},{titre:"Addresse"},{titre:"Personne inscrire"},{titre:"Etat envoie"}];
+      vm.individu_column = [{titre:"Nom"},{titre:"Date de naissance"},{titre:"Activité"},{titre:"Sexe"},{titre:"Etat envoie"}];
 
       //initialisation variable
         vm.affiche_load = false ;
@@ -50,11 +52,14 @@
 
       var toillete_checked = 0 ;
       var toillete_checked_id_lien_parente = 0 ;
+      var toillete_checked_situation_matrimoniale = 0 ;
       var toillete_checked_id_handicap_visuel = 0 ;
       var toillete_checked_id_handicap_parole = 0 ;
       var toillete_checked_id_handicap_auditif = 0 ;
       var toillete_checked_id_handicap_mental = 0 ;
       var toillete_checked_id_handicap_moteur = 0 ;
+
+      
 
       vm.test_check = function()
       {
@@ -68,6 +73,18 @@
         }
       }
 
+      vm.etat_envoie = function(id_serveur_centrale)
+      {
+        if (id_serveur_centrale) 
+        {
+          return "Envoyé" ;
+        }
+        else
+        {
+          return "Non envoyé" ;
+        }
+      }
+
       vm.test_check_id_lien_parente = function()
       {
         if (toillete_checked_id_lien_parente == vm.reponse_individu.id_lien_parente) 
@@ -77,6 +94,18 @@
         else
         {
           toillete_checked_id_lien_parente = vm.reponse_individu.id_lien_parente ;
+        }
+      }
+
+      vm.test_check_situation_matrimoniale = function()
+      {
+        if (toillete_checked_situation_matrimoniale == vm.reponse_individu.situation_matrimoniale) 
+        {
+          vm.reponse_individu.situation_matrimoniale = null ;
+        }
+        else
+        {
+          toillete_checked_situation_matrimoniale = vm.reponse_individu.situation_matrimoniale ;
         }
       }
 
@@ -144,11 +173,26 @@
       //fin test check radio button
 
       //chargement clé etrangère et données de bases
-        apiFactory.getAll("ile/index").then(function(result)
+
+        vm.id_user_cookies = $cookieStore.get('id');
+        apiFactory.getOne("utilisateurs/index",vm.id_user_cookies).then(function(result)
         { 
-          vm.all_ile = result.data.response;    
+          vm.user = result.data.response;
+
+          apiFactory.getAll("ile/index").then(function(result)
+          { 
+            vm.all_ile = result.data.response;    
+
+            if (!vm.serveur_central) //si n'est pas central disable ile
+            {
+              vm.filtre.id_ile = vm.user.id_ile ;
+              vm.filtre_region();
+            }
+            
+          });
           
         });
+        
 
 
         apiFactory.getAll("source_eau/index").then(function(result)
@@ -207,6 +251,11 @@
       //QUESTIONNAIRE INDIVIDU
       apiFactory.getTable("enquete_menage/index","liendeparente").then(function(result){
         vm.allRecordsLiendeparente = result.data.response;
+      }); 
+
+      apiFactory.getTable("enquete_menage/index","situation_matrimoniale").then(function(result){
+        vm.allRecordssituation_matrimoniale = result.data.response;
+       
       }); 
       apiFactory.getTable("enquete_menage/index","handicap_visuel").then(function(result){
         vm.allRecordsHandicapvisuel = result.data.response;
@@ -367,6 +416,7 @@
         vm.individu_masque.Nom = vm.selectedItem_individu.Nom ;
         vm.individu_masque.Activite = vm.selectedItem_individu.Activite ;
         vm.individu_masque.travailleur = vm.selectedItem_individu.travailleur ;
+        vm.individu_masque.sexe = vm.selectedItem_individu.sexe ;
         vm.individu_masque.DateNaissance = new Date(vm.selectedItem_individu.DateNaissance) ;
       }
 
@@ -453,7 +503,7 @@
         apiFactory.getAPIgeneraliserREST("enquete_menage_traitement/index","cle_etrangere",menage_id).then(function(result)
         { 
           vm.enquete_by_menage = result.data.response;   
-
+          console.log(vm.enquete_by_menage);
 
           if (vm.enquete_by_menage.source_eau) 
           {
@@ -550,6 +600,7 @@
           vm.enquete_individu = result.data.response ;
 
           vm.reponse_individu.id_lien_parente = vm.enquete_individu.id_lien_parente ;
+          vm.reponse_individu.situation_matrimoniale = vm.enquete_individu.situation_matrimoniale ;
           vm.reponse_individu.id_handicap_auditif = vm.enquete_individu.id_handicap_auditif ;
           vm.reponse_individu.id_handicap_mental = vm.enquete_individu.id_handicap_mental ;
           vm.reponse_individu.id_handicap_moteur = vm.enquete_individu.id_handicap_moteur ;
@@ -618,6 +669,7 @@
           vm.selectedItem = item;
           vm.nouvelItem   = item;
 
+          console.log("id serveur menage == "+item.id_serveur_centrale);
           //get individu
           vm.get_individus_by_menage(item.id);
           vm.get_enquete_by_menage(item.id);
@@ -639,6 +691,7 @@
 
       vm.selection_individu= function (item)
       {
+        console.log(item);
 
         if (!vm.affichage_masque_individu) 
         {
@@ -694,6 +747,49 @@
             .targetEvent()
           );
         } 
+
+      function formatDateBDD(dat)
+      {
+        if (dat) 
+        {
+          var date = new Date(dat);
+          var mois = date.getMonth()+1;
+          var dates = (date.getFullYear()+"-"+mois+"-"+date.getDate());
+          return dates;
+        }
+          
+
+      }
+
+      vm.formatDateListe = function (dat)
+      {
+        if (dat) 
+        {
+          var date = new Date(dat);
+          var mois = date.getMonth()+1;
+          var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
+          return dates;
+        }
+          
+
+      }
+
+      vm.affichage_sexe_int = function(sexe_int)
+      {
+        
+        switch (sexe_int) {
+          case '1':
+            return "Homme" ;
+            break;
+          case '0':
+            return "Femme" ;
+            break;
+          default:
+            return "Non identifier"
+            break;
+        }
+      }
+
       vm.save_reponse_menage = function()
       {
 
@@ -709,6 +805,7 @@
                     {    
                       supprimer:0,
                       id: vm.id_enquete_menage ,
+                      id_serveur_centrale: vm.enquete_by_menage.id_serveur_centrale ,
                       id_menage: vm.selectedItem.id,
                       source_eau: vm.tab_reponse_source_eau,
                       toilette: vm.id_toilette,
@@ -739,20 +836,6 @@
         });  
 
         
-
-
-        /*var data = {    
-                      source_eau: vm.tab_reponse_source_eau,
-                      toilette: vm.id_toilette,
-                      bien_equipement: vm.tab_reponse_bien_equipement,                              
-                      revetement_sol: vm.tab_reponse_revetement_sol,                              
-                      revetement_toit: vm.tab_reponse_revetement_toit,                              
-                      revetement_mur: vm.tab_reponse_revetement_mur,                              
-                      type_culture: vm.tab_reponse_type_culture,                              
-                      type_elevage: vm.tab_reponse_type_elevage                            
-                    } ;
-
-        console.log(data);*/
       }
 
       vm.save_reponse_menage_programme = function()
@@ -768,10 +851,13 @@
                     {    
                       supprimer:0,
                       id: vm.id_menage_programme ,
+                      id_serveur_centrale: vm.menage_programme_liaisons.id_serveur_centrale ,
                       id_menage: vm.selectedItem.id,
                       id_programme: vm.tab_programme
                                                  
                     });
+
+        console.log("id central = "+vm.menage_programme_liaisons.id_serveur_centrale);
 
         apiFactory.add("menage_programme/index",datas, config).success(function (data) 
         {
@@ -806,6 +892,7 @@
                       id: vm.id_enquete_individu ,
                       id_individu: vm.selectedItem_individu.id,
                       id_lien_parente: reponse_individu.id_lien_parente,
+                      situation_matrimoniale: reponse_individu.situation_matrimoniale,
                       id_handicap_visuel: reponse_individu.id_handicap_visuel,
                       id_handicap_parole: reponse_individu.id_handicap_parole,
                       id_handicap_auditif: reponse_individu.id_handicap_auditif,
@@ -880,32 +967,6 @@
         }); 
       }
 
-      function formatDateBDD(dat)
-      {
-        if (dat) 
-        {
-          var date = new Date(dat);
-          var mois = date.getMonth()+1;
-          var dates = (date.getFullYear()+"-"+mois+"-"+date.getDate());
-          return dates;
-        }
-          
-
-      }
-
-      vm.formatDateListe = function (dat)
-      {
-        if (dat) 
-        {
-          var date = new Date(dat);
-          var mois = date.getMonth()+1;
-          var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
-          return dates;
-        }
-          
-
-      }
-
       vm.save_menage = function(menage)
       {
         vm.disable_button = true ;
@@ -925,6 +986,7 @@
                     {    
                       supprimer:0,
                       id: id_mng ,
+                      id_serveur_centrale: vm.selectedItem.id_serveur_centrale,
                       village_id: menage.village_id,
                       DateInscription: formatDateBDD(menage.DateInscription),
                       NumeroEnregistrement: menage.NumeroEnregistrement,
@@ -946,6 +1008,7 @@
             var mng={
 
                           id : data.response ,
+                          id_serveur_centrale : null ,
                           village_id: menage.village_id,
                           DateInscription: (menage.DateInscription),
                           NumeroEnregistrement: menage.NumeroEnregistrement,
@@ -984,6 +1047,235 @@
         }); 
       }
 
+      vm.envoie_menage = function()
+      {
+        vm.disable_button = true ;
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+
+        var id_mng = 0 ;
+
+        if (vm.selectedItem.id_serveur_centrale != null) 
+        {
+          var id_mng = vm.selectedItem.id_serveur_centrale ;
+        }
+ 
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: id_mng ,
+                      village_id: vm.selectedItem.village_id,
+                      DateInscription: formatDateBDD(vm.selectedItem.DateInscription),
+                      NumeroEnregistrement: vm.selectedItem.NumeroEnregistrement,
+                      nomchefmenage: vm.selectedItem.nomchefmenage,
+                      PersonneInscription: vm.selectedItem.PersonneInscription,
+                      agechefdemenage: vm.selectedItem.agechefdemenage,
+                      SexeChefMenage: vm.selectedItem.SexeChefMenage,
+                      Addresse: vm.selectedItem.Addresse
+                                                 
+                    });
+
+
+        apiFactory.add_serveur_central("menage/index",datas, config).success(function (data) 
+        {
+          vm.disable_button = false ;
+          vm.affichage_masque = false ;
+          vm.disable_button = false ;
+          vm.showAlert("Information",'Envoie réussi!');
+
+          if (vm.selectedItem.id_serveur_centrale == null) 
+          {
+            vm.selectedItem.id_serveur_centrale =  data.response ;
+          }
+            var datas_update_local = $.param(
+                    {    
+                      supprimer:0,
+                      id: vm.selectedItem.id ,
+                      id_serveur_centrale: data.response ,
+                      village_id: vm.selectedItem.village_id,
+                      DateInscription: formatDateBDD(vm.selectedItem.DateInscription),
+                      NumeroEnregistrement: vm.selectedItem.NumeroEnregistrement,
+                      nomchefmenage: vm.selectedItem.nomchefmenage,
+                      PersonneInscription: vm.selectedItem.PersonneInscription,
+                      agechefdemenage: vm.selectedItem.agechefdemenage,
+                      SexeChefMenage: vm.selectedItem.SexeChefMenage,
+                      Addresse: vm.selectedItem.Addresse
+                                                 
+                    });
+
+            apiFactory.add("menage/index",datas_update_local, config).success(function (dat) 
+            {
+              
+            })
+            .error(function (data) 
+            {
+              vm.disable_button = false ;
+              console.log('erreur '+dat);
+              vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+            }); 
+            
+          
+          
+        
+        })
+        .error(function (data) 
+        {
+          vm.disable_button = false ;
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        }); 
+
+        
+      }
+
+      vm.envoie_enquete_menage = function()
+      {
+        vm.disable_button = true ;
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+
+        //vm.enquete_by_menage
+
+        var id_mng = 0 ;
+
+        if (vm.enquete_by_menage.id_serveur_centrale != null) 
+        {
+          var id_mng = vm.enquete_by_menage.id_serveur_centrale ;
+        }
+
+    
+
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: id_mng ,
+                      id_menage: vm.selectedItem.id_serveur_centrale,
+                      source_eau: vm.tab_reponse_source_eau,
+                      toilette: vm.id_toilette,
+                      bien_equipement: vm.tab_reponse_bien_equipement,                              
+                      revetement_sol: vm.tab_reponse_revetement_sol,                              
+                      revetement_toit: vm.tab_reponse_revetement_toit,                              
+                      revetement_mur: vm.tab_reponse_revetement_mur,                              
+                      type_culture: vm.tab_reponse_type_culture,                              
+                      type_elevage: vm.tab_reponse_type_elevage                            
+                    });
+
+        apiFactory.add_serveur_central("enquete_menage_traitement/index",datas, config).success(function (data) 
+        {
+          vm.showAlert("Information",'Envoie réussi!');
+          vm.disable_button = false ;
+          if (vm.enquete_by_menage.id_serveur_centrale == null) 
+          {
+            vm.enquete_by_menage.id_serveur_centrale =  data.response ;
+
+          }
+
+            var datas_update_local = $.param(
+                    {    
+                      supprimer:0,
+                      id: vm.id_enquete_menage ,
+                      id_serveur_centrale: data.response ,//id serveur enquete menage
+                      id_menage: vm.selectedItem.id,//id local menage
+                      source_eau: vm.tab_reponse_source_eau,
+                      toilette: vm.id_toilette,
+                      bien_equipement: vm.tab_reponse_bien_equipement,                              
+                      revetement_sol: vm.tab_reponse_revetement_sol,                              
+                      revetement_toit: vm.tab_reponse_revetement_toit,                              
+                      revetement_mur: vm.tab_reponse_revetement_mur,                              
+                      type_culture: vm.tab_reponse_type_culture,                              
+                      type_elevage: vm.tab_reponse_type_elevage                            
+                    });
+
+
+            apiFactory.add("enquete_menage_traitement/index",datas_update_local, config).success(function (dat) 
+            {
+              
+            })
+            .error(function (dat) 
+            {
+              vm.disable_button = false ;
+              console.log('erreur '+dat);
+              vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+            }); 
+            
+          
+        })
+        .error(function (data) 
+        {
+          vm.disable_button = false ;
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        }); 
+      }
+
+      vm.envoie_menage_programme = function()
+      {
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+        //menage_programme_liaisons
+
+        var id_mng = 0 ;
+
+        if (vm.menage_programme_liaisons.id_serveur_centrale != null) 
+        {
+          var id_mng = vm.menage_programme_liaisons.id_serveur_centrale ;
+        }
+
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: id_mng ,
+                      id_menage: vm.selectedItem.id_serveur_centrale,
+                      id_programme: vm.tab_programme
+                                                 
+                    });
+
+        apiFactory.add_serveur_central("menage_programme/index",datas, config).success(function (data) 
+        {
+          vm.showAlert("Information",'Envoie réussi!');
+          if (vm.menage_programme_liaisons.id_serveur_centrale == null) 
+          {
+            vm.menage_programme_liaisons.id_serveur_centrale =  data.response ;
+          }
+
+          var datas_update_local = $.param(
+                    {    
+                      supprimer:0,
+                      id: vm.id_menage_programme ,
+                      id_serveur_centrale: data.response ,
+                      id_menage: vm.selectedItem.id,
+                      id_programme: vm.tab_programme
+                                                 
+                    });
+
+          apiFactory.add("menage_programme/index",datas_update_local, config).success(function (dat) 
+            {
+              
+            })
+            .error(function (dat) 
+            {
+              vm.disable_button = false ;
+              console.log('erreur '+dat);
+              vm.showAlert("Alerte","Erreur lors de la mis à jour!");
+            }); 
+        })
+        .error(function (data) 
+        {
+          vm.disable_button = false ;
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        });
+      }
+
       vm.save_individu = function(individu)
       {
         vm.disable_button = true ;
@@ -1003,10 +1295,12 @@
                     {    
                       supprimer:0,
                       id: id_idv ,
+                      id_serveur_centrale: vm.selectedItem_individu.id_serveur_centrale,
                       menage_id: vm.selectedItem.id,
                       DateNaissance: formatDateBDD(individu.DateNaissance),
                       Activite: individu.Activite,
                       travailleur: individu.travailleur,
+                      sexe: individu.sexe,
                       Nom: individu.Nom
                     
                                                  
@@ -1026,6 +1320,7 @@
               DateNaissance: (individu.DateNaissance),
               Activite: individu.Activite,
               travailleur: individu.travailleur,
+              sexe: individu.sexe,
               Nom: individu.Nom
             }
 
@@ -1037,10 +1332,242 @@
             vm.selectedItem_individu.Nom = vm.individu_masque.Nom  ;
             vm.selectedItem_individu.Activite = vm.individu_masque.Activite   ;
             vm.selectedItem_individu.travailleur = vm.individu_masque.travailleur  ;
+            vm.selectedItem_individu.sexe = vm.individu_masque.sexe  ;
             vm.selectedItem_individu.DateNaissance = vm.individu_masque.DateNaissance   ;
           }
           
         
+        })
+        .error(function (data) 
+        {
+          vm.disable_button = false ;
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        });
+      }
+
+      vm.envoie_individu = function()
+      {
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+
+        var id_idv = 0 ;
+
+        if (vm.selectedItem_individu.id_serveur_centrale != null) 
+        {
+          var id_idv = vm.selectedItem_individu.id_serveur_centrale ;
+        }
+
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: id_idv ,
+                      id_serveur_centrale: vm.selectedItem_individu.id_serveur_centrale,
+                      menage_id: vm.selectedItem.id_serveur_centrale,
+                      DateNaissance: formatDateBDD(vm.selectedItem_individu.DateNaissance),
+                      Activite: vm.selectedItem_individu.Activite,
+                      travailleur: vm.selectedItem_individu.travailleur,
+                      sexe: vm.selectedItem_individu.sexe,
+                      Nom: vm.selectedItem_individu.Nom
+                    
+                                                 
+                    });
+
+        apiFactory.add_serveur_central("individu/index",datas, config).success(function (data) 
+        {
+          vm.showAlert("Information",'Envoie réussi!');
+          if (vm.selectedItem_individu.id_serveur_centrale == null) 
+          {
+            vm.selectedItem_individu.id_serveur_centrale =  data.response ;
+          }
+            var datas_update_local = $.param(
+                    {    
+                      supprimer:0,
+                      id: vm.selectedItem_individu.id ,
+                      id_serveur_centrale: data.response,
+                      menage_id: vm.selectedItem.id,
+                      DateNaissance: formatDateBDD(vm.selectedItem_individu.DateNaissance),
+                      Activite: vm.selectedItem_individu.Activite,
+                      travailleur: vm.selectedItem_individu.travailleur,
+                      sexe: vm.selectedItem_individu.sexe,
+                      Nom: vm.selectedItem_individu.Nom
+                    
+                                                 
+                    });
+
+            apiFactory.add("individu/index",datas_update_local, config).success(function (dat) 
+            {
+              
+            })
+            .error(function (dat) 
+            {
+              vm.disable_button = false ;
+              console.log('erreur '+dat);
+              vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+            }); 
+          
+        })
+        .error(function (data) 
+        {
+          vm.disable_button = false ;
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        }); 
+
+      }
+
+      vm.envoie_enquete_individu = function()
+      {
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+
+        //vm.enquete_by_menage
+
+        var id_mng = 0 ;
+
+        if (vm.enquete_individu.id_serveur_centrale != null) 
+        {
+          var id_mng = vm.enquete_individu.id_serveur_centrale ;
+        }
+
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: id_mng ,
+                      id_serveur_centrale: vm.enquete_individu.id_serveur_centrale,
+                      id_individu: vm.selectedItem_individu.id_serveur_centrale,
+                      id_lien_parente: vm.reponse_individu.id_lien_parente,
+                      situation_matrimoniale: vm.reponse_individu.situation_matrimoniale,
+                      id_handicap_visuel: vm.reponse_individu.id_handicap_visuel,
+                      id_handicap_parole: vm.reponse_individu.id_handicap_parole,
+                      id_handicap_auditif: vm.reponse_individu.id_handicap_auditif,
+                      id_handicap_mental: vm.reponse_individu.id_handicap_mental,
+                      id_handicap_moteur: vm.reponse_individu.id_handicap_moteur,
+                      vaccins: vm.tab_reponse_vaccin,
+                      poids: vm.reponse_individu.enfant_femme.poids,
+                      perimetre_bracial: vm.reponse_individu.enfant_femme.perimetre_bracial,
+                      age_mois: vm.reponse_individu.enfant_femme.age_mois,
+                      taille: vm.reponse_individu.enfant_femme.taille,
+                      zscore: vm.reponse_individu.enfant_femme.zscore,
+                      mois_grossesse: vm.reponse_individu.enfant_femme.mois_grossesse
+                                                 
+                    });
+
+        apiFactory.add_serveur_central("enquete_individu_traitement/index",datas, config).success(function (data) 
+        {
+          vm.showAlert("Information",'Envoie réussi!');
+       
+          if (vm.enquete_individu.id_serveur_centrale == null) 
+          {
+            vm.enquete_individu.id_serveur_centrale =  data.response ;
+
+          }
+
+            var datas_update_local = $.param(
+                    {    
+                         
+                      supprimer:0,
+                      id: vm.id_enquete_individu ,
+                      id_serveur_centrale: data.response,
+                      id_individu: vm.selectedItem_individu.id,
+                      id_lien_parente: vm.reponse_individu.id_lien_parente,
+                      situation_matrimoniale: vm.reponse_individu.situation_matrimoniale,
+                      id_handicap_visuel: vm.reponse_individu.id_handicap_visuel,
+                      id_handicap_parole: vm.reponse_individu.id_handicap_parole,
+                      id_handicap_auditif: vm.reponse_individu.id_handicap_auditif,
+                      id_handicap_mental: vm.reponse_individu.id_handicap_mental,
+                      id_handicap_moteur: vm.reponse_individu.id_handicap_moteur,
+                      vaccins: vm.tab_reponse_vaccin,
+                      poids: vm.reponse_individu.enfant_femme.poids,
+                      perimetre_bracial: vm.reponse_individu.enfant_femme.perimetre_bracial,
+                      age_mois: vm.reponse_individu.enfant_femme.age_mois,
+                      taille: vm.reponse_individu.enfant_femme.taille,
+                      zscore: vm.reponse_individu.enfant_femme.zscore,
+                      mois_grossesse: vm.reponse_individu.enfant_femme.mois_grossesse
+                                                 
+                    });                            
+                    
+
+
+            apiFactory.add("enquete_individu_traitement/index",datas_update_local, config).success(function (dat) 
+            {
+              
+            })
+            .error(function (dat) 
+            {
+              vm.disable_button = false ;
+              console.log('erreur '+dat);
+              vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+            }); 
+        })
+        .error(function (data) 
+        {
+          vm.disable_button = false ;
+          console.log('erreur '+data);
+          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+        });
+      }
+
+      vm.envoie_individu_programme = function()
+      {
+        var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+        //menage_programme_liaisons
+
+        var id_mng = 0 ;
+
+        if (vm.individu_programme_liaisons.id_serveur_centrale != null) 
+        {
+          var id_mng = vm.individu_programme_liaisons.id_serveur_centrale ;
+        }
+
+        var datas = $.param(
+                    {    
+                      supprimer:0,
+                      id: id_mng ,
+                      id_individu: vm.selectedItem_individu.id_serveur_centrale,
+                      id_programme: vm.tab_programme_individu
+                                                 
+                    });
+
+        apiFactory.add_serveur_central("individu_programme/index",datas, config).success(function (data) 
+        {
+          vm.showAlert("Information",'Envoie réussi!');
+          if (vm.individu_programme_liaisons.id_serveur_centrale == null) 
+          {
+            vm.individu_programme_liaisons.id_serveur_centrale =  data.response ;
+          }
+
+          var datas_update_local = $.param(
+                    
+                    {    
+                      supprimer:0,
+                      id: vm.id_individu_programme ,
+                      id_serveur_centrale: data.response ,
+                      id_individu: vm.selectedItem_individu.id,
+                      id_programme: vm.tab_programme_individu
+                                                 
+                    });
+
+          apiFactory.add("individu_programme/index",datas_update_local, config).success(function (dat) 
+            {
+              
+            })
+            .error(function (dat) 
+            {
+              vm.disable_button = false ;
+              console.log('erreur '+dat);
+              vm.showAlert("Alerte","Erreur lors de la mis à jour!");
+            });
         })
         .error(function (data) 
         {

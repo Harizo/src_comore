@@ -23,7 +23,15 @@
                             <fieldset style="width: 100%">
                                 <legend>
                                         Agence d'execution
-                                    <button ng-click="vm.ajouterAgent_ex()" title="Ajouter un type d'acteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterAgent_ex()" title="Ajouter un type d'acteur" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterAgent_ex()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('agent_ex/index','see_agex')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tablePrestataireAgent_ex" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -124,7 +132,16 @@
                             <fieldset>
                                 <legend>
                                         Agence de paiement
-                                    <button ng-click="vm.ajouterAgence_p()" title="Ajouter un agence de paiement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterAgence_p()" title="Ajouter un agence de paiement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterAgence_p()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('agence_p/index','see_agent')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
                                 </legend>
                                 <table ng-table="tablePrestataireagence_p" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -234,7 +251,17 @@
                             <fieldset layout="column" layout-gt-xs="row">
                                 <legend>
                                         Cellule de protection sociale
-                                    <button ng-click="vm.ajouterProtection_sociale()" title="Ajouter un Cellule de protection sociale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterProtection_sociale()" title="Ajouter un Cellule de protection sociale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterProtection_sociale()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('protection_sociale/index','see_celluleprotectionsociale')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+
                                 </legend>
                                 <table ng-table="tablePrestatairePsociale" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>

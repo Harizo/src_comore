@@ -18,7 +18,7 @@
       vm.infoAssuj = {} ;
 
       vm.column = [{"titre":"Nom"},{"titre":"Prénom"},{"titre":"Email"},
-      {"titre":"Etat"},{"titre":"Envoi des données"},{"titre":"Privilège"}];
+      {"titre":"Etat"},{"titre":"Île"},{"titre":"Privilège"}];
 
       vm.dtOptions = {
         dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -26,6 +26,23 @@
         autoWidth : false,
         responsive: true
     };
+
+
+      apiFactory.getAll("ile/index").then(function(result)
+      { 
+        vm.all_ile = result.data.response;    
+        
+      });
+
+      vm.affichage_ile = function(id_ile)
+      {
+        var tab_ile = vm.all_ile ;
+        var ile = tab_ile.filter(function(obj) {
+            
+                    return obj.id == id_ile;
+                  });
+        return ile[0].Ile;
+      }
 
 
       apiFactory.getAll("utilisateurs/index").then(function(result) {
