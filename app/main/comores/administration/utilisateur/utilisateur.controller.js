@@ -224,9 +224,16 @@
 
                   case 'TTM':
                   {
-                      vm.user.psp = true ;
+                      vm.user.ttm = true ;
                       break;
                   }
+
+                  case 'RPT':
+                  {
+                      vm.user.rpt = true ;
+                      break;
+                  }
+
 
 
                   default:
@@ -271,6 +278,9 @@
                   tab.push(key.toUpperCase());
               if(key == 'ttm' && value == true)
                   tab.push(key.toUpperCase());
+
+              if(key == 'rpt' && value == true)
+                tab.push(key.toUpperCase());
               
               
           });
@@ -330,22 +340,10 @@
                   vm.selectedItem.nom = user.nom;
                   vm.selectedItem.email = user.email;
                   vm.selectedItem.prenom = user.prenom;
-                  vm.selectedItem.sigle = user.sigle;
+               
                   vm.selectedItem.enabled = user.enabled;
                   vm.selectedItem.envoi_donnees = user.envoi_donnees;
-                  vm.selectedItem.assujettis = vm.infoAssuj;
-                  vm.selectedItem.personnel = vm.pers;
-
-             /*     
-
-                  angular.forEach(vm.allSite, function(value, key)
-                  {
-                      if (value.id == user.site_id) 
-                      {
-                          vm.selectedItem.site = value ;
-                      };
-                    
-                  });*/
+                 
 
 
                   vm.user = {} ;

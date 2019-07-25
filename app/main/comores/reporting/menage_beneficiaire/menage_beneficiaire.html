@@ -27,7 +27,7 @@
                                 <md-input-container>
                                     <span>Du</span>
                                 </md-input-container>
-                                <md-datepicker  ng-model="vm.filtre.date_debut" md-max-date="vm.filtre.date_fin"  md-placeholder="Date début" >                       
+                                <md-datepicker  ng-model="vm.filtre.date_debut" md-max-date="vm.filtre.date_fin"  md-placeholder="Date début" required>                       
                                 </md-datepicker>
                            
                             </div>
@@ -42,7 +42,7 @@
 
                             <div layout="column" layout-gt-xs="row" >
                         
-                                <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.date_now" ng-model="vm.filtre.date_fin"   md-placeholder="Date fin">                       
+                                <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.date_now" ng-model="vm.filtre.date_fin"   md-placeholder="Date fin" required>                       
                                 </md-datepicker>
                            
                             </div>

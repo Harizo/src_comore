@@ -23,8 +23,8 @@
 
 		vm.transfert_monetaire_menage_column =  [ 	
 								{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},
-								{titre:"Date"},{titre:"nom_partenaire"},{titre:"nom_agence_payement"},{titre:"type_transfert"},
-								{titre:"somme_montant(KMF)"}
+								{titre:"Date"},{titre:"Partenaire"},{titre:"Agence de paiement"},{titre:"Type de transfert"},
+								{titre:"Montant(KMF)"}
 							];
 
 		

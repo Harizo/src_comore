@@ -196,7 +196,7 @@
                                   Actualiser
                               </md-button>
                               <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                  ng-if="vm.affichage_masque" ng-disabled="filtrepardateform.$invalid" ng-click="vm.save_menage(vm.filtre)">
+                                  ng-if="vm.affichage_masque" ng-disabled="(filtrepardateform.$invalid)||(vm.disable_button)" ng-click="vm.save_menage(vm.filtre)">
                                   Enregistrer
                               </md-button>
                               <md-button type="submit" class="md-raised md-primary" aria-label="Enregistrer"
@@ -253,7 +253,7 @@
 
                         <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Toilette</legend>
-                            <md-radio-group ng-model="vm.id_toilette">
+                            <md-radio-group ng-model="vm.id_toilette" ng-checked="" ng-click="vm.test_check()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.all_toilette'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -431,7 +431,7 @@
                                 <md-input-container>
                                 <span>Date de naissance</span>
                                 </md-input-container>
-                                <md-datepicker ng-model="vm.individu_masque.DateNaissance"   md-placeholder="Date ed naissance" >                       
+                                <md-datepicker ng-model="vm.individu_masque.DateNaissance" md-max-date="vm.date_now"  md-placeholder="Date ed naissance" >                       
                                 </md-datepicker>
                            
                             </div>
@@ -441,7 +441,7 @@
                      
                               
                               <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                  ng-if="vm.affichage_masque_individu" ng-disabled="individu_form.$invalid" ng-click="vm.save_individu(vm.individu_masque)">
+                                  ng-if="vm.affichage_masque_individu" ng-disabled="(individu_form.$invalid)||(vm.disable_button)" ng-click="vm.save_individu(vm.individu_masque)">
                                   Enregistrer
                               </md-button>
                               <md-button type="submit" class="md-raised md-primary" aria-label="Enregistrer"
@@ -476,7 +476,7 @@
 
                       <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Lien parenté</legend>
-                            <md-radio-group ng-model="vm.reponse_individu.id_lien_parente">
+                            <md-radio-group ng-model="vm.reponse_individu.id_lien_parente" ng-click="vm.test_check_id_lien_parente()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsLiendeparente'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -487,7 +487,7 @@
 
                         <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Handicap visuel</legend>
-                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_visuel">
+                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_visuel" ng-click="vm.test_check_id_handicap_visuel()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsHandicapvisuel'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -498,7 +498,7 @@
 
                         <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Handicap Parole</legend>
-                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_parole">
+                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_parole" ng-click="vm.test_check_id_handicap_parole()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsHandicapparole'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -509,7 +509,7 @@
 
                         <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Handicap auditif</legend>
-                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_auditif">
+                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_auditif" ng-click="vm.test_check_id_handicap_auditif()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsHandicapauditif'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -520,7 +520,7 @@
 
                         <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Handicap mental</legend>
-                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_mental">
+                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_mental" ng-click="vm.test_check_id_handicap_mental()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsHandicapmental'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -531,7 +531,7 @@
 
                         <fieldset class="standard" >
                             <legend  class="md-grey-800-bg">Handicap moteur</legend>
-                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_moteur">
+                            <md-radio-group ng-model="vm.reponse_individu.id_handicap_moteur" ng-click="vm.test_check_id_handicap_moteur()">
                                 <div layout="row" layout-wrap flex>
                                 <div flex="50" ng-repeat='t in vm.allRecordsHandicapmoteur'>
                                     <md-radio-button ng-value="t.id" >{{t.description}}</md-radio-button>
@@ -593,6 +593,9 @@
                             </div>
                         </fieldset>
 
+                        <fieldset class="standard " >
+                            <legend class="md-grey-800-bg">Situation matrimoniale</legend>
+                        </fieldset>
                         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                      
                           <md-button class="md-raised md-primary" ng-if="vm.id_enquete_individu != 0" ng-disabled="vm.disable_button" ng-click="vm.save_reponse_individu(vm.reponse_individu)">Mettre à jour</md-button>

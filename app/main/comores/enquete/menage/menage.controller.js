@@ -41,9 +41,107 @@
         vm.nouvelle_element_individu = false ;
         vm.affichage_masque = false ;
         vm.affichage_masque_individu = false ;
+        vm.date_now = new Date() ;
 
         vm.disable_button = false ;
       //initialisation variable
+
+      //test check radio button
+
+      var toillete_checked = 0 ;
+      var toillete_checked_id_lien_parente = 0 ;
+      var toillete_checked_id_handicap_visuel = 0 ;
+      var toillete_checked_id_handicap_parole = 0 ;
+      var toillete_checked_id_handicap_auditif = 0 ;
+      var toillete_checked_id_handicap_mental = 0 ;
+      var toillete_checked_id_handicap_moteur = 0 ;
+
+      vm.test_check = function()
+      {
+        if (toillete_checked == vm.id_toilette) 
+        {
+          vm.id_toilette = null ;
+        }
+        else
+        {
+          toillete_checked = vm.id_toilette ;
+        }
+      }
+
+      vm.test_check_id_lien_parente = function()
+      {
+        if (toillete_checked_id_lien_parente == vm.reponse_individu.id_lien_parente) 
+        {
+          vm.reponse_individu.id_lien_parente = null ;
+        }
+        else
+        {
+          toillete_checked_id_lien_parente = vm.reponse_individu.id_lien_parente ;
+        }
+      }
+
+      vm.test_check_id_handicap_visuel = function()
+      {
+        if (toillete_checked_id_handicap_visuel == vm.reponse_individu.id_handicap_visuel) 
+        {
+          vm.reponse_individu.id_handicap_visuel = null ;
+        }
+        else
+        {
+          toillete_checked_id_handicap_visuel = vm.reponse_individu.id_handicap_visuel ;
+        }
+      }
+
+      vm.test_check_id_handicap_parole = function()
+      {
+        if (toillete_checked_id_handicap_parole == vm.reponse_individu.id_handicap_parole) 
+        {
+          vm.reponse_individu.id_handicap_parole = null ;
+        }
+        else
+        {
+          toillete_checked_id_handicap_parole = vm.reponse_individu.id_handicap_parole ;
+        }
+      }
+
+      vm.test_check_id_handicap_auditif = function()
+      {
+        if (toillete_checked_id_handicap_auditif == vm.reponse_individu.id_handicap_auditif) 
+        {
+          vm.reponse_individu.id_handicap_auditif = null ;
+        }
+        else
+        {
+          toillete_checked_id_handicap_auditif = vm.reponse_individu.id_handicap_auditif ;
+        }
+      }
+
+      vm.test_check_id_handicap_mental = function()
+      {
+        if (toillete_checked_id_handicap_mental == vm.reponse_individu.id_handicap_mental) 
+        {
+          vm.reponse_individu.id_handicap_mental = null ;
+        }
+        else
+        {
+          toillete_checked_id_handicap_mental = vm.reponse_individu.id_handicap_mental ;
+        }
+      }
+
+      vm.test_check_id_handicap_moteur = function()
+      {
+        if (toillete_checked_id_handicap_moteur == vm.reponse_individu.id_handicap_moteur) 
+        {
+          vm.reponse_individu.id_handicap_moteur = null ;
+        }
+        else
+        {
+          toillete_checked_id_handicap_moteur = vm.reponse_individu.id_handicap_moteur ;
+        }
+      }
+
+
+      //fin test check radio button
 
       //chargement clé etrangère et données de bases
         apiFactory.getAll("ile/index").then(function(result)
@@ -258,6 +356,7 @@
       {
         vm.affichage_masque_individu = true ;
         vm.nouvelle_element_individu = true ;
+        vm.individu_masque = {} ;
       }
 
       vm.modifier_individu = function()

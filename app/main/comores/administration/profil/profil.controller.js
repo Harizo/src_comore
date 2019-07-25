@@ -18,7 +18,7 @@
 	      {
 	        vm.user = result.data.response;
 	   
-
+            console.log(vm.user);
 	        vm.profil = {} ;
 	        vm.profil.nom = vm.user.nom ;
 	        vm.profil.prenom = vm.user.prenom ;
@@ -37,7 +37,8 @@
 
             var datas = $.param(
             {
-            	profil:1,
+                profil:1,
+            	gestion_utilisateur:1,
                 id:vm.user.id,      
                 nom: profil.nom,
                 prenom: profil.prenom,

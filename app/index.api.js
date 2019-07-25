@@ -134,7 +134,7 @@
 
                  // $location.path("/accueil");//si n'est pas packeT
                   
-                      $window.location.href = '/comores';
+                      $window.location.href = '/rsu';
                     }
                   }else{
 
