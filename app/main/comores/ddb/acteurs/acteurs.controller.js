@@ -250,11 +250,11 @@ console.log(dat);
 		function ajout(agent_e,suppression) {
             
             if (NouvelItemAgent_ex==false) 
-              {
+              {console.log('2');
                 test_existence (agent_e,suppression); 
               }
               else
-              {
+              { console.log('d');
                 insert_in_base(agent_e,suppression);
               }
         }

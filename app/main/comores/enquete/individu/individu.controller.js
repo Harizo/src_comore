@@ -49,6 +49,11 @@
 		vm.selectedItemIndividu.nutrition = [];
 		vm.selectedItemIndividu.transfert_argent = [];
 		vm.selectedItemIndividu.promotion_genre = [];
+		vm.affichesuivimenagepardefaut =1;
+		vm.affichesuivimenagenutrition =0;
+		vm.selectedItemMenage.detail_suivi_menage =[];
+		vm.selectedItemMenage.nutrition =[];
+		vm.selectedItemMenage.transfert_argent =[];
 		vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Personne inscrire"},{titre:"Age"},{titre:"Addresse"}];
 		vm.individu_column = [{titre:"N° d'enregistrement"},{titre:"Chef Ménage"},{titre:"Nom"},{titre:"Date Naissance"},{titre:"Addresse"}];
 		vm.suivi_menage_column = [{titre:"Nom"},{titre:"Date"},{titre:"Partenaire"},{titre:"Acteur"},{titre:"Type-Transf"},{titre:"Montant"}];
@@ -73,7 +78,7 @@
 		{ 
 			vm.all_programme_temp = result.data.response;           
 			vm.all_programme = vm.all_programme_temp.filter(function(obj) {
-				return (obj.id != 5 && obj.id !=3);
+				return (obj.id != 5);
 			});				
 		});
 		apiFactory.getAll("source_financement/index").then(function(result){
@@ -118,7 +123,21 @@
 					vm.all_menage_programme = []; 
 					vm.showAlert("INFORMATION","Aucun enregistrement trouvé !")	
 				}			
+				vm.filtrer_DataTable_et_masque_saisie_menage();
+				// 5 lignes Dangereux : toujours à réinitialiser sinon bonjour le dégat lors du réaffichage du datatable
+				vm.selectedItemMenage.nutrition = [];
+				vm.selectedItemMenage.transfert_argent = [];
 			});
+		}
+		vm.filtrer_DataTable_et_masque_saisie_menage = function() {
+			if(parseInt(vm.id_programme)==3) {
+				vm.affichesuivimenagepardefaut =0;
+				vm.affichesuivimenagenutrition =1;				
+			} else if (parseInt(vm.id_programme)==1) {
+				// Transfert monétaire
+				vm.affichesuivimenagepardefaut =1;
+				vm.affichesuivimenagenutrition =0;				
+			}			
 		}
 		vm.filtrer_DataTable_et_masque_saisie_individu = function() {
 			if(parseInt(vm.id_programme)==3) {
@@ -169,7 +188,7 @@
 			// Rétirer de la liste du programme la promotion du genre pour le ménage : disponible seulement pour les individus
 			if(parseInt(value)==1) {
 				vm.all_programme = vm.all_programme_temp.filter(function(obj) {
-					return (obj.id != 5 && obj.id != 3);
+					return (obj.id != 5 );
 				});				
 			} else {
 				vm.all_programme=vm.all_programme_temp;
@@ -203,15 +222,24 @@
 			if(parseInt(vm.selectedItemMenage.detail_charge)==0) {
 				apiFactory.getAPIgeneraliserREST("suivi_menage/index","id_programme",vm.id_programme,"id_menage",vm.selectedItemMenage.id_menage).then(function(result)
 				{ 
+					item.detail_suivi_menage = []; 
+					item.nutrition = [];
+					item.transfert_argent = [];
+					/*vm.selectedItemmenage.detail_suivi_menage = [];
+					vm.selectedItemmenage.nutrition = [];
+					vm.selectedItemmenage.transfert_argent = [];*/
 					if(result.data.response.length >0) {
 						item.detail_suivi_menage = result.data.response; 
-						vm.selectedItemMenage.detail_suivi_menage = result.data.response; 	
+						item.nutrition = result.data.response[0].nutrition; 	
+						item.transfert_argent = result.data.response[0].transfert_argent; 	
+						/*vm.selectedItemmenage.detail_suivi_menage = result.data.response; 	
+						vm.selectedItemmenage.nutrition = result.data.response[0].nutrition; 	
+						vm.selectedItemmenage.transfert_argent = result.data.response[0].transfert_argent; */	
 					} else {
-						item.detail_suivi_menage = []; 
-						vm.selectedItemMenage.detail_suivi_menage = [];
 						vm.showAlert("INFORMATION","Aucun détail d'enregistrement trouvé !")	
 					}			
 					item.detail_charge=1;
+					// vm.selectedItemmenage.detail_charge=1;
 				});
 			}	
 		}
@@ -232,19 +260,39 @@
             vm.afficherboutonnouveau = 1 ;
 		}
 		$scope.$watch('vm.selectedItemDetailSuiviMenage', function() {
-			if (!vm.selectedItemMenage.detail_suivi_menage) return;
-			vm.selectedItemMenage.detail_suivi_menage.forEach(function(item) {
-				item.$selected = false;
-			});
-			vm.selectedItemDetailSuiviMenage.$selected = true;
+			if(parseInt(vm.id_programme)==1) {
+				if (!vm.selectedItemMenage.transfert_argent) return;
+				vm.selectedItemMenage.transfert_argent.forEach(function(item) {
+					item.$selected = false;
+				});				
+				vm.selectedItemDetailSuiviMenage.$selected = true;
+			} else if(parseInt(vm.id_programme)==3) {
+				if (!vm.selectedItemMenage.nutrition) return;
+				vm.selectedItemMenage.nutrition.forEach(function(item) {
+					item.$selected = false;
+				});				
+				vm.selectedItemDetailSuiviMenage.$selected = true;
+			}		
 		});
         vm.ajouterSuiviMenage = function () {
 			vm.affichageMasque = 1 ;
 			NouvelItemSuiviMenage = true ;
+			vm.filtrer_DataTable_et_masque_saisie_menage();
 			vm.suivimenage.id=0;
 			vm.suivimenage.id_menage=vm.selectedItemMenage.id_menage;
+			vm.suivimenage.nomchefmenage=vm.selectedItemMenage.nomchefmenage;
 			vm.suivimenage.date_suivi=null;
 			vm.suivimenage.montant=null;
+			vm.suivimenage.id_acteur=null;
+			vm.suivimenage.id_partenaire=null;
+			vm.suivimenage.id_type_transfert=null;
+			vm.suivimenage.montant=null;
+			vm.suivimenage.poids=null;
+			vm.suivimenage.taille=null;
+			vm.suivimenage.perimetre_bracial=null;
+			vm.suivimenage.age_mois=null;
+			vm.suivimenage.zscore=null;
+			vm.suivimenage.mois_grossesse=null;
 		}      
         vm.annulerSuiviMenage = function() {
 			vm.selectedItemDetailSuiviMenage = {} ;
@@ -260,13 +308,59 @@
 			vm.suivimenage.id_menage=vm.selectedItemMenage.id_menage;
 			if(vm.selectedItemDetailSuiviMenage.date_suivi) {
 				vm.suivimenage.date_suivi=new Date(vm.selectedItemDetailSuiviMenage.date_suivi);
+			} else {
+				vm.suivimenage.date_suivi=null;
 			}
 			if(vm.selectedItemDetailSuiviMenage.montant) {
 				vm.suivimenage.montant=parseFloat(vm.selectedItemDetailSuiviMenage.montant);
+			} else {
+				vm.suivimenage.montant=null;
 			}
-			vm.suivimenage.id_partenaire=parseInt(vm.selectedItemDetailSuiviMenage.id_partenaire);
-			vm.suivimenage.id_acteur=parseInt(vm.selectedItemDetailSuiviMenage.id_acteur);
-			vm.suivimenage.id_type_transfert=parseInt(vm.selectedItemDetailSuiviMenage.id_type_transfert);
+			if(vm.selectedItemDetailSuiviMenage.id_partenaire) {
+				vm.suivimenage.id_partenaire=parseFloat(vm.selectedItemDetailSuiviMenage.id_partenaire);
+			} else {
+				vm.suivimenage.id_partenaire=null;
+			}
+			if(vm.selectedItemDetailSuiviMenage.id_acteur) {
+				vm.suivimenage.id_acteur=parseFloat(vm.selectedItemDetailSuiviMenage.id_acteur);
+			} else {
+				vm.suivimenage.id_acteur=null;
+			}
+			if(vm.selectedItemDetailSuiviMenage.id_type_transfert) {
+				vm.suivimenage.id_type_transfert=parseFloat(vm.selectedItemDetailSuiviMenage.id_type_transfert);
+			} else {
+				vm.suivimenage.id_type_transfert=null;
+			}
+			if(vm.selectedItemDetailSuiviMenage.perimetre_bracial) {
+				vm.suivimenage.perimetre_bracial=parseFloat(vm.selectedItemDetailSuiviMenage.perimetre_bracial);
+			} else {
+				vm.suivimenage.perimetre_bracial=null;
+			}			
+			if(vm.selectedItemDetailSuiviMenage.taille) {
+				vm.suivimenage.taille=parseInt(vm.selectedItemDetailSuiviMenage.taille);
+			} else {
+				vm.suivimenage.taille=null;
+			}	
+			if(vm.selectedItemDetailSuiviMenage.poids) {
+				vm.suivimenage.poids=parseFloat(vm.selectedItemDetailSuiviMenage.poids);
+			} else {
+				vm.suivimenage.poids=null;
+			}	
+			if(vm.selectedItemDetailSuiviMenage.zscore) {
+				vm.suivimenage.zscore=parseFloat(vm.selectedItemDetailSuiviMenage.zscore);
+			} else {
+				vm.suivimenage.zscore=null;
+			}	
+			if(vm.selectedItemDetailSuiviMenage.age_mois) {
+				vm.suivimenage.age_mois=parseInt(vm.selectedItemDetailSuiviMenage.age_mois);
+			} else {
+				vm.suivimenage.age_mois=null;
+			}	
+			if(vm.selectedItemDetailSuiviMenage.mois_grossesse) {
+				vm.suivimenage.mois_grossesse=parseInt(vm.selectedItemDetailSuiviMenage.mois_grossesse);
+			} else {
+				vm.suivimenage.mois_grossesse=null;
+			}	
 			vm.affichageMasque = 1 ;
 			vm.afficherboutonModifSupr = 0;
 			vm.afficherboutonnouveau = 0;  
@@ -297,6 +391,12 @@
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                 }
             };
+			if(parseInt(suppression)==0) {
+				var daty = formatDate(suivimenage.date_suivi);
+			} else {
+				// ignorer formatDate lors de la suppression
+				var daty = suivimenage.date_suivi;
+			}
             var getId = 0;
             if (NouvelItemSuiviMenage==false) {
                getId = vm.selectedItemDetailSuiviMenage.id; 
@@ -309,31 +409,49 @@
                     id_partenaire: suivimenage.id_partenaire,
                     id_acteur: suivimenage.id_acteur,
                     id_type_transfert: suivimenage.id_type_transfert,
-                    date_suivi: formatDate(suivimenage.date_suivi),
+                    date_suivi: daty,
                     montant: suivimenage.montant,
-            });  
+                    poids: suivimenage.poids,
+                    perimetre_bracial: suivimenage.perimetre_bracial,
+                    age_mois: suivimenage.age_mois,
+                    taille: suivimenage.taille,
+                    zscore: suivimenage.zscore,
+                    mois_grossesse: suivimenage.mois_grossesse,
+           });  
             //factory
             apiFactory.add("suivi_menage/index",datas, config).success(function (data) {
 				if (NouvelItemSuiviMenage == false) {                 
                    // Update or delete: id exclu                    
                     if(suppression==0) { 
-						vm.selectedItemDetailSuiviMenage.id_partenaire=suivimenage.id_partenaire;
-						vm.selectedItemDetailSuiviMenage.partenaire=suivimenage.partenaire;
-						vm.selectedItemDetailSuiviMenage.id_acteur=suivimenage.id_acteur;                 
-						vm.selectedItemDetailSuiviMenage.acteur=suivimenage.acteur;                 
-						vm.selectedItemDetailSuiviMenage.id_type_transfert=suivimenage.id_type_transfert;                 
-						vm.selectedItemDetailSuiviMenage.typetransfert=suivimenage.typetransfert;                 
-						vm.selectedItemDetailSuiviMenage.date_suivi=suivimenage.date_suivi; 
-						vm.selectedItemDetailSuiviMenage.montant=suivimenage.montant;
+						if(parseInt(vm.id_programme)==1) {
+							for (var i = 0; i < vm.selectedItemMenage.transfert_argent.length; i++) {
+								if(parseInt(vm.selectedItemMenage.transfert_argent[i].id)==parseInt(suivimenage.id)) {
+									vm.selectedItemMenage.transfert_argent[i]=suivimenage;
+									vm.selectedItemDetailSuiviMenage=suivimenage;
+								}          
+							}							
+						} else if(parseInt(vm.id_programme)==3) {
+							for (var i = 0; i < vm.selectedItemMenage.nutrition.length; i++) {
+								if(parseInt(vm.selectedItemMenage.nutrition[i].id)==parseInt(suivimenage.id)) {
+									vm.selectedItemMenage.nutrition[i]=suivimenage;
+									vm.selectedItemDetailSuiviMenage=suivimenage;
+								}          
+							}							
+						}
 						vm.afficherboutonModifSupr = 0 ;
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItemDetailSuiviMenage.$selected = false;
 						vm.selectedItemDetailSuiviMenage ={};
                     } else {                      
-						vm.allsuivimenage = vm.allsuivimenage.filter(function(obj) {
-							return obj.id !== currentItem.id;
-						});
-                    }
+						if(parseInt(vm.id_programme)==1) {
+							vm.selectedItemMenage.transfert_argent = vm.selectedItemMenage.transfert_argent.filter(function(obj) {
+								return obj.id !== currentItem.id;
+							});
+						} else if(parseInt(vm.id_programme)==3) {
+							vm.selectedItemMenage.nutrition = vm.selectedItemMenage.nutrition.filter(function(obj) {
+								return obj.id !== currentItem.id;
+							});
+						}                    }
 				} else {                               
                     var item = {
 						id_menage: vm.selectedItemMenage.id_menage,
@@ -347,9 +465,20 @@
 						typetransfert: suivimenage.typetransfert,
 						date_suivi: (suivimenage.date_suivi),
 						montant: suivimenage.montant,
+						poids: suivimenage.poids,
+						perimetre_bracial: suivimenage.perimetre_bracial,
+						age_mois: suivimenage.age_mois,
+						taille: suivimenage.taille,
+						zscore: suivimenage.zscore,
+						mois_grossesse: suivimenage.mois_grossesse,
 						id:String(data.response) ,
 					};
-					vm.selectedItemMenage.detail_suivi_menage.push(item); 
+					if(parseInt(vm.id_programme)==1) {
+						vm.selectedItemMenage.transfert_argent.push(item); 
+					} else if(parseInt(vm.id_programme)==3) {
+						vm.selectedItemMenage.nutrition.push(item); 
+					} 
+					// vm.selectedItemMenage.detail_suivi_menage.push(item); 
                     NouvelItemSuiviMenage=false;
 				}
                   vm.affichageMasque = 0 ;
