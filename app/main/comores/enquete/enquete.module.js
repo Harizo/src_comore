@@ -16,7 +16,7 @@
     {
         msNavigationServiceProvider.saveItem('comores.enquete', {
             title : 'Traitement',
-            icon  : 'icon-data',
+            icon  : 'icon-folder-outline',
             weight: 2,
             hidden: function()
             {

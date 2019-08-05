@@ -17,7 +17,7 @@
     {
         msNavigationServiceProvider.saveItem('comores.reporting', {
             title : 'Reporting',
-            icon  : 'icon-data',
+            icon  : 'icon-chart-line',
             weight: 4,
             hidden: function()
             {

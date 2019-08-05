@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('comores.enquete.individu', {
             title: 'Suivi',
-            icon  : 'icon-swap-horizontal',
+            icon  : 'icon-clipboard-text',
             state: 'app.comores_enquete_individu',
             weight: 2
         });

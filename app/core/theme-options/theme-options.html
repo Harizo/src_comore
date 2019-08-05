@@ -1,0 +1,42 @@
+<div class="ms-theme-options-panel" layout="row" layout-align="start start" ng-if="(vm.loc.path() == '/auth/tableau_bord')||(vm.loc.path() == '/auth/login')||(vm.loc.path() == '/auth/register')">
+
+    <div class="ms-theme-options-panel-button md-primary-bg" ng-click="toggleOptionsPanel()">
+        <md-icon md-font-icon="icon-cog" class="white-text"></md-icon>
+    </div>
+
+    <div class="ms-theme-options-list" layout="column">
+        <!--div class="theme-option">
+            <div class="option-title">Style de mise en page:</div>
+
+            <md-radio-group layout="column" ng-model="vm.layoutStyle"
+                            ng-change="vm.updateLayoutStyle()">
+                <md-radio-button value="verticalNavigation">Navigation Verticale</md-radio-button>
+                <md-radio-button value="horizontalNavigation">Navigation Horizontale</md-radio-button>
+                <md-radio-button value="contentOnly">Contenu seulement</md-radio-button>
+                <md-radio-button value="contentWithToolbar">Contenu avec la barre d'outils</md-radio-button>
+            </md-radio-group>
+        </div!-->
+
+        <div class="theme-option">
+            <div class="register" layout="row" layout-sm="column" layout-align="center center">
+                <a class="link" ui-sref="app.comores_auth_tableau_bord" ><span>Consulter tableau de bord</span> </a>
+            </div>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div class="theme-option">
+            <div class="register" layout="row" layout-sm="column" layout-align="center center">
+                <a class="link" ui-sref="app.comores_auth_login" ><span>Se connecter</span> </a>
+            </div>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div class="theme-option">
+            <div class="register" layout="row" layout-sm="column" layout-align="center center">
+                <a class="link" ui-sref="app.comores_auth_register" ><span>Céer un compte</span> </a>
+            </div>
+        </div>
+    </div>
+</div>

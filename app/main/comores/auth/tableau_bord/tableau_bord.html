@@ -1,9 +1,9 @@
 <div id="dashboard-server">
-    <div  class="text-right">
+    <!--div  class="text-right">
        
         <a ui-sref="app.comores_auth_login" ><strong>Se connecter</strong></a>
         <a ui-sref="app.comores_auth_register" ><small>Créer un compte</small></a>
-    </div>
+    </div!-->
     
     <div class="content" >
 
@@ -38,11 +38,11 @@
                             </div>
                           </th>
 
-                          <th class="primary-text md-accent-bg" >
+                          <!--th class="primary-text md-accent-bg" >
                             <div class="table-header">
                               <span class="column-title text-center">Nombre ménage enregistré</span>
                             </div>
-                          </th>
+                          </th!-->
 
                           <th class="primary-text md-accent-bg" >
                             <div class="table-header">
@@ -64,7 +64,7 @@
                            <!--nbr_menage_par_programme -->
                             <td ng-if="key!='total'" >{{data.libelle}}</td>                
                             <td ng-if="key!='total'" >{{data.nbr}}</td>
-                            <td> - </td>
+                            <!--td> - </td!-->
                             <!--td ng-if="key!='total'" ng-show="vm.pivot=='nbr_menage_par_programme'">{{data.nbr_menage_enregistrer}}</td!-->
                             <td ng-if="key!='total'" >{{vm.parseFloat((data.nbr * 100)/(data.nbr_menage_enregistrer))}} %</td>
 
@@ -77,11 +77,10 @@
                       <tfoot>
                           <tr>
 
-                              <td></td>
-                              <td>Nombre total de ménage bénéficiaire: {{vm.data_via_base.total}}</td>
                               
-                              <td>{{vm.data_via_base[0].nbr_menage_enregistrer}} Ménage(s)</td>
-                              <td>Stat générale: {{vm.parseFloat((vm.data_via_base.total * 100)/(vm.data_via_base[0].nbr_menage_enregistrer))}} %</td>
+                              <td colspan="3"> <b><u>Nombre total de ménage bénéficiaire:</u></b> {{vm.data_via_base.total}} sur {{vm.data_via_base[0].nbr_menage_enregistrer}} Ménage(s) enregistré(s)   <b><u>Stat générale:</u></b>  {{vm.parseFloat((vm.data_via_base.total * 100)/(vm.data_via_base[0].nbr_menage_enregistrer))}} %</td>
+                              
+                              
                           </tr>
                       </tfoot>
                     </table>
@@ -131,11 +130,11 @@
                                   </div>
                                 </th>
 
-                                <th class="primary-text md-accent-bg" >
+                                <!--th class="primary-text md-accent-bg" >
                                   <div class="table-header">
                                     <span class="column-title text-center">Nombre individu enregistré</span>
                                   </div>
-                                </th>
+                                </th!-->
 
                                 <th class="primary-text md-accent-bg" >
                                   <div class="table-header">
@@ -157,7 +156,7 @@
                                  <!--nbr_menage_par_programme -->
                                   <td ng-if="key!='total'">{{data.libelle}}</td>                
                                   <td ng-if="key!='total'">{{data.nbr}}</td>
-                                  <td> - </td>
+                                  <!--td> - </td!-->
                                   <!--td ng-if="key!='total'">{{data.nbr_individu_enregistrer}}</td!-->
                                   <td ng-if="key!='total'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_individu_enregistrer))}} %</td>
 
@@ -168,11 +167,11 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td></td>
-                                    <td>Nombre total d'individu bénéficiaire : {{vm.data_via_base_nbr_individu.total}}</td>
+                                   
+                                    <td colspan="4"> <b><u>Nombre total d'individu bénéficiaire:</u></b>  {{vm.data_via_base_nbr_individu.total}} sur {{vm.data_via_base_nbr_individu[0].nbr_individu_enregistrer}} Individu(s) enregistré(s) <b><u>Stat générale: </u></b> {{vm.parseFloat((vm.data_via_base_nbr_individu.total * 100)/(vm.data_via_base_nbr_individu[0].nbr_individu_enregistrer))}} %
+                                    </td>
                                     
-                                    <td>{{vm.data_via_base_nbr_individu[0].nbr_individu_enregistrer}} Individu(s)</td>
-                                    <td>Stat générale: {{vm.parseFloat((vm.data_via_base_nbr_individu.total * 100)/(vm.data_via_base_nbr_individu[0].nbr_individu_enregistrer))}} %</td>
+                                   
                                 </tr>
                             </tfoot>
                       </table>
@@ -248,7 +247,7 @@
                             <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td>Nombre de cas d'handicap Total: {{vm.data_nbr_pers_avec_andicap.total}}</td>
+                                    <td><b><u>Nombre d'individu handicapé:</u></b> {{vm.data_nbr_pers_avec_andicap.total}}</td>
                                 </tr>
                             </tfoot>
                       </table>
@@ -318,7 +317,7 @@
                             <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td>Nombre de mariage précoce: {{vm.data_via_base_nbr_mariage[0].nbr_total_mariage_precoce}}</td>
+                                    <td><b><u>Nombre de mariage précoce:</u></b> {{vm.data_via_base_nbr_mariage[0].nbr_total_mariage_precoce}}</td>
                                 </tr>
                             </tfoot>
                       </table>

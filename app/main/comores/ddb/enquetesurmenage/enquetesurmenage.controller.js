@@ -2083,7 +2083,7 @@
 			}, function() {
 			});
         }
-		// Infrastructure    
+		// Infrastructure  
         function test_existence (item,suppression) {    
 			if(item.description.length > 0) {
 				var doublon = 0;
