@@ -575,6 +575,61 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
+					<md-tab label="Situation matrimoniale" ng-click="vm.Select_table(11)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Situation matrimoniale
+                                    <!--button ng-click="vm.ajouterSituationmatrimoniale()" title="Ajouter une situation matrimoniale" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button-->
+                                     <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterSituationmatrimoniale()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('situation_matrimoniale')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+                                </legend>
+                                <table ng-table="tableSituationmatrimoniale" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="typef in vm.allRecordsSituationmatrimoniale"  ng-class="{selected: typef.$selected}" ng-click="vm.selectionSituationmatrimoniale(typef)">										
+                                            <td>
+                                                <span ng-if="typef.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="typef.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!typef.$edit">{{typef.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!typef.$edit" ng-click="vm.modifierSituationmatrimoniale(typef)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!typef.$edit" ng-click="vm.supprimerSituationmatrimoniale(typef)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="typef.$edit" ng-click="vm.annulerSituationmatrimoniale(typef)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="typef.$edit && typef.description >''" ng-click="vm.ajout(typef,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
                 </md-tabs>
             </div>
         </div>
