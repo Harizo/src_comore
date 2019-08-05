@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('comores.enquete.menage', {
             title: 'Enquêtes',
-            icon  : 'icon-swap-horizontal',
+            icon  : 'icon-clipboard-text',
             state: 'app.comores_enquete_menage',
 			weight: 1
         });
