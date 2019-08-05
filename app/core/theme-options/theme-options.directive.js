@@ -8,9 +8,11 @@
         .directive('msThemeOptions', msThemeOptions);
 
     /** @ngInject */
-    function MsThemeOptionsController($cookies, fuseTheming)
+    function MsThemeOptionsController($cookies, fuseTheming,$location)
     {
         var vm = this;
+
+        vm.loc = $location ;
 
         // Data
         vm.themes = fuseTheming.themes;

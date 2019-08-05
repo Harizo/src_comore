@@ -33,6 +33,7 @@
         vm.tab_reponse_type_culture = [] ;
         vm.tab_reponse_type_elevage = [] ;
         vm.tab_reponse_vaccin = [] ;
+        vm.tab_reponse_formation_recue = [] ;
         vm.tab_programme = [] ;//liste programme associé au menage
         vm.tab_programme_individu = [] ;//liste programme associé au individu
         vm.reponse_individu = {} ;
@@ -245,6 +246,8 @@
           vm.all_programme = result.data.response;    
           
         });
+
+        
       //chargement clé etrangère et données de bases
 
 
@@ -282,6 +285,12 @@
         vm.allVaccin = result.data.response;
 
       });  
+
+      apiFactory.getTable("enquete_menage/index","type_formation_recue").then(function(result)
+      { 
+        vm.all_type_formation_recue = result.data.response;   
+        
+      });
       //FIN QUESTIONNAIRE INDIVIDU
       
       vm.get_max_id_generer_ref = function()
@@ -503,7 +512,7 @@
         apiFactory.getAPIgeneraliserREST("enquete_menage_traitement/index","cle_etrangere",menage_id).then(function(result)
         { 
           vm.enquete_by_menage = result.data.response;   
-          console.log(vm.enquete_by_menage);
+         
 
           if (vm.enquete_by_menage.source_eau) 
           {
@@ -595,6 +604,7 @@
       vm.get_enquete_individu_by_individu = function(id_individu)
       {
         vm.tab_reponse_vaccin = [] ;
+        vm.tab_reponse_formation_recue = [] ;
         apiFactory.getAPIgeneraliserREST("enquete_individu_traitement/index","cle_etrangere",id_individu).then(function(result)
         {
           vm.enquete_individu = result.data.response ;
@@ -611,6 +621,11 @@
           if (vm.enquete_individu.vaccins) 
           {
             vm.tab_reponse_vaccin = vm.enquete_individu.vaccins ;
+          }
+
+          if (vm.enquete_individu.formation_recue) 
+          {
+            vm.tab_reponse_formation_recue = vm.enquete_individu.formation_recue ;
           }
           vm.reponse_individu.enfant_femme = {};
           vm.reponse_individu.enfant_femme.poids = Number(vm.enquete_individu.poids) ;
@@ -669,7 +684,6 @@
           vm.selectedItem = item;
           vm.nouvelItem   = item;
 
-          console.log("id serveur menage == "+item.id_serveur_centrale);
           //get individu
           vm.get_individus_by_menage(item.id);
           vm.get_enquete_by_menage(item.id);
@@ -691,7 +705,7 @@
 
       vm.selection_individu= function (item)
       {
-        console.log(item);
+        
 
         if (!vm.affichage_masque_individu) 
         {
@@ -857,7 +871,7 @@
                                                  
                     });
 
-        console.log("id central = "+vm.menage_programme_liaisons.id_serveur_centrale);
+        
 
         apiFactory.add("menage_programme/index",datas, config).success(function (data) 
         {
@@ -899,6 +913,7 @@
                       id_handicap_mental: reponse_individu.id_handicap_mental,
                       id_handicap_moteur: reponse_individu.id_handicap_moteur,
                       vaccins: vm.tab_reponse_vaccin,
+                      formation_recue: vm.tab_reponse_formation_recue,
                       poids: reponse_individu.enfant_femme.poids,
                       perimetre_bracial: reponse_individu.enfant_femme.perimetre_bracial,
                       age_mois: reponse_individu.enfant_femme.age_mois,
@@ -1020,7 +1035,6 @@
 
                        }
 
-                       console.log(menage);
 
             vm.all_menages.push(mng) ;
           }
@@ -1450,6 +1464,7 @@
                       id_handicap_mental: vm.reponse_individu.id_handicap_mental,
                       id_handicap_moteur: vm.reponse_individu.id_handicap_moteur,
                       vaccins: vm.tab_reponse_vaccin,
+                      formation_recue: vm.tab_reponse_formation_recue,
                       poids: vm.reponse_individu.enfant_femme.poids,
                       perimetre_bracial: vm.reponse_individu.enfant_femme.perimetre_bracial,
                       age_mois: vm.reponse_individu.enfant_femme.age_mois,
