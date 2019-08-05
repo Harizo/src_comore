@@ -122,66 +122,69 @@
           var email = utilisateur.email;
           var pwd = hashage.sha1(utilisateur.password);
           //CONNEXION A L'APPLICATION
-          //$location.path("/accueil");//esorina rehefa vita ny connexion,any @index.run mbola misy
+       
           $http.get(apiUrl+'utilisateurs?email='+email+'&pwd='+pwd)
             .success(function(data){
               if(data.status == true)
+              {
+                cookieService.set('id',data.response.id);
+                cookieService.set('nom',data.response.nom);
+                cookieService.set('prenom',data.response.prenom);
+                cookieService.set('email',data.response.email);
+                cookieService.set('token',data.response.token);
+                cookieService.set('site',data.response.site_id);
+                cookieService.set('roles',data.response.roles);
+                storageService.set('exist',9);
+                storageService.set('enabled',data.response.enabled);
+                if(data.response.enabled==0)
+                {
+                  $location.path("/auth/lock");
+                }
+                else
+                {
+                  location.reload();
+
+                   //$location.path("/accueil");//si n'est pas packeT
+                    //location.reload();
+                  $window.location.href = '/rsu';
+                }
+              }
+              else
+              {
+
+
+                $mdDialog.show({
+                  controller         : function ($scope, $mdDialog)
                   {
-                    cookieService.set('id',data.response.id);
-                    cookieService.set('nom',data.response.nom);
-                    cookieService.set('prenom',data.response.prenom);
-                    cookieService.set('email',data.response.email);
-                    cookieService.set('token',data.response.token);
-                    cookieService.set('site',data.response.site_id);
-                    cookieService.set('roles',data.response.roles);
-                    storageService.set('exist',9);
-                    storageService.set('enabled',data.response.enabled);
-                    if(data.response.enabled==0)
+                    $scope.closeDialog = function ()
                     {
-                      $location.path("/auth/lock");
+                      $mdDialog.hide();
                     }
-                    else
-                    {
-                      //location.reload();
-
-                       $location.path("/accueil");//si n'est pas packeT
-                  
-                      //$window.location.href = '/rsu';
-                    }
-                  }else{
-
-                    $mdDialog.show({
-                      controller         : function ($scope, $mdDialog)
-                      {
-                        $scope.closeDialog = function ()
-                        {
-                          $mdDialog.hide();
-                        }
-                      },
-                      template           : '<md-dialog>' +
-                      '  <md-dialog-content><h1 class="md-warn-fg" translate="LOGIN.error.titre">titre</h1><div><pre translate="LOGIN.error.msg">corps</pre></div></md-dialog-content>' +
-                      '  <md-dialog-actions>' +
-                      '    <md-button ng-click="closeDialog()" class="md-primary" translate="LOGIN.error.quitter">' +
-                      '      Quitter' +
-                      '    </md-button>' +
-                      '  </md-dialog-actions>' +
-                      '</md-dialog>',
-                      parent             : angular.element('body'),
-                      targetEvent        : ev,
-                      clickOutsideToClose: true
-                    });
-                    cookieService.del('id');
-                    cookieService.del('nom');
-                    cookieService.del('prenom');
-                    cookieService.del('email');
-                    cookieService.del('token');
-                    cookieService.del('site');
-                    cookieService.del('roles');
-                    cookieService.del('exist');
-                    storageService.del('exist');
-                    storageService.del('enabled');
-                    $location.path("/auth/login");
-                  }
+                  },
+                  template           : '<md-dialog>' +
+                  '  <md-dialog-content><h1 class="md-warn-fg" translate="LOGIN.error.titre">titre</h1><div><pre translate="LOGIN.error.msg">corps</pre></div></md-dialog-content>' +
+                  '  <md-dialog-actions>' +
+                  '    <md-button ng-click="closeDialog()" class="md-primary" translate="LOGIN.error.quitter">' +
+                  '      Quitter' +
+                  '    </md-button>' +
+                  '  </md-dialog-actions>' +
+                  '</md-dialog>',
+                  parent             : angular.element('body'),
+                  targetEvent        : ev,
+                  clickOutsideToClose: true
+                });
+                cookieService.del('id');
+                cookieService.del('nom');
+                cookieService.del('prenom');
+                cookieService.del('email');
+                cookieService.del('token');
+                cookieService.del('site');
+                cookieService.del('roles');
+                cookieService.del('exist');
+                storageService.del('exist');
+                storageService.del('enabled');
+                $location.path("/auth/login");
+              }
             });
         },
         logout: function(){
@@ -196,7 +199,10 @@
           storageService.del('exist');
           storageService.del('enabled');
           //$location.path("/auth/login");
+          
           $location.path("/auth/tableau_bord");
+          /*location.reload();
+          $window.location.href = '/rsu/web';*/
         },
         isEnabled: function(){
           var token = cookieService.get('token');
