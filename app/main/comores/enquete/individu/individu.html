@@ -147,7 +147,7 @@
 								</md-button>
 							</div>
 							<div style="widht:100%;"  ng-show="vm.affichageMasque==1"> 
-								<form name="form_suivi_menage" class="md-inline-form" novalidate >
+								<form name="form_suivi_menage_transfert_argent" class="md-inline-form"  ng-show="vm.affichesuivimenagepardefaut ==1" novalidate >
 									<div layout="column" layout-gt-xs="row">
 										<md-input-container>
 										<span>Date</span>
@@ -163,7 +163,7 @@
 													{{srcf.nom}}
 												</md-option>
 											</md-select>
-											<div ng-messages="form_suivi_menage.id_partenaire.$error"
+											<div ng-messages="form_suivi_menage_transfert_argent.id_partenaire.$error"
 												role="alert">
 												<div ng-message="required">
 													<span>Partenaire obligatoire.</span>
@@ -177,7 +177,7 @@
 													{{ttrf.Nom}}
 												</md-option>
 											</md-select>
-											<div ng-messages="form_suivi_menage.id_acteur.$error"
+											<div ng-messages="form_suivi_menage_transfert_argent.id_acteur.$error"
 												role="alert">
 												<div ng-message="required">
 													<span>Acteur obligatoire.</span>
@@ -191,7 +191,7 @@
 													{{ttrf.description}}
 												</md-option>
 											</md-select>
-											<div ng-messages="form_suivi_menage.id_type_transfert.$error"
+											<div ng-messages="form_suivi_menage_transfert_argent.id_type_transfert.$error"
 												role="alert">
 												<div ng-message="required">
 													<span>Type de transfert obligatoire.</span>
@@ -201,7 +201,7 @@
 										<md-input-container flex-gt-sm>
 											<input type="Number" name="montant" ng-model="vm.suivimenage.montant"
 											placeholder="Montant " required>
-											<div ng-messages="form_suivi_menage.montant.$error"
+											<div ng-messages="form_suivi_menage_transfert_argent.montant.$error"
 												role="alert">
 												<div ng-message="required">
 													<span>Montant obligatoire.</span>
@@ -210,7 +210,87 @@
 										</md-input-container>
 									</div>
 										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-											ng-disabled="form_suivi_menage.$invalid " ng-click="vm.Enregistrer_suivi_menage(vm.suivimenage,0)">
+											ng-disabled="form_suivi_menage_transfert_argent.$invalid " ng-click="vm.Enregistrer_suivi_menage(vm.suivimenage,0)">
+											Enregistrer
+										</md-button>
+										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerSuiviMenage()">
+											Annuler
+										</md-button>
+										<input type="hidden" name="id" ng-model="vm.suivimenage.id" ng-init="vm.suivimenage.id=0"/>
+										<input type="hidden" name="id_menage" ng-model="vm.suivimenage.id_menage" ng-init="vm.suivimenage.id_menage=0"/>
+								</form>
+								<form name="form_suivi_menage_nutrition" class="md-inline-form" ng-show="vm.affichesuivimenagenutrition ==1" novalidate >
+									<div layout="column" layout-gt-xs="row">
+										<md-input-container>
+										<span>Date</span>
+										</md-input-container>
+										<md-datepicker name="date_suivi" ng-model="vm.suivimenage.date_suivi"   md-placeholder="Enter date de suivi" required>                       
+										</md-datepicker>
+									</div>
+									<div layout="column" layout-gt-sm="row">
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="poids" ng-model="vm.suivimenage.poids"
+											placeholder="Poids ">
+											<div ng-messages="form_suivi_menage_nutrition.poids.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Poids obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="perimetre_bracial" ng-model="vm.suivimenage.perimetre_bracial"
+											placeholder="Périmètre brachial " required>
+											<div ng-messages="form_suivi_menage_nutrition.perimetre_bracial.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Périmètre brachial obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="age_mois" ng-model="vm.suivimenage.age_mois"
+											placeholder="Age : en mois" >
+											<div ng-messages="form_suivi_menage_nutrition.age_mois.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Age : en mois obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="taille" ng-model="vm.suivimenage.taille"
+											placeholder="Taille(cm)" >
+											<div ng-messages="form_suivi_menage_nutrition.taille.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Taille(cm) obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="zscore" ng-model="vm.suivimenage.zscore"
+											placeholder="Z-score" >
+											<div ng-messages="form_suivi_menage_nutrition.zscore.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Z-score obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+										<md-input-container flex-gt-sm>
+											<input type="Number" name="mois_grossesse" min='1'  max='9' ng-model="vm.suivimenage.mois_grossesse"
+											placeholder="Nb mois de grossesse" >
+											<div ng-messages="form_suivi_menage_nutrition.mois_grossesse.$error"
+												role="alert">
+												<div ng-message="required">
+													<span>Nb mois de grossesse obligatoire.</span>
+												</div>
+											</div>
+										</md-input-container>
+									</div>
+										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+											ng-disabled="form_suivi_menage_nutrition.$invalid " ng-click="vm.Enregistrer_suivi_menage(vm.suivimenage,0)">
 											Enregistrer
 										</md-button>
 										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerSuiviMenage()">
@@ -220,28 +300,96 @@
 										<input type="hidden" name="id_menage" ng-model="vm.suivimenage.id_menage" ng-init="vm.suivimenage.id_menage=0"/>
 								</form>
 							</div> 
-							<table id="TableMenage" class="dataTable row-border hover" datatable="ng"
-							  dt-options="vm.dtOptions">
-							  <thead>
-								<tr>
-								  <th class="secondary-text" ng-repeat="re in ::vm.suivi_menage_column">
-									<div class="table-header">
-									  <span class="column-title">{{re.titre}}</span>
-									</div>
-								  </th>
-								</tr>
-							  </thead>
-							  <tbody>
-								<tr ng-repeat="mp in vm.selectedItemMenage.detail_suivi_menage"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviMenage(mp)">
-								  <td>{{mp.nomchefmenage}}</td>
-								  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
-								  <td>{{mp.partenaire[0].nom}}</td>                
-								  <td>{{mp.acteur[0].Nom}}</td>                
-								  <td>{{mp.typetransfert[0].description}}</td>                
-								  <td>{{mp.montant |number:0}}</td>                
-								</tr>
-							  </tbody>
-							</table>
+							<div style="widht:100%;"  ng-show="vm.affichesuivimenagepardefaut==1"> 
+								<table id="TableMenagetransfertargent" class="dataTable row-border hover" datatable="ng"  dt-options="vm.dtOptions">
+								  <thead>
+									<tr>
+									  <th class="secondary-text" ng-repeat="re in ::vm.suivi_menage_column">
+										<div class="table-header">
+										  <span class="column-title">{{re.titre}}</span>
+										</div>
+									  </th>
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr ng-repeat="mp in vm.selectedItemMenage.transfert_argent"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviMenage(mp)">
+									  <td>{{mp.nomchefmenage}}</td>
+									  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
+									  <td>{{mp.partenaire[0].nom}}</td>                
+									  <td>{{mp.acteur[0].Nom}}</td>                
+									  <td>{{mp.typetransfert[0].description}}</td>                
+									  <td>{{mp.montant |number:0}}</td>                
+									</tr>
+								  </tbody>
+								</table>
+							</div>	
+							<div style="widht:100%;"  ng-show="vm.affichesuivimenagepardefaut==0"> 
+								<table id="TableMenagenutrition" class="dataTable row-border hover" datatable="ng"
+								  dt-options="vm.dtOptions">
+								  <thead>
+									<tr>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Nom</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Date</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Poids</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Périm-Bra</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Age:mois</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Taille</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Z-score</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Mois-grossesse</span>
+											</div>
+										  </th>
+										  <th class="secondary-text" style="visibility:hidden">
+											<div class="table-header">
+											  <span class="column-title">id</span>
+											</div>
+										  </th>
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr ng-repeat="nu in vm.selectedItemMenage.nutrition track by $index"  ng-class="{selected: nu.$selected}" ng-click="vm.selectionDetailSuiviMenage(nu)">
+									  <td>{{nu.nomchefmenage}}</td>
+									  <td>{{nu.date_suivi |date:'dd/MM/yyyy'}}</td>                
+									  <td>{{nu.poids | number:2}}</td>                
+									  <td>{{nu.perimetre_bracial | number:2}}</td>                
+									  <td>{{nu.age_mois | number:0}}</td>                
+									  <td>{{nu.taille | number:2}}</td>                
+									  <td>{{nu.zscore | number:2}}</td>                
+									  <td>{{nu.mois_grossesse | number:0}}</td>                
+									  <td style="visibility:hidden">{{nu.id}}</td>                
+									</tr>
+								  </tbody>
+								</table>
+							</div>									
 						</md-tab-body>
                     </md-tab>
                     <md-tab label="Individu Béneficiaire"  ng-click="vm.Filtrer_Item_Promotion_Genre_et_Nutrition(0)">
@@ -732,7 +880,7 @@
 									  <td>{{nu.age_mois | number:0}}</td>                
 									  <td>{{nu.taille | number:2}}</td>                
 									  <td>{{nu.zscore | number:2}}</td>                
-									  <td>{{nu.mois_grossesse | number:2}}</td>                
+									  <td>{{nu.mois_grossesse | number:0}}</td>                
 									  <td style="visibility:hidden">{{nu.id}}</td>                
 									</tr>
 								  </tbody>
