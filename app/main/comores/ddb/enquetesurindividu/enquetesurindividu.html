@@ -410,6 +410,171 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
+                    <md-tab label="Type mariage" ng-click="vm.Select_table(8)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type mariage
+                                    <!--button ng-click="vm.ajouterTypemariage()" title="Ajouter un type de mariage" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button-->
+                                     <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterTypemariage()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('type_mariage')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+                               </legend>
+                                <table ng-table="tableTypemariage" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="typema in vm.allRecordsTypemariage"  ng-class="{selected: typema.$selected}" ng-click="vm.selectionTypemariage(typema)">										
+                                            <td>
+                                                <span ng-if="typema.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="typema.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!typema.$edit">{{typema.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!typema.$edit" ng-click="vm.modifierTypemariage(typema)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!typema.$edit" ng-click="vm.supprimerTypemariage(typema)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="typema.$edit" ng-click="vm.annulerTypemariage(typema)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="typema.$edit && typema.description >''" ng-click="vm.ajout(typema,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+					<md-tab label="Type violence" ng-click="vm.Select_table(9)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type violence
+                                    <!--button ng-click="vm.ajouterTypeviolence()" title="Ajouter un type de violence" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button-->
+                                     <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterTypeviolence()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('type_violence')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+                                </legend>
+                                <table ng-table="tableTypeviolence" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="typema in vm.allRecordsTypeviolence"  ng-class="{selected: typema.$selected}" ng-click="vm.selectionTypeviolence(typema)">										
+                                            <td>
+                                                <span ng-if="typema.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="typema.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!typema.$edit">{{typema.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!typema.$edit" ng-click="vm.modifierTypeviolence(typema)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!typema.$edit" ng-click="vm.supprimerTypeviolence(typema)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="typema.$edit" ng-click="vm.annulerTypeviolence(typema)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="typema.$edit && typema.description >''" ng-click="vm.ajout(typema,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
+					<md-tab label="Type formation reçue" ng-click="vm.Select_table(10)">
+                        <md-tab-body>
+                            <fieldset>
+                                <legend>
+                                        Type formation reçue
+                                    <!--button ng-click="vm.ajouterTypeformationrecue()" title="Ajouter un type formation reçue" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button-->
+                                     <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterTypeformationrecue()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('type_formation_recue')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+                                </legend>
+                                <table ng-table="tableTypeformationrecue" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="typef in vm.allRecordsTypeformationrecue"  ng-class="{selected: typef.$selected}" ng-click="vm.selectionTypeformationrecue(typef)">										
+                                            <td>
+                                                <span ng-if="typef.$edit">
+                                                    <md-input-container style="width:100%;">
+                                                        <label>Description</label>
+                                                        <input name="description" type="text" ng-model="typef.description"/>
+                                                    </md-input-container>	
+                                                </span>
+                                                <span ng-if="!typef.$edit">{{typef.description}}</span>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!typef.$edit" ng-click="vm.modifierTypeformationrecue(typef)" title="Modifier">
+                                                    <span class="icon-table-edit"></span>
+                                                </a>
+                                                <a ng-if="!typef.$edit" ng-click="vm.supprimerTypeformationrecue(typef)" title="Supprimer">
+                                                    <span class="icon-delete"></span>
+                                                </a>
+                                                <a ng-if="typef.$edit" ng-click="vm.annulerTypeformationrecue(typef)" title="Annuler modification">
+                                                    <span class="icon-cancel"></span>
+                                                </a>
+                                                <a ng-if="typef.$edit && typef.description >''" ng-click="vm.ajout(typef,0)" title="Sauvegarder">
+                                                    <span class="icon-content-save"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </md-tab-body>
+                    </md-tab>		
                 </md-tabs>
             </div>
         </div>
