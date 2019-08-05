@@ -8,7 +8,8 @@
             'app.comores.ddb.enquetesurindividu',
             'app.comores.ddb.acteurs',
             'app.comores.ddb.ddbprojet',
-            'app.comores.ddb.localisation'
+            'app.comores.ddb.localisation',
+            'app.comores.ddb.programme'
             ])
         .run(testPermission)
         .config(config);
