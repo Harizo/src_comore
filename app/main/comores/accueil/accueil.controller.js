@@ -7,9 +7,9 @@
         .controller('AccueilController', AccueilController);
 
     /** @ngInject */
-    function AccueilController()
+    function AccueilController($location)
     {
-   
+   		
       
     }
 })();
