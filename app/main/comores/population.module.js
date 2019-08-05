@@ -16,7 +16,8 @@
             'app.comores.recommandation',
           //  'app.comores.beneficiaire',
             'app.comores.enquete',
-            'app.comores.reporting'
+            'app.comores.reporting',
+            'app.comores.auth.tableau_bord'
        ])
         .config(config);
 

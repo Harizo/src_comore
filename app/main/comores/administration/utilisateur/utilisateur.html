@@ -26,9 +26,9 @@
           <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
               Modifier
           </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+          <!--md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
               Supprimer
-          </md-button>
+          </md-button-->
         </div>  
         <div style="clear:both;"></div>
         <!-- BASIC FORM -->
@@ -126,6 +126,10 @@
                                     <md-checkbox ng-model="vm.user.ttm" aria-label="Checkbox 1"  style="margin: 4px;">
                                         Traitement
                                     </md-checkbox>
+
+                                    <md-checkbox ng-model="vm.user.rpt" aria-label="Checkbox 1"  style="margin: 4px;">
+                                        Reporting
+                                    </md-checkbox>
                                     
 
                                     
@@ -213,7 +217,7 @@
 					<td>{{user.prenom}}</td>
 					<td>{{user.email}}</td>
 					<td>{{vm.testEnabled(user.enabled)}}</td>
-					<td><input  style="width:15px;height: 12px;" ng-checked="user.envoi_donnees==1" type="checkbox"  ng-disabled="true"></td>
+					<td>{{vm.affichage_ile(user.id_ile)}}</td>
                   <!--td>eto {{vm.envoi_donnees}}</td-->
                   <td >
                     <span  ng-repeat="s in user.roles">

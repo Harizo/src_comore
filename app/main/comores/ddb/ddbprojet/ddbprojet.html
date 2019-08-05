@@ -18,7 +18,7 @@
             <div class="form-wrapper">
                 <div style="clear:both;"></div>
                 <md-tabs md-dynamic-height>
-                    <md-tab label="Devise">
+                    <!--md-tab label="Devise">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -113,13 +113,20 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab-->		
                     <md-tab label="Source de financement">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
                                         Source de financement 
-                                    <button ng-click="vm.ajouterSourcefinancement()" title="Ajouter une source de financement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterSourcefinancement()" title="Ajouter une source de financement" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterSourcefinancement()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('source_financement')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tableSourcefinancement" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -162,7 +169,7 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
-                    <md-tab label="Type financement">
+                    <!--md-tab label="Type financement">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -257,8 +264,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Type action">
+                    </md-tab-->		
+                    <!--md-tab label="Type action">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -305,8 +312,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Axe stratégique">
+                    </md-tab-->		
+                    <!--md-tab label="Axe stratégique">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -353,8 +360,8 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
-                    <md-tab label="Action stratégique">
+                    </md-tab-->		
+                    <!--md-tab label="Action stratégique">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -401,13 +408,21 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab!-->		
                     <md-tab label="Type de transfert">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
                                         Type de transfert
-                                    <button ng-click="vm.ajouterTypedetransfert()" title="Ajouter un type de transfert" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button>
+                                    <!--button ng-click="vm.ajouterTypedetransfert()" title="Ajouter un type de transfert" style="font-size: 24px;font-weight: bold;background-color: rgb(255,255,255);color: rgb(3,155,229);">+</button!-->
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="vm.serveur_central" ng-click="vm.ajouterTypedetransfert()">
+                                      <md-icon md-svg-src="assets/icons/svg/add.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-fab md-mini " aria-label="Use Android" ng-if="!vm.serveur_central" ng-click="vm.download_ddb('type_transfert')">
+                                      <md-icon md-svg-src="assets/icons/svg/down.svg" style="color: greenyellow;"></md-icon>
+                                    </md-button>
                                 </legend>
                                 <table ng-table="tableTypedetransfert" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
@@ -450,7 +465,7 @@
                             </fieldset>
                         </md-tab-body>
                     </md-tab>		
-                    <md-tab label="Type bénéficiaire">
+                    <!--md-tab label="Type bénéficiaire">
                         <md-tab-body>
                             <fieldset>
                                 <legend>
@@ -497,7 +512,7 @@
                                 </table>
                             </fieldset>
                         </md-tab-body>
-                    </md-tab>		
+                    </md-tab!-->		
                     <md-tab>		
                     </md-tab>		
                 </md-tabs>

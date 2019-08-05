@@ -6,8 +6,9 @@
         .module('app.comores.ddb.enquetesurindividu')
         .controller('EnquetesurindividuController', EnquetesurindividuController);
     /** @ngInject */
-    function EnquetesurindividuController($mdDialog, $scope, apiFactory, $state)  {
+    function EnquetesurindividuController($mdDialog, $scope, apiFactory, $state, serveur_central)  {
 		var vm = this;
+		vm.serveur_central = serveur_central ;
 		vm.titrepage ="Ajout Tutelle";
 		vm.ajout = ajout ;
 		var NouvelItem=false;
@@ -60,6 +61,87 @@
 				});    
 			});    
 		});    
+
+		vm.download_ddb = function(table)
+		{
+			var nbr_data_insert = 0 ;
+			
+			var config = {
+				headers : {
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+				}
+			};
+
+			apiFactory.getAll_serveur_central("enquete_menage/index",table).then(function(result){
+				var ddb = result.data.response;
+
+				console.log(ddb);
+				var datas_suppr = $.param({
+						supprimer:1,
+						nom_table: table,
+					}); 
+
+				apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {
+
+						//add ddb
+							ddb.forEach( function(element, index) {console.log(index);
+								
+								var datas = $.param({
+									supprimer:0,
+									id:element.id,      
+									description: element.description,
+									nom_table: table,
+								});   
+								apiFactory.add("delete_ddb/index",datas, config).success(function (data) {
+									nbr_data_insert++ ;
+									if ((index+1) == ddb.length) //affichage Popup
+									{
+										vm.showAlert('Information',nbr_data_insert+' enregistrement ajouté avec Succès !');
+									}
+								}).error(function (data) {
+									vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+								});
+							});
+						//add ddb
+
+					}).error(function (data) {
+						vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+					});
+				
+
+				
+
+				switch (table) 
+				{
+					case "liendeparente":
+						vm.allRecordsLiendeparente = ddb ;
+						break;
+					case "handicap_visuel":
+						vm.allRecordsHandicapvisuel = ddb ;
+						break;
+					case "handicap_parole":
+						vm.allRecordsHandicapparole = ddb ;
+						break;
+					case "handicap_auditif":
+						vm.allRecordsHandicapauditif = ddb ;
+						break;
+					case "handicap_mental":
+						vm.allRecordsHandicapmental = ddb ;
+						break;
+					case "handicap_moteur":
+						vm.allRecordsHandicapmoteur = ddb ;
+						break;
+					case "vaccin":
+						vm.allRecordsVaccin = ddb ;
+						break;
+					
+					default:
+
+						break;
+				}
+
+			});  
+		}
         vm.Select_table= function (nomdetable) {     
             if(parseInt(nomdetable) >0) {
 				var nom_de_table=parseInt(nomdetable);

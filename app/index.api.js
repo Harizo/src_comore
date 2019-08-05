@@ -12,7 +12,7 @@
 
 
     /** @ngInject */
-    function apiFactory($http, apiUrl){
+    function apiFactory($http, apiUrl, apiUrl_serve_central){
         return{
           getAll: function(controller) {
             return $http.get(apiUrl+controller);
@@ -32,8 +32,8 @@
           getAPIgeneraliserCI: function(controller,valeur1,valeur2,valeur3) {
             return $http.get(apiUrl+controller+"/"+valeur1+"/"+valeur2+"/"+valeur3);
           },
-          getAPIgeneraliserREST: function(controller,champ1,valeur1,champ2,valeur2,champ3,valeur3,champ4,valeur4) {
-            return $http.get(apiUrl+controller+"?"+champ1+"="+valeur1+"&"+champ2+"="+valeur2+"&"+champ3+"="+valeur3+"&"+champ4+"="+valeur4);
+          getAPIgeneraliserREST: function(controller,champ1,valeur1,champ2,valeur2,champ3,valeur3,champ4,valeur4,champ5,valeur5,champ6,valeur6,champ7,valeur7,champ8,valeur8,champ9,valeur9) {
+            return $http.get(apiUrl+controller+"?"+champ1+"="+valeur1+"&"+champ2+"="+valeur2+"&"+champ3+"="+valeur3+"&"+champ4+"="+valeur4+"&"+champ5+"="+valeur5+"&"+champ6+"="+valeur6+"&"+champ7+"="+valeur7+"&"+champ8+"="+valeur8+"&"+champ9+"="+valeur9);
           },
           getAllNonFait: function(model,fait) {//DP
             return $http.get(apiUrl+model+"?fait='"+fait+"'");
@@ -52,6 +52,18 @@
           },
           getVillageByCommune: function(controller, id) {
             return $http.get(apiUrl+controller+"?cle_etrangere="+id);
+          },
+          delete_ddb:function(controller, table) {
+            return $http.post(apiUrl+controller+"?nom_table="+table);
+          },
+          getAll_serveur_central: function(controller, table) {
+            return $http.get(apiUrl_serve_central+controller+"?nom_table="+table);
+          },
+          getAll_acteur_serveur_central: function(controller) {
+            return $http.get(apiUrl_serve_central+controller);
+          },
+          add_serveur_central: function(controller, data, config) {
+            return $http.post(apiUrl_serve_central+controller, data, config);
           }
 
 
@@ -130,11 +142,11 @@
                     }
                     else
                     {
-                      location.reload();
+                      //location.reload();
 
-                 // $location.path("/accueil");//si n'est pas packeT
+                       $location.path("/accueil");//si n'est pas packeT
                   
-                      $window.location.href = '/comores';
+                      //$window.location.href = '/rsu';
                     }
                   }else{
 
@@ -183,7 +195,8 @@
           cookieService.del('exist');
           storageService.del('exist');
           storageService.del('enabled');
-          $location.path("/auth/login");
+          //$location.path("/auth/login");
+          $location.path("/auth/tableau_bord");
         },
         isEnabled: function(){
           var token = cookieService.get('token');

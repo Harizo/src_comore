@@ -18,11 +18,11 @@
         msNavigationServiceProvider.saveItem('comores.reporting', {
             title : 'Reporting',
             icon  : 'icon-data',
-            weight: 4/*,
+            weight: 4,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
 
 

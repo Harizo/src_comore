@@ -11,7 +11,7 @@
                 <span class="parent" href="javascript:;"> Ménage</span>
             </div>
 
-            <div class="title">Transfert Monétaire</div>
+            <div class="title">Rerporting</div>
         </div>
     </div>
     <!--FIN HEADER -->
@@ -22,12 +22,27 @@
                 <md-tab label="Ménage">
                     <form name="filtrepardateform" class="md-inline-form" novalidate >
                         <div layout="column" layout-gt-xs="row" flex>
+                          <md-input-container flex="100" flex-gt-xs="10">
+                            <label>Pivot</label>
+                              <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load" required>
+                                
+                                <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" >
+                                  {{piv.titre}}
+                                </md-option>
+
+                              </md-select>
+
+                          </md-input-container>
+                          <md-input-container flex="100" flex-gt-xs="90"></md-input-container>
+                          
+                        </div>
+                        <div layout="column" layout-gt-xs="row" flex ng-if="vm.filtre.pivot == 'transfert_monetaire_menage'">
 
                             <div layout="column" layout-gt-xs="row" >
                                 <md-input-container>
                                     <span>Du</span>
                                 </md-input-container>
-                                <md-datepicker  ng-model="vm.filtre.date_debut" md-max-date="vm.filtre.date_fin"  md-placeholder="Date début" >                       
+                                <md-datepicker  ng-model="vm.filtre.date_debut" md-max-date="vm.filtre.date_fin"  md-placeholder="Date début" required>                       
                                 </md-datepicker>
                            
                             </div>
@@ -42,11 +57,108 @@
 
                             <div layout="column" layout-gt-xs="row" >
                         
-                                <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.date_now" ng-model="vm.filtre.date_fin"   md-placeholder="Date fin">                       
+                                <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.date_now" ng-model="vm.filtre.date_fin"   md-placeholder="Date fin" required>                       
                                 </md-datepicker>
                            
                             </div>
                            
+                        </div>
+                        <div layout="column" layout-gt-xs="row" flex >
+
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="vm.serveur_central">
+                                  <label>Île</label>
+                                    <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" required>
+                                      <md-option  value="*" >
+                                        Tous
+                                      </md-option>
+                                      <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                        {{ile.Ile}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Île obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="!vm.serveur_central">
+                                  <label>Île</label>
+                                    <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" ng-disabled="true" required>
+                                      <md-option  value="*" >
+                                        Tous
+                                      </md-option>
+                                      <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                        {{ile.Ile}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Île obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Préfecture</label>
+                                    <md-select ng-model="vm.filtre.id_region" name="region" ng-change="vm.filtre_commune()" ng-disabled="!vm.filtre.id_ile" >
+                                      <md-option  value="*" >
+                                        Tous
+                                      </md-option>
+                                      <md-option ng-repeat="region in vm.all_region" value="{{region.id}}" >
+                                        {{region.Region}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Région obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Commune</label>
+                                    <md-select ng-model="vm.filtre.id_commune" name="commune" ng-change="vm.filtre_village()" ng-disabled="!vm.filtre.id_region"  >
+                                     <md-option  value="*" >
+                                        Tous
+                                      </md-option>
+                                      <md-option ng-repeat="commune in vm.all_commune" value="{{commune.id}}" >
+                                        {{commune.Commune}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Commune obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Village</label>
+                                    <md-select ng-model="vm.filtre.village_id" name="village" ng-change="vm.generer_ref()" ng-disabled="!vm.filtre.id_commune"  >
+                                      <md-option  value="*" >
+                                        Tous
+                                      </md-option>
+                                      <md-option ng-repeat="village in vm.all_village" value="{{village.id}}" >
+                                        {{village.Village}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Village obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                               
                         </div>
                         <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                           <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
@@ -55,31 +167,473 @@
                           </md-button>
                         </section>
 
-                     
-                        </div>
+                    
                     </form>
                         
                     <table class="dataTable row-border hover cell-border text-center" datatable="ng"
                       dt-options="vm.dtOptions">
                       <thead>
                         <tr>
-                          <th class="secondary-text" ng-repeat="re in ::vm.transfert_monetaire_menage_column">
+                        <!-- transfert_monetaire_menage -->
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
                             <div class="table-header">
-                              <span class="column-title text-center">{{re.titre}}</span>
+                              <span class="column-title text-center">Numero d'enregistrement</span>
                             </div>
                           </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Chef Ménage</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Date</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Partenaire</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Agence de paiement</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Type de transfert</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Montant(KMF)</span>
+                            </div>
+                          </th>
+                        <!--fin transfert_monetaire_menage -->
+                        <!-- nbr_menage_par_programme -->
+
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Programme</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre ménage bénéficiaire</span>
+                            </div>
+                          </th>
+
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre ménage enregistré</span>
+                            </div>
+                          </th>
+
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Statistique</span>
+                            </div>
+                          </th>
+
+                        <!--fin nbr_menage_par_programme -->
+
+                        <!--Ménage_par_programme -->
+
+                          
+
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Numero <br> d'enregistrement </span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nom du chef <br> de ménage</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Sexe <br> chef <br>ménage</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Age <br> chef <br> ménage</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Adresse</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Date <br> d'inscription</span>
+                            </div>
+                          </th>
+
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Programme</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre.pivot=='menage_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Enquêteur</span>
+                            </div>
+                          </th>
+                          
+                          
+
+                        <!--fin Menage_par_programme -->
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="transfert_monetaire_menage in vm.transfert_monetaire_menage">
-                          <td>{{transfert_monetaire_menage.numero}}</td>
-                          <td>{{transfert_monetaire_menage.chef_menage}}</td>
-                          <td>{{vm.formatDateListe(transfert_monetaire_menage.date_suivi)}} </td>
-                          <td>{{transfert_monetaire_menage.nom_partenaire}}</td>
-                          <td>{{transfert_monetaire_menage.nom_agence_payement}}</td>
-                          <td>{{transfert_monetaire_menage.type_transfert}}</td>                
-                          <td>{{transfert_monetaire_menage.somme_montant}}</td>                
+                        <tr ng-repeat="data in vm.data_via_base">
+                          <!-- transfert_monetaire_menage -->
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.numero}}</td>
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.chef_menage}}</td>
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{vm.formatDateListe(data.date_suivi)}} </td>
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.nom_partenaire}}</td>
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.nom_agence_payement}}</td>
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.type_transfert}}</td>                
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.somme_montant}}</td>
+                           <!--fin transfert_monetaire_menage -->  
+
+                           <!--nbr_menage_par_programme -->
+                            <td ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">{{data.libelle}}</td>                
+                            <td ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">{{data.nbr}}</td>
+                            <td ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">{{data.nbr_menage_enregistrer}}</td>
+                            <td ng-show="vm.filtre.pivot=='nbr_menage_par_programme'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_menage_enregistrer))}} %</td>
+                           <!--fin nbr_menage_par_programme -->  
+                           <!-- menage_par_programme -->
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{data.NumeroEnregistrement}}</td>
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{data.nomchefmenage}}</td>
+                           
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{data.SexeChefMenage}}</td>
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{data.agechefdemenage}} ans</td>
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{data.Addresse}}</td>
+
+                             <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{vm.formatDateListe(data.DateInscription)}} </td>
+
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">
+                              <span  ng-repeat="p in data.tab_programme">
+                                {{"- "+p}} <br/>
+                              </span>
+                            </td>                
+                            <td ng-show="vm.filtre.pivot=='menage_par_programme'">{{data.PersonneInscription}}</td>
+                           <!--fin menage_par_programme -->            
                         </tr>
+                      </tbody>
+                    </table>
+                </md-tab>
+
+                <md-tab label="Individu">
+                  <form name="filtre_individupardateform" class="md-inline-form" novalidate >
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <md-input-container flex="100" flex-gt-xs="10">
+                          <label>Pivot</label>
+                            <md-select ng-model="vm.filtre_individu.pivot" ng-disabled="vm.affiche_load" required>
+                              
+                              <md-option ng-repeat="piv in vm.pivots_individu" value="{{piv.id}}" >
+                                {{piv.titre}}
+                              </md-option>
+
+                            </md-select>
+
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="90"></md-input-container>
+                        
+                      </div>
+                      <div layout="column" layout-gt-xs="row" flex ng-if="vm.filtre_individu.pivot == 'transfert_monetaire_menage'">
+
+                          <div layout="column" layout-gt-xs="row" >
+                              <md-input-container>
+                                  <span>Du</span>
+                              </md-input-container>
+                              <md-datepicker  ng-model="vm.filtre_individu.date_debut" md-max-date="vm.filtre_individu.date_fin"  md-placeholder="Date début" required>                       
+                              </md-datepicker>
+                         
+                          </div>
+
+                          <div layout="column" layout-gt-xs="row">
+                              <md-input-container>
+                                  <span>au</span>
+                              </md-input-container>
+                          
+                         
+                          </div>
+
+                          <div layout="column" layout-gt-xs="row" >
+                      
+                              <md-datepicker md-min-date="vm.filtre_individu.date_debut" md-max-date="vm.date_now" ng-model="vm.filtre_individu.date_fin"   md-placeholder="Date fin" required>                       
+                              </md-datepicker>
+                         
+                          </div>
+                         
+                      </div>
+                      <div layout="column" layout-gt-xs="row" flex >
+
+                              <md-input-container flex="100" flex-gt-xs="90" ng-if="vm.serveur_central">
+                                <label>Île</label>
+                                  <md-select ng-model="vm.filtre_individu.id_ile" name="ile" ng-change="vm.filtre_individu_region()" required>
+                                    <md-option  value="*" >
+                                      Tous
+                                    </md-option>
+                                    <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                      {{ile.Ile}}
+                                    </md-option>
+
+                                  </md-select>
+                                  <div ng-messages="filtre_individupardateform.ile.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Île obligatoire</span>
+                                    </div>
+                                  </div>
+                              </md-input-container>
+                              <md-input-container flex="100" flex-gt-xs="90" ng-if="!vm.serveur_central">
+                                <label>Île</label>
+                                  <md-select ng-model="vm.filtre_individu.id_ile" name="ile" ng-change="vm.filtre_individu_region()" ng-disabled="true" required>
+                                    <md-option  value="*" >
+                                      Tous
+                                    </md-option>
+                                    <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                      {{ile.Ile}}
+                                    </md-option>
+
+                                  </md-select>
+                                  <div ng-messages="filtre_individupardateform.ile.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Île obligatoire</span>
+                                    </div>
+                                  </div>
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="90">
+                                <label>Préfecture</label>
+                                  <md-select ng-model="vm.filtre_individu.id_region" name="region" ng-change="vm.filtre_individu_commune()" ng-disabled="!vm.filtre_individu.id_ile" >
+                                    <md-option  value="*" >
+                                      Tous
+                                    </md-option>
+                                    <md-option ng-repeat="region in vm.all_region_individu" value="{{region.id}}" >
+                                      {{region.Region}}
+                                    </md-option>
+
+                                  </md-select>
+                                  <div ng-messages="filtre_individupardateform.ile.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Région obligatoire</span>
+                                    </div>
+                                  </div>
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="90">
+                                <label>Commune</label>
+                                  <md-select ng-model="vm.filtre_individu.id_commune" name="commune" ng-change="vm.filtre_individu_village()" ng-disabled="!vm.filtre_individu.id_region"  >
+                                   <md-option  value="*" >
+                                      Tous
+                                    </md-option>
+                                    <md-option ng-repeat="commune in vm.all_commune_individu" value="{{commune.id}}" >
+                                      {{commune.Commune}}
+                                    </md-option>
+
+                                  </md-select>
+                                  <div ng-messages="filtre_individupardateform.ile.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Commune obligatoire</span>
+                                    </div>
+                                  </div>
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="90">
+                                <label>Village</label>
+                                  <md-select ng-model="vm.filtre_individu.village_id" name="village" ng-change="vm.generer_ref()" ng-disabled="!vm.filtre_individu.id_commune"  >
+                                    <md-option  value="*" >
+                                      Tous
+                                    </md-option>
+                                    <md-option ng-repeat="village in vm.all_village_individu" value="{{village.id}}" >
+                                      {{village.Village}}
+                                    </md-option>
+
+                                  </md-select>
+                                  <div ng-messages="filtre_individupardateform.ile.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Village obligatoire</span>
+                                    </div>
+                                  </div>
+                              </md-input-container>
+                             
+                      </div>
+                      <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                            ng-if="!vm.affichage_masque" ng-disabled="filtre_individupardateform.$invalid||vm.affiche_load||vm.desable_button" ng-click="vm.filtrer_individu(vm.filtre_individu)">
+                            Actualiser
+                        </md-button>
+                      </section>
+                  </form>
+
+                  <table class="dataTable row-border hover cell-border text-center" datatable="ng"
+                      dt-options="vm.dtOptions">
+                      <thead>
+                        <tr>
+                      
+                        <!-- nbr_individu_par_programme -->
+
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_pers_avec_andicap'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Hadicape</span>
+                            </div>
+                          </th>
+
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_pers_avec_andicap'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre</span>
+                            </div>
+                          </th>
+
+                          
+                            
+
+                        <!--fin nbr_individu_par_programme -->
+
+                        <!-- nbr_individu_par_programme -->
+
+                        <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Numero <br> d'enregistrement</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nom</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Date <br> de <br> naissance</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Activité</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Travailleur</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Sexe</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Programme</span>
+                            </div>
+                          </th>
+
+                        <!--fin nbr_individu_par_programme -->
+                        <!--nbr_enfant_mal nouri -->
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Mal nutrition <br> Très sévère</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Mal nutrition <br> sévère</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Mal nutrition <br> Modérée</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Sortie PECMA</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Poids median</span>
+                            </div>
+                          </th>
+                        <!--fin enfant_mal nouri -->
+
+                        <th class="primary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Programme</span>
+                            </div>
+                          </th>
+                          <th class="primary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre individu bénéficiaire</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre individu enregistré</span>
+                            </div>
+                          </th>
+
+                          <th class="primary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Statistique</span>
+                            </div>
+                          </th>
+
+                      
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key,data) in vm.data_via_base_individu" >
+                         
+
+                           <!--nbr_menage_par_programme -->
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_pers_avec_andicap'">{{data.libelle}}</td>                
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_pers_avec_andicap'">{{data.nbr}}</td>
+                            
+                           <!--fin nbr_menage_par_programme -->  
+
+                           <!--fin nbr_individu_par_programme -->
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">{{data.NumeroEnregistrement}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">{{data.Nom}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">{{vm.formatDateListe(data.DateNaissance)}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">{{data.Activite}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">{{data.travailleur}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">{{vm.affichage_sexe_int(data.sexe)}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='individu_par_programme'">
+                              <span  ng-repeat="p in data.tab_programme">
+                                {{"- "+p}} <br/>
+                              </span>
+                            </td>  
+                           <!--fin nbr_individu_par_programme -->
+                           <td ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">{{data.tres_severe}}</td>
+                           <td ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">{{data.severe_mas}}</td>
+                           <td ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">{{data.moderee_mam}}</td>
+                           <td ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">{{data.sortie_pecma}}</td>
+                           <td ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">{{data.poids_median}}</td>
+
+
+                           <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.libelle}}</td>                
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.nbr}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.nbr_individu_enregistrer}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_individu_enregistrer))}} %</td>
+                           
+                                      
+                        </tr>
+
+                        
                       </tbody>
                     </table>
                 </md-tab>
