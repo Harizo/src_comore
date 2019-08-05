@@ -91,13 +91,11 @@
     });
 
 
-	vm.pivot_indiv='nbr_pers_avec_andicap' ;
-
-	apiFactory.getAPIgeneraliserREST("reporting/index","type_etat",'nbr_pers_avec_andicap',"date_deb",null,"date_fin",null,
-		"id_ile","*","id_region",null,"id_commune",null,"village_id",null).then(function(result)
+	  apiFactory.getAPIgeneraliserREST("reporting/index","type_etat",'nbr_pers_avec_andicap',"date_deb",null,"date_fin",null,
+		  "id_ile","*","id_region",null,"id_commune",null,"village_id",null).then(function(result)
     {
     	vm.data_nbr_pers_avec_andicap =  result.data.response ;
-      console.log(vm.data_nbr_pers_avec_andicap);
+      
       vm.data_nbr_pers_avec_andicap_ok = true ;
     	
     	/*vm.libelle = [] ;
@@ -111,41 +109,50 @@
 
     });
 
-		vm.doughnutChart = {
-            labels: ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'],
-            data  : [300, 500, 100]
-        };
-        
+    apiFactory.getAPIgeneraliserREST("reporting/index","type_etat",'nbr_mariage_precoce',"date_deb",null,"date_fin",null,
+            "id_ile","*","id_region",null,"id_commune",null,"village_id",null).then(function(result)
+    {
+      vm.data_via_base_nbr_mariage =  result.data.response ;
+      console.log(vm.data_via_base_nbr_mariage);
+     
+      vm.data_via_base_nbr_mariage_ok = true ;
+      
+    });
 
-      /*function send(email, ev)
-      {
-        apiFactory.getAll("utilisateurs/index?courriel="+email)
-          .success(function(result) {
+      /*      vm.barChart = {
+            labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
+            series: ['Series A', 'Series B'],
+            data  : [
+                [65, 59, 80, 81, 56, 55, 40],
+                [28, 48, 40, 19, 86, 27, 90]
+            ],
+            options          : {
+                seriesBarDistance: 15,
+                borderWidth : 20
+            },
+            responsiveOptions: [
+                ['screen and (min-width: 641px) and (max-width: 1024px)', {
+                    seriesBarDistance: 10,
+                    axisX            : {
+                        labelInterpolationFnc: function (value)
+                        {
+                            return value;
+                        }
+                    }
+                }],
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX            : {
+                        labelInterpolationFnc: function (value)
+                        {
+                            return value[0];
+                        }
+                    }
+                }]
+            ]
+        };*/
 
-            if(result.status == false)
-            {
-              vm.email_exist = 0;
-            }else{
-              vm.email_exist = 1;
+	
 
-              $mdDialog.show({
-                template           : '<md-dialog>' +
-                '  <md-dialog-content><h1 class="md-warn-fg" translate="FORGOTPASSWORD.loading.titre">titre</h1><div><pre translate="FORGOTPASSWORD.loading.msg">corps</pre></div></md-dialog-content>' +
-                '  </md-dialog-actions>' +
-                '</md-dialog>',
-                parent             : angular.element('body'),
-                targetEvent        : ev,
-                clickOutsideToClose: false
-              });
-
-              apiFactory.getAll("mail/index?actif=2&courriel="+result.response.email+"&token="+result.response.token).then(function() {
-                $location.path('/auth/login');
-                $mdDialog.hide();
-              });
-            }
-
-
-          });
-      }*/
     }
 })();

@@ -36,7 +36,7 @@
     apiFactory.getAll("programme/index").then(function(result)
     {
       vm.allprogramme = result.data.response;
-      console.log(vm.allprogramme);    
+      //console.log(vm.allprogramme);    
     });
         function ajout(ile,suppression)
         {
