@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('comores.reporting.menage_beneficiaire', {
             title: 'Ménage/Individu',
-            icon  : 'icon-swap-horizontal',
+            icon  : 'icon-account-multiple',
             state: 'app.comores_reporting_menage_beneficiaire',
 			weight: 1
         });
