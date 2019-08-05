@@ -20,6 +20,9 @@
 		vm.selectedItemHandicapmental = {} ;
 		vm.selectedItemHandicapmoteur = {} ;
 		vm.selectedItemVaccin = {} ;
+		vm.selectedItemTypemariage = {} ;     
+		vm.selectedItemTypeviolence = {} ;     
+		vm.selectedItemTypeformationrecue = {} ;     
 		vm.allRecordsLiendeparente = [] ;
 		vm.allRecordsHandicapvisuel = [] ;
 		vm.allRecordsHandicapparole = [] ;
@@ -27,6 +30,9 @@
 		vm.allRecordsHandicapmental = [] ;
 		vm.allRecordsHandicapmoteur = [] ;
 		vm.allRecordsVaccin = [] ;
+		vm.allRecordsTypemariage = [] ;     
+		vm.allRecordsTypeviolence = [] ;     
+		vm.allRecordsTypeformationrecue = [] ;     
 		vm.nom_table ="liendeparente";
 		vm.cas=1;
 		//variale affichage bouton nouveau
@@ -61,6 +67,15 @@
 				});    
 			});    
 		});    
+		apiFactory.getTable("enquete_menage/index","type_mariage").then(function(result){
+			vm.allRecordsTypemariage = result.data.response;
+		});  
+		apiFactory.getTable("enquete_menage/index","type_violence").then(function(result){
+			vm.allRecordsTypeviolence = result.data.response;
+		});  
+		apiFactory.getTable("enquete_menage/index","type_formation_recue").then(function(result){
+			vm.allRecordsTypeformationrecue = result.data.response;
+		});  
 
 		vm.download_ddb = function(table)
 		{
@@ -134,6 +149,15 @@
 					case "vaccin":
 						vm.allRecordsVaccin = ddb ;
 						break;
+					case "type_mariage":
+						vm.allRecordsTypemariage = ddb ;
+						break;
+					case "type_violence":
+						vm.allRecordsTypeviolence = ddb ;
+						break;
+					case "type_formation_recue":
+						vm.allRecordsTypeformationrecue = ddb ;
+						break;
 					
 					default:
 
@@ -179,6 +203,21 @@
 					case 7:  {
 						vm.nom_table="vaccin";
 						vm.cas=7;
+						break;
+					}
+					case 8:  {
+						vm.nom_table="type_mariage";
+						vm.cas=8;
+						break;
+					}
+					case 9:  {
+						vm.nom_table="type_violence";
+						vm.cas=9;
+						break;
+					}
+					case 10:  {
+						vm.nom_table="type_formation_recue";
+						vm.cas=10;
 						break;
 					}
 					default: {
@@ -267,6 +306,27 @@
 								vm.selectedItemVaccin ={};
 								break;
 							}
+							case 8:  {
+								vm.selectedItemTypemariage.description = possession.description;
+								vm.selectedItemTypemariage.$selected = false;
+								vm.selectedItemTypemariage.$edit = false;
+								vm.selectedItemTypemariage ={};
+								break;
+							}
+							case 9:  {
+								vm.selectedItemTypeviolence.description = possession.description;
+								vm.selectedItemTypeviolence.$selected = false;
+								vm.selectedItemTypeviolence.$edit = false;
+								vm.selectedItemTypeviolence ={};
+								break;
+							}
+							case 10:  {
+								vm.selectedItemTypeformationrecue.description = possession.description;
+								vm.selectedItemTypeformationrecue.$selected = false;
+								vm.selectedItemTypeformationrecue.$edit = false;
+								vm.selectedItemTypeformationrecue ={};
+								break;
+							}
 							default: {
 								break;
 							}
@@ -312,6 +372,24 @@
 							case 7:  {
 								vm.allRecordsVaccin = vm.allRecordsVaccin.filter(function(obj) {
 									return obj.id !== vm.selectedItemVaccin.id;
+								});
+								break;
+							}
+							case 8:  {
+								vm.allRecordsTypemariage = vm.allRecordsTypemariage.filter(function(obj) {
+									return obj.id !== vm.selectedItemTypemariage.id;
+								});
+								break;
+							}
+							case 9:  {
+								vm.allRecordsTypeviolence = vm.allRecordsTypeviolence.filter(function(obj) {
+									return obj.id !== vm.selectedItemTypeviolence.id;
+								});
+								break;
+							}
+							case 10:  {
+								vm.allRecordsTypeformationrecue = vm.allRecordsTypeformationrecue.filter(function(obj) {
+									return obj.id !== vm.selectedItemTypeformationrecue.id;
 								});
 								break;
 							}
@@ -808,6 +886,204 @@
 			});
         }
 		// Vaccin
+		// Début Type mariage
+        vm.selectionTypemariage= function (item) {     
+            vm.selectedItemTypemariage = item;
+        };
+        $scope.$watch('vm.selectedItemTypemariage', function() {
+			if (!vm.allRecordsTypemariage) return;
+			vm.allRecordsTypemariage.forEach(function(item) {
+				item.$selected = false;
+			});
+			vm.selectedItemTypemariage.$selected = true;
+        });
+        vm.ajouterTypemariage = function () {
+            vm.selectedItemTypemariage.$selected = false;
+            NouvelItem = true ;
+		    var items = {
+				$edit: true,
+				$selected: true,
+				supprimer:0,
+                description: '',
+			};
+			vm.allRecordsTypemariage.push(items);
+		    vm.allRecordsTypemariage.forEach(function(it) {
+				if(it.$selected==true) {
+					vm.selectedItemTypemariage = it;
+				}
+			});			
+        };
+        vm.annulerTypemariage = function(item) {
+			if (!item.id) {
+				vm.allRecords.pop();
+				return;
+			}          
+			item.$selected=false;
+			item.$edit=false;
+			NouvelItem = false;
+			 item.description = currentItem.description;
+			vm.selectedItemTypemariage = {} ;
+			vm.selectedItemTypemariage.$selected = false;
+       };
+        vm.modifierTypemariage = function(item) {
+			NouvelItem = false ;
+			vm.selectedItemTypemariage = item;
+			currentItem = angular.copy(vm.selectedItemTypemariage);
+			$scope.vm.allRecordsTypemariage.forEach(function(it) {
+				it.$edit = false;
+			});        
+			item.$edit = true;	
+			item.$selected = true;	
+			vm.selectedItemTypemariage.description = vm.selectedItemTypemariage.description;
+			vm.selectedItemTypemariage.$edit = true;	
+        };
+        vm.supprimerTypemariage = function() {
+			var confirm = $mdDialog.confirm()
+                .title('Etes-vous sûr de supprimer cet enregistrement ?')
+                .textContent('')
+                .ariaLabel('Lucky day')
+                .clickOutsideToClose(true)
+                .parent(angular.element(document.body))
+                .ok('supprimer')
+                .cancel('annuler');
+			$mdDialog.show(confirm).then(function() {          
+				ajout(vm.selectedItemTypemariage,1);
+			}, function() {
+			});
+        }
+		// Fin Type mariage
+		// Début Type violence
+        vm.selectionTypeviolence= function (item) {     
+            vm.selectedItemTypeviolence = item;
+        };
+        $scope.$watch('vm.selectedItemTypeviolence', function() {
+			if (!vm.allRecordsTypeviolence) return;
+			vm.allRecordsTypeviolence.forEach(function(item) {
+				item.$selected = false;
+			});
+			vm.selectedItemTypeviolence.$selected = true;
+        });
+        vm.ajouterTypeviolence = function () {
+            vm.selectedItemTypeviolence.$selected = false;
+            NouvelItem = true ;
+		    var items = {
+				$edit: true,
+				$selected: true,
+				supprimer:0,
+                description: '',
+			};
+			vm.allRecordsTypeviolence.push(items);
+		    vm.allRecordsTypeviolence.forEach(function(it) {
+				if(it.$selected==true) {
+					vm.selectedItemTypeviolence = it;
+				}
+			});			
+        };
+        vm.annulerTypeviolence = function(item) {
+			if (!item.id) {
+				vm.allRecords.pop();
+				return;
+			}          
+			item.$selected=false;
+			item.$edit=false;
+			NouvelItem = false;
+			 item.description = currentItem.description;
+			vm.selectedItemTypeviolence = {} ;
+			vm.selectedItemTypeviolence.$selected = false;
+       };
+        vm.modifierTypeviolence = function(item) {
+			NouvelItem = false ;
+			vm.selectedItemTypeviolence = item;
+			currentItem = angular.copy(vm.selectedItemTypeviolence);
+			$scope.vm.allRecordsTypeviolence.forEach(function(it) {
+				it.$edit = false;
+			});        
+			item.$edit = true;	
+			item.$selected = true;	
+			vm.selectedItemTypeviolence.description = vm.selectedItemTypeviolence.description;
+			vm.selectedItemTypeviolence.$edit = true;	
+        };
+        vm.supprimerTypeviolence = function() {
+			var confirm = $mdDialog.confirm()
+                .title('Etes-vous sûr de supprimer cet enregistrement ?')
+                .textContent('')
+                .ariaLabel('Lucky day')
+                .clickOutsideToClose(true)
+                .parent(angular.element(document.body))
+                .ok('supprimer')
+                .cancel('annuler');
+			$mdDialog.show(confirm).then(function() {          
+				ajout(vm.selectedItemTypeviolence,1);
+			}, function() {
+			});
+        }
+		// Fin Type violence		
+		// Début Type formation reçue
+        vm.selectionTypeformationrecue= function (item) {     
+            vm.selectedItemTypeformationrecue = item;
+        };
+        $scope.$watch('vm.selectedItemTypeformationrecue', function() {
+			if (!vm.allRecordsTypeformationrecue) return;
+			vm.allRecordsTypeformationrecue.forEach(function(item) {
+				item.$selected = false;
+			});
+			vm.selectedItemTypeformationrecue.$selected = true;
+        });
+        vm.ajouterTypeformationrecue = function () {
+            vm.selectedItemTypeformationrecue.$selected = false;
+            NouvelItem = true ;
+		    var items = {
+				$edit: true,
+				$selected: true,
+				supprimer:0,
+                description: '',
+			};
+			vm.allRecordsTypeformationrecue.push(items);
+		    vm.allRecordsTypeformationrecue.forEach(function(it) {
+				if(it.$selected==true) {
+					vm.selectedItemTypeformationrecue = it;
+				}
+			});			
+        };
+        vm.annulerTypeformationrecue = function(item) {
+			if (!item.id) {
+				vm.allRecords.pop();
+				return;
+			}          
+			item.$selected=false;
+			item.$edit=false;
+			NouvelItem = false;
+			 item.description = currentItem.description;
+			vm.selectedItemTypeformationrecue = {} ;
+			vm.selectedItemTypeformationrecue.$selected = false;
+       };
+        vm.modifierTypeformationrecue = function(item) {
+			NouvelItem = false ;
+			vm.selectedItemTypeformationrecue = item;
+			currentItem = angular.copy(vm.selectedItemTypeformationrecue);
+			$scope.vm.allRecordsTypeformationrecue.forEach(function(it) {
+				it.$edit = false;
+			});        
+			item.$edit = true;	
+			item.$selected = true;	
+			vm.selectedItemTypeformationrecue.description = vm.selectedItemTypeformationrecue.description;
+			vm.selectedItemTypeformationrecue.$edit = true;	
+        };
+        vm.supprimerTypeformationrecue = function() {
+			var confirm = $mdDialog.confirm()
+                .title('Etes-vous sûr de supprimer cet enregistrement ?')
+                .textContent('')
+                .ariaLabel('Lucky day')
+                .clickOutsideToClose(true)
+                .parent(angular.element(document.body))
+                .ok('supprimer')
+                .cancel('annuler');
+			$mdDialog.show(confirm).then(function() {          
+				ajout(vm.selectedItemTypeformationrecue,1);
+			}, function() {
+			});
+        }
+		// Fin Type formation reçue		
         function test_existence (item,suppression) {    
 			if(item.description.length > 0) {
 				var doublon = 0;
@@ -863,6 +1139,30 @@
 						}
 						case 7:  {
 							vm.allRecordsVaccin.forEach(function(dispo) {   
+								if((dispo.description==item.description) && dispo.id!=item.id) {
+									doublon=1;	
+								} 
+							});
+							break;
+						}
+						case 8:  {
+							vm.allRecordsTypemariage.forEach(function(dispo) {   
+								if((dispo.description==item.description) && dispo.id!=item.id) {
+									doublon=1;	
+								} 
+							});
+							break;
+						}
+						case 9:  {
+							vm.allRecordsTypeviolence.forEach(function(dispo) {   
+								if((dispo.description==item.description) && dispo.id!=item.id) {
+									doublon=1;	
+								} 
+							});
+							break;
+						}
+						case 10:  {
+							vm.allRecordsTypeformationrecue.forEach(function(dispo) {   
 								if((dispo.description==item.description) && dispo.id!=item.id) {
 									doublon=1;	
 								} 

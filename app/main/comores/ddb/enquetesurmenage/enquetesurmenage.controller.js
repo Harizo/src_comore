@@ -36,8 +36,6 @@
 		vm.selectedItemActiviterecoursmenage = {} ;     
 		vm.selectedItemServicebeneficie = {} ;     
 		vm.selectedItemInfrastructure = {} ;     
-		vm.selectedItemTypemariage = {} ;     
-		vm.selectedItemTypeviolence = {} ;     
 		
 		vm.allRecordsTypelogement = [] ;     
 		vm.allRecordsOccupationlogement = [] ;     
@@ -60,8 +58,6 @@
 		vm.allRecordsActiviterecoursmenage = [] ;     
 		vm.allRecordsServicebeneficie = [] ;     
 		vm.allRecordsInfrastructure = [] ;     
-		vm.allRecordsTypemariage = [] ;     
-		vm.allRecordsTypeviolence = [] ;     
 
 		vm.nom_table="type_logement";
 		vm.cas=1;
@@ -163,14 +159,6 @@
 			vm.allRecordsInfrastructure = result.data.response;
 
 		});  */  
-		apiFactory.getTable("enquete_menage/index","type_mariage").then(function(result){
-			vm.allRecordsTypemariage = result.data.response;
-
-		});  
-		apiFactory.getTable("enquete_menage/index","type_violence").then(function(result){
-			vm.allRecordsTypeviolence = result.data.response;
-
-		});  
 
 		vm.download_ddb = function(table)
 		{
@@ -245,12 +233,6 @@
 						break;
 					case "type_culture":
 						vm.allRecordsCulture = ddb ;
-						break;
-					case "type_mariage":
-						vm.allRecordsTypemariage = ddb ;
-						break;
-					case "type_violence":
-						vm.allRecordsTypeviolence = ddb ;
 						break;
 					default:
 
@@ -366,16 +348,6 @@
 					case 21:  {
 						vm.nom_table="infrastructure";
 						vm.cas=21;
-						break;
-					}
-					case 23:  {
-						vm.nom_table="type_mariage";
-						vm.cas=23;
-						break;
-					}
-					case 24:  {
-						vm.nom_table="type_violence";
-						vm.cas=24;
 						break;
 					}
 					default: {
@@ -562,20 +534,6 @@
 								vm.selectedItemInfrastructure ={};
 								break;
 							}
-							case 23:  {
-								vm.selectedItemTypemariage.description = possession.description;
-								vm.selectedItemTypemariage.$selected = false;
-								vm.selectedItemTypemariage.$edit = false;
-								vm.selectedItemTypemariage ={};
-								break;
-							}
-							case 24:  {
-								vm.selectedItemTypeviolence.description = possession.description;
-								vm.selectedItemTypeviolence.$selected = false;
-								vm.selectedItemTypeviolence.$edit = false;
-								vm.selectedItemTypeviolence ={};
-								break;
-							}
 							default: {
 								break;
 							}
@@ -705,18 +663,6 @@
 							case 21:  {
 								vm.allRecordsInfrastructure = vm.allRecordsInfrastructure.filter(function(obj) {
 									return obj.id !== vm.selectedItemInfrastructure.id;
-								});
-								break;
-							}
-							case 23:  {
-								vm.allRecordsTypemariage = vm.allRecordsTypemariage.filter(function(obj) {
-									return obj.id !== vm.selectedItemTypemariage.id;
-								});
-								break;
-							}
-							case 24:  {
-								vm.allRecordsTypeviolence = vm.allRecordsTypeviolence.filter(function(obj) {
-									return obj.id !== vm.selectedItemTypeviolence.id;
 								});
 								break;
 							}
@@ -2138,138 +2084,6 @@
 			});
         }
 		// Infrastructure  
-		// Début Type mariage
-        vm.selectionTypemariage= function (item) {     
-            vm.selectedItemTypemariage = item;
-        };
-        $scope.$watch('vm.selectedItemTypemariage', function() {
-			if (!vm.allRecordsTypemariage) return;
-			vm.allRecordsTypemariage.forEach(function(item) {
-				item.$selected = false;
-			});
-			vm.selectedItemTypemariage.$selected = true;
-        });
-        vm.ajouterTypemariage = function () {
-            vm.selectedItemTypemariage.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsTypemariage.push(items);
-		    vm.allRecordsTypemariage.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemTypemariage = it;
-				}
-			});			
-        };
-        vm.annulerTypemariage = function(item) {
-			if (!item.id) {
-				vm.allRecords.pop();
-				return;
-			}          
-			item.$selected=false;
-			item.$edit=false;
-			NouvelItem = false;
-			 item.description = currentItem.description;
-			vm.selectedItemTypemariage = {} ;
-			vm.selectedItemTypemariage.$selected = false;
-       };
-        vm.modifierTypemariage = function(item) {
-			NouvelItem = false ;
-			vm.selectedItemTypemariage = item;
-			currentItem = angular.copy(vm.selectedItemTypemariage);
-			$scope.vm.allRecordsTypemariage.forEach(function(it) {
-				it.$edit = false;
-			});        
-			item.$edit = true;	
-			item.$selected = true;	
-			vm.selectedItemTypemariage.description = vm.selectedItemTypemariage.description;
-			vm.selectedItemTypemariage.$edit = true;	
-        };
-        vm.supprimerTypemariage = function() {
-			var confirm = $mdDialog.confirm()
-                .title('Etes-vous sûr de supprimer cet enregistrement ?')
-                .textContent('')
-                .ariaLabel('Lucky day')
-                .clickOutsideToClose(true)
-                .parent(angular.element(document.body))
-                .ok('supprimer')
-                .cancel('annuler');
-			$mdDialog.show(confirm).then(function() {          
-				ajout(vm.selectedItemTypemariage,1);
-			}, function() {
-			});
-        }
-		// Fin Type mariage
-		// Début Type violence
-        vm.selectionTypeviolence= function (item) {     
-            vm.selectedItemTypeviolence = item;
-        };
-        $scope.$watch('vm.selectedItemTypeviolence', function() {
-			if (!vm.allRecordsTypeviolence) return;
-			vm.allRecordsTypeviolence.forEach(function(item) {
-				item.$selected = false;
-			});
-			vm.selectedItemTypeviolence.$selected = true;
-        });
-        vm.ajouterTypeviolence = function () {
-            vm.selectedItemTypeviolence.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsTypeviolence.push(items);
-		    vm.allRecordsTypeviolence.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemTypeviolence = it;
-				}
-			});			
-        };
-        vm.annulerTypeviolence = function(item) {
-			if (!item.id) {
-				vm.allRecords.pop();
-				return;
-			}          
-			item.$selected=false;
-			item.$edit=false;
-			NouvelItem = false;
-			 item.description = currentItem.description;
-			vm.selectedItemTypeviolence = {} ;
-			vm.selectedItemTypeviolence.$selected = false;
-       };
-        vm.modifierTypeviolence = function(item) {
-			NouvelItem = false ;
-			vm.selectedItemTypeviolence = item;
-			currentItem = angular.copy(vm.selectedItemTypeviolence);
-			$scope.vm.allRecordsTypeviolence.forEach(function(it) {
-				it.$edit = false;
-			});        
-			item.$edit = true;	
-			item.$selected = true;	
-			vm.selectedItemTypeviolence.description = vm.selectedItemTypeviolence.description;
-			vm.selectedItemTypeviolence.$edit = true;	
-        };
-        vm.supprimerTypeviolence = function() {
-			var confirm = $mdDialog.confirm()
-                .title('Etes-vous sûr de supprimer cet enregistrement ?')
-                .textContent('')
-                .ariaLabel('Lucky day')
-                .clickOutsideToClose(true)
-                .parent(angular.element(document.body))
-                .ok('supprimer')
-                .cancel('annuler');
-			$mdDialog.show(confirm).then(function() {          
-				ajout(vm.selectedItemTypeviolence,1);
-			}, function() {
-			});
-        }
-		// Fin Type violence		
         function test_existence (item,suppression) {    
 			if(item.description.length > 0) {
 				var doublon = 0;
@@ -2437,22 +2251,6 @@
 						}
 						case 21:  {
 							vm.allRecordsInfrastructure.forEach(function(dispo) {   
-								if((dispo.description==item.description) && dispo.id!=item.id) {
-									doublon=1;	
-								} 
-							});
-							break;
-						}
-						case 23:  {
-							vm.allRecordsTypemariage.forEach(function(dispo) {   
-								if((dispo.description==item.description) && dispo.id!=item.id) {
-									doublon=1;	
-								} 
-							});
-							break;
-						}
-						case 24:  {
-							vm.allRecordsTypeviolence.forEach(function(dispo) {   
 								if((dispo.description==item.description) && dispo.id!=item.id) {
 									doublon=1;	
 								} 
