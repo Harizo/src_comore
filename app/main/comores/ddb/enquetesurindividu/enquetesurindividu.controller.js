@@ -23,6 +23,7 @@
 		vm.selectedItemTypemariage = {} ;     
 		vm.selectedItemTypeviolence = {} ;     
 		vm.selectedItemTypeformationrecue = {} ;     
+		vm.selectedItemSituationmatrimoniale = {} ;     
 		vm.allRecordsLiendeparente = [] ;
 		vm.allRecordsHandicapvisuel = [] ;
 		vm.allRecordsHandicapparole = [] ;
@@ -33,6 +34,7 @@
 		vm.allRecordsTypemariage = [] ;     
 		vm.allRecordsTypeviolence = [] ;     
 		vm.allRecordsTypeformationrecue = [] ;     
+		vm.allRecordsSituationmatrimoniale = [] ;     
 		vm.nom_table ="liendeparente";
 		vm.cas=1;
 		//variale affichage bouton nouveau
@@ -75,6 +77,9 @@
 		});  
 		apiFactory.getTable("enquete_menage/index","type_formation_recue").then(function(result){
 			vm.allRecordsTypeformationrecue = result.data.response;
+		});  
+		apiFactory.getTable("enquete_menage/index","situation_matrimoniale").then(function(result){
+			vm.allRecordsSituationmatrimoniale = result.data.response;
 		});  
 
 		vm.download_ddb = function(table)
@@ -158,6 +163,9 @@
 					case "type_formation_recue":
 						vm.allRecordsTypeformationrecue = ddb ;
 						break;
+					case "situation_matrimoniale":
+						vm.allRecordsTypeformationrecue = ddb ;
+						break;
 					
 					default:
 
@@ -218,6 +226,11 @@
 					case 10:  {
 						vm.nom_table="type_formation_recue";
 						vm.cas=10;
+						break;
+					}
+					case 11:  {
+						vm.nom_table="situation_matrimoniale";
+						vm.cas=11;
 						break;
 					}
 					default: {
@@ -327,6 +340,13 @@
 								vm.selectedItemTypeformationrecue ={};
 								break;
 							}
+							case 11:  {
+								vm.selectedItemSituationmatrimoniale.description = possession.description;
+								vm.selectedItemSituationmatrimoniale.$selected = false;
+								vm.selectedItemSituationmatrimoniale.$edit = false;
+								vm.selectedItemSituationmatrimoniale ={};
+								break;
+							}
 							default: {
 								break;
 							}
@@ -389,6 +409,12 @@
 							}
 							case 10:  {
 								vm.allRecordsTypeformationrecue = vm.allRecordsTypeformationrecue.filter(function(obj) {
+									return obj.id !== vm.selectedItemTypeformationrecue.id;
+								});
+								break;
+							}
+							case 11:  {
+								vm.allRecordsSituationmatrimoniale = vm.allRecordsSituationmatrimoniale.filter(function(obj) {
 									return obj.id !== vm.selectedItemTypeformationrecue.id;
 								});
 								break;
@@ -1084,6 +1110,72 @@
 			});
         }
 		// Fin Type formation reçue		
+		// Début Situation matrimoniale 
+        vm.selectionSituationmatrimoniale= function (item) {     
+            vm.selectedItemSituationmatrimoniale = item;
+        };
+        $scope.$watch('vm.selectedItemSituationmatrimoniale', function() {
+			if (!vm.allRecordsSituationmatrimoniale) return;
+			vm.allRecordsSituationmatrimoniale.forEach(function(item) {
+				item.$selected = false;
+			});
+			vm.selectedItemSituationmatrimoniale.$selected = true;
+        });
+        vm.ajouterSituationmatrimoniale = function () {
+            vm.selectedItemSituationmatrimoniale.$selected = false;
+            NouvelItem = true ;
+		    var items = {
+				$edit: true,
+				$selected: true,
+				supprimer:0,
+                description: '',
+			};
+			vm.allRecordsSituationmatrimoniale.push(items);
+		    vm.allRecordsSituationmatrimoniale.forEach(function(it) {
+				if(it.$selected==true) {
+					vm.selectedItemSituationmatrimoniale = it;
+				}
+			});			
+        };
+        vm.annulerSituationmatrimoniale = function(item) {
+			if (!item.id) {
+				vm.allRecords.pop();
+				return;
+			}          
+			item.$selected=false;
+			item.$edit=false;
+			NouvelItem = false;
+			 item.description = currentItem.description;
+			vm.selectedItemSituationmatrimoniale = {} ;
+			vm.selectedItemSituationmatrimoniale.$selected = false;
+       };
+        vm.modifierSituationmatrimoniale = function(item) {
+			NouvelItem = false ;
+			vm.selectedItemSituationmatrimoniale = item;
+			currentItem = angular.copy(vm.selectedItemSituationmatrimoniale);
+			$scope.vm.allRecordsSituationmatrimoniale.forEach(function(it) {
+				it.$edit = false;
+			});        
+			item.$edit = true;	
+			item.$selected = true;	
+			vm.selectedItemSituationmatrimoniale.description = vm.selectedItemSituationmatrimoniale.description;
+			vm.selectedItemSituationmatrimoniale.$edit = true;	
+        };
+        vm.supprimerSituationmatrimoniale = function() {
+			var confirm = $mdDialog.confirm()
+                .title('Etes-vous sûr de supprimer cet enregistrement ?')
+                .textContent('')
+                .ariaLabel('Lucky day')
+                .clickOutsideToClose(true)
+                .parent(angular.element(document.body))
+                .ok('supprimer')
+                .cancel('annuler');
+			$mdDialog.show(confirm).then(function() {          
+				ajout(vm.selectedItemSituationmatrimoniale,1);
+			}, function() {
+			});
+        }
+		// Fin Situation matrimoniale
         function test_existence (item,suppression) {    
 			if(item.description.length > 0) {
 				var doublon = 0;
@@ -1163,6 +1255,14 @@
 						}
 						case 10:  {
 							vm.allRecordsTypeformationrecue.forEach(function(dispo) {   
+								if((dispo.description==item.description) && dispo.id!=item.id) {
+									doublon=1;	
+								} 
+							});
+							break;
+						}
+						case 11:  {
+							vm.allRecordsSituationmatrimoniale.forEach(function(dispo) {   
 								if((dispo.description==item.description) && dispo.id!=item.id) {
 									doublon=1;	
 								} 
