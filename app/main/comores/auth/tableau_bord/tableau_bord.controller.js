@@ -119,40 +119,18 @@
       
     });
 
-      /*      vm.barChart = {
-            labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-            series: ['Series A', 'Series B'],
-            data  : [
-                [65, 59, 80, 81, 56, 55, 40],
-                [28, 48, 40, 19, 86, 27, 90]
-            ],
-            options          : {
-                seriesBarDistance: 15,
-                borderWidth : 20
-            },
-            responsiveOptions: [
-                ['screen and (min-width: 641px) and (max-width: 1024px)', {
-                    seriesBarDistance: 10,
-                    axisX            : {
-                        labelInterpolationFnc: function (value)
-                        {
-                            return value;
-                        }
-                    }
-                }],
-                ['screen and (max-width: 640px)', {
-                    seriesBarDistance: 5,
-                    axisX            : {
-                        labelInterpolationFnc: function (value)
-                        {
-                            return value[0];
-                        }
-                    }
-                }]
-            ]
-        };*/
 
-	
+    apiFactory.getAPIgeneraliserREST("reporting/index","type_etat",'nbr_individu_par_formation',"date_deb",null,"date_fin",null,
+            "id_ile","*","id_region",null,"id_commune",null,"village_id",null).then(function(result)
+    {
+      vm.data_via_base_nbr_individu_par_formation =  result.data.response ;
+    
+     
+      vm.data_via_base_nbr_individu_par_formation_ok = true ;
+      
+    });
+
+  
 
     }
 })();

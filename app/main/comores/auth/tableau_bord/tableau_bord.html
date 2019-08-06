@@ -344,7 +344,60 @@
                   
                 </div>
 
-                
+                <div layout="row" layout-align="center center">
+                  <div flex-gt-xs="70">
+                    <table class="dataTable row-border hover cell-border text-center" 
+                            dt-options="vm.dtOptions">
+                            <thead>
+                              <tr>
+                              
+                              <!-- nbr_individu_par_programme -->
+
+                                <th class="primary-text md-accent-bg" >
+                                  <div class="table-header">
+                                    <span class="column-title text-center">Type de formation</span>
+                                  </div>
+                                </th>
+
+                                <th class="primary-text md-accent-bg" >
+                                  <div class="table-header">
+                                    <span class="column-title text-center">Nombre</span>
+                                  </div>
+                                </th>
+
+                                
+                                  
+
+                              <!--fin nbr_individu_par_programme -->
+
+                              
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="(key,data) in vm.data_via_base_nbr_individu_par_formation">
+                                
+
+                                 <!--nbr_menage_par_programme -->
+                                  <td ng-if="key!='total'">{{data.description}}</td>                
+                                  <td ng-if="key!='total'">{{data.nbr}}</td>
+                                  
+                                 <!--fin nbr_menage_par_programme -->   
+                                           
+                              </tr>
+                            </tbody>
+                            <!--tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td><b><u>Nombre total d'individu q:</u></b> {{vm.data_via_base_nbr_mariage[0].nbr_total_mariage_precoce}}</td>
+                                </tr>
+                            </tfoot!-->
+                      </table>
+                  </div>
+                  <div flex-gt-xs="30">
+                    
+                  </div>
+                    
+                 </div>
 
                 
 
