@@ -90,7 +90,7 @@
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>Programme</label>
-                                    <md-select ng-model="vm.id_programme" name="programme" ng-change="vm.filtre_region()" ng-disabled="!vm.filtre.id_village"  required>
+                                    <md-select ng-model="vm.id_programme" name="programme" ng-change="vm.filtre_programme_menage()" ng-disabled="!vm.filtre.id_village"  required>
                                      
                                       <md-option ng-repeat="programme in vm.all_programme" value="{{programme.id}}" >
                                         {{programme.libelle}}

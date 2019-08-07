@@ -116,6 +116,7 @@
 			});
 		}
 		vm.filtrer = function() {
+			vm.afficherboutonModifSupr=0;
 			apiFactory.getAPIgeneraliserREST("menage_programme/index","id_programme",vm.id_programme,"id_village",vm.filtre.id_village).then(function(result) { 
 				if(result.data.response.length >0) {
 					vm.all_menage_programme = result.data.response;   
@@ -123,20 +124,22 @@
 					vm.all_menage_programme = []; 
 					vm.showAlert("INFORMATION","Aucun enregistrement trouvé !")	
 				}			
-				vm.filtrer_DataTable_et_masque_saisie_menage();
 				// 5 lignes Dangereux : toujours à réinitialiser sinon bonjour le dégat lors du réaffichage du datatable
 				vm.selectedItemMenage.nutrition = [];
 				vm.selectedItemMenage.transfert_argent = [];
 			});
 		}
+		vm.filtre_programme_menage = function() {
+			vm.filtrer_DataTable_et_masque_saisie_menage();
+		}
 		vm.filtrer_DataTable_et_masque_saisie_menage = function() {
 			if(parseInt(vm.id_programme)==3) {
 				vm.affichesuivimenagepardefaut =0;
 				vm.affichesuivimenagenutrition =1;				
-			} else if (parseInt(vm.id_programme)==1) {
-				// Transfert monétaire
+			} else {
+				// Transfert monétaire pour les autres programmes
 				vm.affichesuivimenagepardefaut =1;
-				vm.affichesuivimenagenutrition =0;				
+				vm.affichesuivimenagenutrition =0;
 			}			
 		}
 		vm.filtrer_DataTable_et_masque_saisie_individu = function() {
@@ -144,12 +147,6 @@
 				// Nutrition n'oubliez pas de faire une copie coller vers vm.ajouterSuiviIndividu et vm.modifierSuiviIndividu
 				vm.affichesuiviindividupardefaut =0;
 				vm.affichesuiviindividunutrition =1;				
-				vm.affichesuiviindividugenre =0;	
-				vm.affichesuiviindividumariageprecoce=0;
-			} else if (parseInt(vm.id_programme)==1) {
-				// Transfert monétaire
-				vm.affichesuiviindividupardefaut =1;
-				vm.affichesuiviindividunutrition =0;				
 				vm.affichesuiviindividugenre =0;	
 				vm.affichesuiviindividumariageprecoce=0;
 			} else if (parseInt(vm.id_programme)==5){
@@ -165,9 +162,17 @@
 					vm.affichesuiviindividugenre =0;
 					vm.affichesuiviindividumariageprecoce=1;					
 				}
-			}			
+			} else  {
+				// if (parseInt(vm.id_programme)==1)
+				// Transfert monétaire par défaut pour les autres programmes
+				vm.affichesuiviindividupardefaut =1;
+				vm.affichesuiviindividunutrition =0;				
+				vm.affichesuiviindividugenre =0;	
+				vm.affichesuiviindividumariageprecoce=0;
+			} 			
 		}
 		vm.filtrer_Individu = function() {
+			vm.afficherboutonModifSuprIndividu=0;
 			apiFactory.getAPIgeneraliserREST("individu_programme/index","id_programme",vm.id_programme,"id_village",vm.filtre.id_village).then(function(result) { 
 				if(result.data.response.length >0) {
 					vm.all_individu_programme = result.data.response;   
@@ -260,19 +265,20 @@
             vm.afficherboutonnouveau = 1 ;
 		}
 		$scope.$watch('vm.selectedItemDetailSuiviMenage', function() {
-			if(parseInt(vm.id_programme)==1) {
-				if (!vm.selectedItemMenage.transfert_argent) return;
-				vm.selectedItemMenage.transfert_argent.forEach(function(item) {
-					item.$selected = false;
-				});				
-				vm.selectedItemDetailSuiviMenage.$selected = true;
-			} else if(parseInt(vm.id_programme)==3) {
+			if(parseInt(vm.id_programme)==3) {
 				if (!vm.selectedItemMenage.nutrition) return;
 				vm.selectedItemMenage.nutrition.forEach(function(item) {
 					item.$selected = false;
 				});				
 				vm.selectedItemDetailSuiviMenage.$selected = true;
-			}		
+			} else {
+				// Transfert d'argent par défaut
+				if (!vm.selectedItemMenage.transfert_argent) return;
+				vm.selectedItemMenage.transfert_argent.forEach(function(item) {
+					item.$selected = false;
+				});				
+				vm.selectedItemDetailSuiviMenage.$selected = true;
+			} 		
 		});
         vm.ajouterSuiviMenage = function () {
 			vm.affichageMasque = 1 ;
@@ -423,17 +429,17 @@
 				if (NouvelItemSuiviMenage == false) {                 
                    // Update or delete: id exclu                    
                     if(suppression==0) { 
-						if(parseInt(vm.id_programme)==1) {
-							for (var i = 0; i < vm.selectedItemMenage.transfert_argent.length; i++) {
-								if(parseInt(vm.selectedItemMenage.transfert_argent[i].id)==parseInt(suivimenage.id)) {
-									vm.selectedItemMenage.transfert_argent[i]=suivimenage;
-									vm.selectedItemDetailSuiviMenage=suivimenage;
-								}          
-							}							
-						} else if(parseInt(vm.id_programme)==3) {
+						if(parseInt(vm.id_programme)==3) {
 							for (var i = 0; i < vm.selectedItemMenage.nutrition.length; i++) {
 								if(parseInt(vm.selectedItemMenage.nutrition[i].id)==parseInt(suivimenage.id)) {
 									vm.selectedItemMenage.nutrition[i]=suivimenage;
+									vm.selectedItemDetailSuiviMenage=suivimenage;
+								}          
+							}							
+						} else  {
+							for (var i = 0; i < vm.selectedItemMenage.transfert_argent.length; i++) {
+								if(parseInt(vm.selectedItemMenage.transfert_argent[i].id)==parseInt(suivimenage.id)) {
+									vm.selectedItemMenage.transfert_argent[i]=suivimenage;
 									vm.selectedItemDetailSuiviMenage=suivimenage;
 								}          
 							}							
@@ -443,15 +449,16 @@
 						vm.selectedItemDetailSuiviMenage.$selected = false;
 						vm.selectedItemDetailSuiviMenage ={};
                     } else {                      
-						if(parseInt(vm.id_programme)==1) {
-							vm.selectedItemMenage.transfert_argent = vm.selectedItemMenage.transfert_argent.filter(function(obj) {
-								return obj.id !== currentItem.id;
-							});
-						} else if(parseInt(vm.id_programme)==3) {
+						if(parseInt(vm.id_programme)==3) {
 							vm.selectedItemMenage.nutrition = vm.selectedItemMenage.nutrition.filter(function(obj) {
 								return obj.id !== currentItem.id;
 							});
-						}                    }
+						} else {
+							vm.selectedItemMenage.transfert_argent = vm.selectedItemMenage.transfert_argent.filter(function(obj) {
+								return obj.id !== currentItem.id;
+							});
+						}
+					}
 				} else {                               
                     var item = {
 						id_menage: vm.selectedItemMenage.id_menage,
@@ -473,10 +480,11 @@
 						mois_grossesse: suivimenage.mois_grossesse,
 						id:String(data.response) ,
 					};
-					if(parseInt(vm.id_programme)==1) {
-						vm.selectedItemMenage.transfert_argent.push(item); 
-					} else if(parseInt(vm.id_programme)==3) {
+					if(parseInt(vm.id_programme)==3) {
 						vm.selectedItemMenage.nutrition.push(item); 
+					} else  {
+						// Transfert d'argent par défaut
+						vm.selectedItemMenage.transfert_argent.push(item); 
 					} 
 					// vm.selectedItemMenage.detail_suivi_menage.push(item); 
                     NouvelItemSuiviMenage=false;
@@ -538,13 +546,7 @@
             vm.afficherboutonnouveauIndividu = 1 ;
 		}
 		$scope.$watch('vm.selectedItemDetailSuiviIndividu', function() {
-			if(parseInt(vm.id_programme)==1) {
-				if (!vm.selectedItemIndividu.transfert_argent) return;
-				vm.selectedItemIndividu.transfert_argent.forEach(function(item) {
-					item.$selected = false;
-				});				
-				vm.selectedItemDetailSuiviIndividu.$selected = true;
-			} else if(parseInt(vm.id_programme)==3) {
+			if(parseInt(vm.id_programme)==3) {
 				if (!vm.selectedItemIndividu.nutrition) return;
 				vm.selectedItemIndividu.nutrition.forEach(function(item) {
 					item.$selected = false;
@@ -558,7 +560,14 @@
 					item.$selected = false;
 				});				
 				vm.selectedItemDetailSuiviIndividu.$selected = true;
-			}			
+			}	else {
+				// Transfert d'argent par défaut
+				if (!vm.selectedItemIndividu.transfert_argent) return;
+				vm.selectedItemIndividu.transfert_argent.forEach(function(item) {
+					item.$selected = false;
+				});				
+				vm.selectedItemDetailSuiviIndividu.$selected = true;
+			}
 		});
         vm.ajouterSuiviIndividu = function () {
 			vm.affichageMasqueIndividu = 1 ;
@@ -762,14 +771,7 @@
 				if (NouvelItemSuiviIndividu == false) {                 
                    // Update or delete: id exclu                    
                     if(suppression==0) { 
-						if(parseInt(vm.id_programme)==1) {
-							for (var i = 0; i < vm.selectedItemIndividu.transfert_argent.length; i++) {
-								if(parseInt(vm.selectedItemIndividu.transfert_argent[i].id)==parseInt(suiviindividu.id)) {
-									vm.selectedItemIndividu.transfert_argent[i]=suiviindividu;
-									vm.selectedItemDetailSuiviIndividu=suiviindividu;
-								}          
-							}							
-						} else if(parseInt(vm.id_programme)==3) {
+						if(parseInt(vm.id_programme)==3) {
 							for (var i = 0; i < vm.selectedItemIndividu.nutrition.length; i++) {
 								if(parseInt(vm.selectedItemIndividu.nutrition[i].id)==parseInt(suiviindividu.id)) {
 									vm.selectedItemIndividu.nutrition[i]=suiviindividu;
@@ -790,17 +792,21 @@
 									vm.selectedItemDetailSuiviIndividu=suiviindividu;
 								}          
 							}							
-						}	
+						} else {
+							// if(parseInt(vm.id_programme)==1)
+							for (var i = 0; i < vm.selectedItemIndividu.transfert_argent.length; i++) {
+								if(parseInt(vm.selectedItemIndividu.transfert_argent[i].id)==parseInt(suiviindividu.id)) {
+									vm.selectedItemIndividu.transfert_argent[i]=suiviindividu;
+									vm.selectedItemDetailSuiviIndividu=suiviindividu;
+								}          
+							}							
+						} 
 						vm.afficherboutonModifSuprIndividu = 0 ;
 						vm.afficherboutonnouveauIndividu = 1 ;
 						 vm.selectedItemDetailSuiviIndividu.$selected = false;
 						vm.selectedItemDetailSuiviIndividu ={};
                     } else {                      
-						if(parseInt(vm.id_programme)==1) {
-							vm.selectedItemIndividu.transfert_argent = vm.selectedItemIndividu.transfert_argent.filter(function(obj) {
-								return obj.id !== currentItemSuiviIndividu.id;
-							});
-						} else if(parseInt(vm.id_programme)==3) {
+						if(parseInt(vm.id_programme)==3) {
 							vm.selectedItemIndividu.nutrition = vm.selectedItemIndividu.nutrition.filter(function(obj) {
 								return obj.id !== currentItemSuiviIndividu.id;
 							});
@@ -812,7 +818,12 @@
 							vm.selectedItemIndividu.mariage_precoce = vm.selectedItemIndividu.mariage_precoce.filter(function(obj) {
 								return obj.id !== currentItemSuiviIndividu.id;
 							});
-						}	
+						} else {
+							//Transfert d'argent par défaut
+							vm.selectedItemIndividu.transfert_argent = vm.selectedItemIndividu.transfert_argent.filter(function(obj) {
+								return obj.id !== currentItemSuiviIndividu.id;
+							});
+						}
                     }
 				} else {                               
                     var item = {
@@ -847,14 +858,15 @@
 						id_type_violence: suiviindividu.id_type_violence,
 						type_violence: suiviindividu.type_violence,
 					};
-					if(parseInt(vm.id_programme)==1) {
-						vm.selectedItemIndividu.transfert_argent.push(item); 
-					} else if(parseInt(vm.id_programme)==3) {
+					if(parseInt(vm.id_programme)==3) {
 						vm.selectedItemIndividu.nutrition.push(item); 
 					} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_violence) >0) {
 						vm.selectedItemIndividu.promotion_genre.push(item); 
 					} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_mariage) >0) {
 						vm.selectedItemIndividu.mariage_precoce.push(item); 
+					} else 	 {
+						// Transfert d'argent par défaut
+						vm.selectedItemIndividu.transfert_argent.push(item); 
 					}	
                     NouvelItemSuiviIndividu=false;
 				}
