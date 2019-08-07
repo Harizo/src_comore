@@ -38,7 +38,8 @@
 	        {titre:"Nombre de personne vivant avec handicap enregistrées",id:"nbr_pers_avec_andicap"},
 	        {titre:"Individu par programme",id:"individu_par_programme"},
 	        {titre:"Nombre de cas de mal nutrition",id:"nbr_enfant_mal_nouri"},
-	        {titre:"Nombre individu par programme",id:"nbr_individu_par_programme"}
+	        {titre:"Nombre individu par programme",id:"nbr_individu_par_programme"},
+	        {titre:"Nombre individu par formation",id:"nbr_individu_par_formation"}
 
       	];
 

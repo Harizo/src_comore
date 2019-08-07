@@ -113,9 +113,20 @@
             "id_ile","*","id_region",null,"id_commune",null,"village_id",null).then(function(result)
     {
       vm.data_via_base_nbr_mariage =  result.data.response ;
-      console.log(vm.data_via_base_nbr_mariage);
+     
      
       vm.data_via_base_nbr_mariage_ok = true ;
+      
+    });
+
+
+    apiFactory.getAPIgeneraliserREST("reporting/index","type_etat",'nbr_violence',"date_deb",null,"date_fin",null,
+            "id_ile","*","id_region",null,"id_commune",null,"village_id",null).then(function(result)
+    {
+      vm.data_via_base_nbr_violence =  result.data.response ;
+      console.log(vm.data_via_base_nbr_violence);
+     
+      vm.data_via_base_nbr_violence_ok = true ;
       
     });
 
@@ -125,8 +136,6 @@
     {
       vm.data_via_base_nbr_individu_par_formation =  result.data.response ;
     
-     
-      vm.data_via_base_nbr_individu_par_formation_ok = true ;
       
     });
 

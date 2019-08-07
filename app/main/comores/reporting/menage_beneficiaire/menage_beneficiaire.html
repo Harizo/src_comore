@@ -287,6 +287,7 @@
                           
 
                         <!--fin Menage_par_programme -->
+                        
                         </tr>
                       </thead>
                       <tbody>
@@ -592,6 +593,29 @@
                             </div>
                           </th>
 
+                          <!--debut nbr individu par formation -->
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Type de formation </span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre Homme </span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre femme </span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre total </span>
+                            </div>
+                          </th>
+                        <!--fin nbr individu par formation -->
+
                       
                         </tr>
                       </thead>
@@ -625,10 +649,18 @@
                            <td ng-show="vm.filtre_individu.pivot=='nbr_enfant_mal_nouri'">{{data.poids_median}}</td>
 
 
-                           <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.libelle}}</td>                
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.libelle}}</td>                
                             <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.nbr}}</td>
                             <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{data.nbr_individu_enregistrer}}</td>
                             <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_individu_enregistrer))}} %</td>
+
+
+                            <!--fin nbr individu par formation -->
+                              <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.description}}</td>
+                              <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.nbr_homme}}</td>
+                              <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.nbr_femme}}</td>
+                              <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.nbr}}</td>
+                            <!--fin nbr individu par formation -->
                            
                                       
                         </tr>
