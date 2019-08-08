@@ -312,6 +312,9 @@
 			NouvelItemSuiviMenage = false ;
 			vm.suivimenage.id=vm.selectedItemDetailSuiviMenage.id;
 			vm.suivimenage.id_menage=vm.selectedItemMenage.id_menage;
+			vm.suivimenage.nomchefmenage=vm.selectedItemMenage.nomchefmenage;
+			vm.suivimenage.partenaire=vm.selectedItemDetailSuiviMenage.partenaire;
+			vm.suivimenage.acteur=vm.selectedItemDetailSuiviMenage.acteur;
 			if(vm.selectedItemDetailSuiviMenage.date_suivi) {
 				vm.suivimenage.date_suivi=new Date(vm.selectedItemDetailSuiviMenage.date_suivi);
 			} else {
@@ -613,7 +616,6 @@
 			vm.filtrer_DataTable_et_masque_saisie_individu();
 			NouvelItemSuiviIndividu = false ;
 			vm.suiviindividu.Nom= vm.selectedItemIndividu.Nom; 
-			
 			vm.suiviindividu.id=vm.selectedItemDetailSuiviIndividu.id;
 			vm.suiviindividu.id_individu=vm.selectedItemIndividu.id_individu;
 			if(vm.selectedItemDetailSuiviIndividu.date_suivi) {
