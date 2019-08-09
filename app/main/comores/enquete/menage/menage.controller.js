@@ -747,20 +747,20 @@
       //FIN CHECK BOK MULTISELECT
 
       vm.showAlert = function(titre,textcontent) 
-        {
-          
-          $mdDialog.show(
-            $mdDialog.alert()
-            .parent(angular.element(document.querySelector('#popupContainer')))
-            .clickOutsideToClose(false)
-            .parent(angular.element(document.body))
-            .title(titre)
-            .textContent(textcontent)
-            .ariaLabel('Information')
-            .ok('Fermer')
-            .targetEvent()
-          );
-        } 
+      {
+        
+        $mdDialog.show(
+          $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(false)
+          .parent(angular.element(document.body))
+          .title(titre)
+          .textContent(textcontent)
+          .ariaLabel('Information')
+          .ok('Fermer')
+          .targetEvent()
+        );
+      } 
 
       function formatDateBDD(dat)
       {

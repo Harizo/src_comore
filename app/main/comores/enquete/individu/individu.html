@@ -145,6 +145,9 @@
 								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerSuiviMenage()" style="width:10%;">
 								  Supprimer
 								</md-button>
+								<md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviMenage.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_menage()">
+	                              <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+	                            </md-button>
 							</div>
 							<div style="widht:100%;"  ng-show="vm.affichageMasque==1"> 
 								<form name="form_suivi_menage_transfert_argent" class="md-inline-form"  ng-show="vm.affichesuivimenagepardefaut ==1" novalidate >
@@ -319,6 +322,7 @@
 									  <td>{{mp.acteur[0].Nom}}</td>                
 									  <td>{{mp.typetransfert[0].description}}</td>                
 									  <td>{{mp.montant |number:0}}</td>                
+									  <td>{{vm.etat_envoie(mp.id_serveur_centrale)}}</td>                
 									</tr>
 								  </tbody>
 								</table>
@@ -385,7 +389,8 @@
 									  <td>{{nu.taille | number:2}}</td>                
 									  <td>{{nu.zscore | number:2}}</td>                
 									  <td>{{nu.mois_grossesse | number:0}}</td>                
-									  <td style="visibility:hidden">{{nu.id}}</td>                
+									  <td style="visibility:hidden">{{nu.id}}</td>    
+									  <td>{{vm.etat_envoie(nu.id_serveur_centrale)}}</td>             
 									</tr>
 								  </tbody>
 								</table>

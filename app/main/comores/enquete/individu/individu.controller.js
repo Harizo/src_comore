@@ -6,9 +6,10 @@
         .controller('IndividuController', IndividuController);
 
     /** @ngInject */
-    function IndividuController(apiFactory, $state, $mdDialog, $scope) 
+    function IndividuController(apiFactory, $state, $mdDialog, $scope, serveur_central) 
     {
 		var vm = this;
+		vm.serveur_central = serveur_central ;
 		vm.Enregistrer_suivi_menage	=Enregistrer_suivi_menage;	
 		vm.Enregistrer_suivi_individu	=Enregistrer_suivi_individu;	
 		var NouvelItemSuiviMenage=false; 
@@ -56,11 +57,11 @@
 		vm.selectedItemMenage.transfert_argent =[];
 		vm.menage_column = [{titre:"Numero d'enregistrement"},{titre:"Chef Ménage"},{titre:"Personne inscrire"},{titre:"Age"},{titre:"Addresse"}];
 		vm.individu_column = [{titre:"N° d'enregistrement"},{titre:"Chef Ménage"},{titre:"Nom"},{titre:"Date Naissance"},{titre:"Addresse"}];
-		vm.suivi_menage_column = [{titre:"Nom"},{titre:"Date"},{titre:"Partenaire"},{titre:"Acteur"},{titre:"Type-Transf"},{titre:"Montant"}];
-		vm.suivi_individu_transfert_column = [{titre:"Nom"},{titre:"Date"},{titre:"Partenaire"},{titre:"Acteur"},{titre:"Type-Transf"},{titre:"Montant"}];
-		vm.suivi_nutrition_menage_column = [{titre:"Nom"},{titre:"Poids"},{titre:"Périm-Bra"},{titre:"Age:mois"},{titre:"Taille"},{titre:"Z-score"},{titre:"Mois-grossesse"}];
-		vm.suivi_promotion_genre_column = [{titre:"Nom"},{titre:"Sexe"},{titre:"Age"},{titre:"Date/Infr"},{titre:"Infraction"},{titre:"Lieu"},{titre:"T-Violence"}];
-		vm.suivi_mariage_precode_column = [{titre:"Nom"},{titre:"Sexe"},{titre:"Age"},{titre:"Date"},{titre:"Type-mariage"},{titre:"Cause"}];
+		vm.suivi_menage_column = [{titre:"Nom"},{titre:"Date"},{titre:"Partenaire"},{titre:"Acteur"},{titre:"Type-Transf"},{titre:"Montant"},{titre:"Etat envoie"}];
+		vm.suivi_individu_transfert_column = [{titre:"Nom"},{titre:"Date"},{titre:"Partenaire"},{titre:"Acteur"},{titre:"Type-Transf"},{titre:"Montant"},{titre:"Etat envoie"}];
+		vm.suivi_nutrition_menage_column = [{titre:"Nom"},{titre:"Poids"},{titre:"Périm-Bra"},{titre:"Age:mois"},{titre:"Taille"},{titre:"Z-score"},{titre:"Mois-grossesse"},{titre:"Etat envoie"}];
+		vm.suivi_promotion_genre_column = [{titre:"Nom"},{titre:"Sexe"},{titre:"Age"},{titre:"Date/Infr"},{titre:"Infraction"},{titre:"Lieu"},{titre:"T-Violence"},{titre:"Etat envoie"}];
+		vm.suivi_mariage_precode_column = [{titre:"Nom"},{titre:"Sexe"},{titre:"Age"},{titre:"Date"},{titre:"Type-mariage"},{titre:"Cause"},{titre:"Etat envoie"}];
 		vm.dtOptions =
 		{
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -390,7 +391,8 @@
             //alert('rien');
 			});
         };	  
-        function Enregistrer_suivi_menage(suivimenage,suppression) {
+        function Enregistrer_suivi_menage(suivimenage,suppression) 
+        {
             //add
             var config = {
                 headers : {
@@ -493,6 +495,106 @@
 			})
         }
 		// FIN SUIVI MENAGE
+
+		//DEBUT ENVOIE SUIVI MENAGE 
+			vm.envoie_suivi_menage = function()
+			{
+				//console.log(vm.selectedItemDetailSuiviMenage) ;
+				var config =  {
+                        headers : {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                      };
+
+				var id_mng = 0 ;
+
+		        if (vm.selectedItemDetailSuiviMenage.id_serveur_centrale != null) 
+		        {
+		          var id_mng = vm.selectedItemDetailSuiviMenage.id_serveur_centrale ;
+		        }
+
+		        var datas = $.param(
+		                    {    
+								supprimer:0,
+								id: id_mng ,
+								id_menage: vm.selectedItemDetailSuiviMenage.id_menage,
+								id_programme: vm.selectedItemDetailSuiviMenage.id_programme,
+								id_partenaire: vm.selectedItemDetailSuiviMenage.id_partenaire,
+								id_acteur: vm.selectedItemDetailSuiviMenage.id_acteur,
+								id_type_transfert: vm.selectedItemDetailSuiviMenage.id_type_transfert,
+								date_suivi: vm.selectedItemDetailSuiviMenage.date_suivi,
+								montant: vm.selectedItemDetailSuiviMenage.montant,
+								poids: vm.selectedItemDetailSuiviMenage.poids,
+								perimetre_bracial: vm.selectedItemDetailSuiviMenage.perimetre_bracial,
+								age_mois: vm.selectedItemDetailSuiviMenage.age_mois,
+								taille: vm.selectedItemDetailSuiviMenage.taille,
+								zscore: vm.selectedItemDetailSuiviMenage.zscore,
+								mois_grossesse: vm.selectedItemDetailSuiviMenage.mois_grossesse,
+		                      		                                                 
+		                    });
+
+		        apiFactory.add_serveur_central("suivi_menage/index",datas, config).success(function (data) 
+        		{
+        			vm.showAlert("Information",'Envoie réussi!');
+					if (vm.selectedItemDetailSuiviMenage.id_serveur_centrale == null) 
+					{
+						vm.selectedItemDetailSuiviMenage.id_serveur_centrale =  data.response ;
+					}
+
+					var datas_update_local = $.param(
+					        
+									        {    
+												supprimer:0,
+												id: vm.selectedItemDetailSuiviMenage.id ,
+												id_serveur_centrale: data.response ,
+												id_menage: vm.selectedItemDetailSuiviMenage.id_menage,
+												id_programme: vm.selectedItemDetailSuiviMenage.id_programme,
+												id_partenaire: vm.selectedItemDetailSuiviMenage.id_partenaire,
+												id_acteur: vm.selectedItemDetailSuiviMenage.id_acteur,
+												id_type_transfert: vm.selectedItemDetailSuiviMenage.id_type_transfert,
+												date_suivi: vm.selectedItemDetailSuiviMenage.date_suivi,
+												montant: vm.selectedItemDetailSuiviMenage.montant,
+												poids: vm.selectedItemDetailSuiviMenage.poids,
+												perimetre_bracial: vm.selectedItemDetailSuiviMenage.perimetre_bracial,
+												age_mois: vm.selectedItemDetailSuiviMenage.age_mois,
+												taille: vm.selectedItemDetailSuiviMenage.taille,
+												zscore: vm.selectedItemDetailSuiviMenage.zscore,
+												mois_grossesse: vm.selectedItemDetailSuiviMenage.mois_grossesse,
+									                                     
+									        });
+
+					apiFactory.add("suivi_menage/index",datas_update_local, config).success(function (dat) 
+					{
+					  
+					})
+					.error(function (dat) 
+					{
+					  vm.disable_button = false ;
+					  console.log('erreur '+dat);
+					  vm.showAlert("Alerte","Erreur lors de la mis à jour!");
+					});
+        		})
+		        .error(function (data) 
+		        {
+		          vm.disable_button = false ;
+		          console.log('erreur '+data);
+		          vm.showAlert("Alerte","Erreur lors de l'enregistrement!");
+		        });
+			}
+		//FIN ENVOIE SUIVI MENAGE 
+
+		vm.etat_envoie = function(id_serveur_centrale)
+		{
+		if (id_serveur_centrale) 
+		{
+		  return "Envoyé" ;
+		}
+		else
+		{
+		  return "Non envoyé" ;
+		}
+		}
+
 		// DEBUT FONCTION CONCERNANT INDIVIDU
 		vm.selectionIndividu= function (item) {
 			vm.selectedItemIndividu = item;
