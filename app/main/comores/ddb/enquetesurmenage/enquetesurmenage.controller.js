@@ -172,7 +172,6 @@
 			apiFactory.getAll_serveur_central("enquete_menage/index",table).then(function(result){
 				var ddb = result.data.response;
 
-				console.log(ddb);
 				var datas_suppr = $.param({
 						supprimer:1,
 						nom_table: table,

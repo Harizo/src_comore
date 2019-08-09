@@ -114,7 +114,6 @@
 			apiFactory.getAll_acteur_serveur_central(controller).then(function(result){
 				var ddb = result.data.response;
 
-				console.log(ddb);
 				var datas_suppr = $.param({
 						supprimer:1,
 						nom_table: table,
@@ -207,7 +206,7 @@
 											ile_id: element.ile.id,
 											programme_id: element.programme.id
 										});   
-console.log(dat);
+
 								apiFactory.add(controller,datas, config).success(function (data) {
 									nbr_data_insert++ ;
 									if ((index+1) == ddb.length) //affichage Popup
@@ -250,11 +249,11 @@ console.log(dat);
 		function ajout(agent_e,suppression) {
             
             if (NouvelItemAgent_ex==false) 
-              {console.log('2');
+              {
                 test_existence (agent_e,suppression); 
               }
               else
-              { console.log('d');
+              { 
                 insert_in_base(agent_e,suppression);
               }
         }
@@ -390,7 +389,7 @@ console.log(dat);
 			vm.selectedItemAgent_ex.$selected = false;
        };
         vm.modifierAgent_ex = function(item) {
-        	console.log(vm.selectedItemAgent_ex);
+        	
 			NouvelItemAgent_ex = false ;
 			vm.selectedItemAgent_ex = item;
 			currentItemAgent_ex = angular.copy(vm.selectedItemAgent_ex);
@@ -406,7 +405,7 @@ console.log(dat);
 			item.ile_id = vm.selectedItemAgent_ex.ile.id;
 			item.programme_id = vm.selectedItemAgent_ex.programme.id;
 			item.$edit = true;
-			console.log(vm.allRecordsAgent_ex);	
+			
         };
         vm.supprimerAgent_ex = function() {
 			var confirm = $mdDialog.confirm()

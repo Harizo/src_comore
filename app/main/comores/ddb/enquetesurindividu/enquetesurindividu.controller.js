@@ -95,8 +95,7 @@
 			apiFactory.getAll_serveur_central("enquete_menage/index",table).then(function(result){
 				var ddb = result.data.response;
 
-				console.log(ddb);
-				var datas_suppr = $.param({
+								var datas_suppr = $.param({
 						supprimer:1,
 						nom_table: table,
 					}); 
@@ -104,7 +103,7 @@
 				apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {
 
 						//add ddb
-							ddb.forEach( function(element, index) {console.log(index);
+							ddb.forEach( function(element, index) {
 								
 								var datas = $.param({
 									supprimer:0,
