@@ -259,25 +259,56 @@
 		// DEBUT SUIVI MENAGE
 		vm.selectionDetailSuiviMenage= function (item) {
 			vm.selectedItemDetailSuiviMenage = item;
+			console.log(vm.selectedItemDetailSuiviMenage);
             currentItemSuiviMenage = angular.copy(vm.selectedItemDetailSuiviMenage);       
             vm.afficherboutonModifSupr = 1 ;
             vm.affichageMasque = 0 ;
             vm.afficherboutonnouveau = 1 ;
+			if(parseInt(vm.id_programme)==3) {
+				if (!vm.selectedItemMenage.nutrition) return;
+				vm.selectedItemMenage.nutrition.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviMenage.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviMenage= items;
+					} else {
+						items.$selected = false;
+					}	
+				});								
+			} else {
+				// Transfert d'argent par défaut
+				if (!vm.selectedItemMenage.transfert_argent) return;
+				vm.selectedItemMenage.transfert_argent.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviMenage.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviMenage= items;
+					} else {
+						items.$selected = false;
+					}	
+				});				
+			} 					
 		}
 		$scope.$watch('vm.selectedItemDetailSuiviMenage', function() {
 			if(parseInt(vm.id_programme)==3) {
 				if (!vm.selectedItemMenage.nutrition) return;
-				vm.selectedItemMenage.nutrition.forEach(function(item) {
-					item.$selected = false;
-				});				
-				vm.selectedItemDetailSuiviMenage.$selected = true;
+				vm.selectedItemMenage.nutrition.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviMenage.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviMenage= items;
+					} else {
+						items.$selected = false;
+					}	
+				});								
 			} else {
 				// Transfert d'argent par défaut
 				if (!vm.selectedItemMenage.transfert_argent) return;
-				vm.selectedItemMenage.transfert_argent.forEach(function(item) {
-					item.$selected = false;
+				vm.selectedItemMenage.transfert_argent.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviMenage.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviMenage= items;
+					} else {
+						items.$selected = false;
+					}	
 				});				
-				vm.selectedItemDetailSuiviMenage.$selected = true;
 			} 		
 		});
         vm.ajouterSuiviMenage = function () {
@@ -310,11 +341,14 @@
         };
 		vm.modifierSuiviMenage = function() {
 			NouvelItemSuiviMenage = false ;
+			// Dangereux si rien de modifié : faut réinitialiser à tout moment sinon bonjour le dégat
+			vm.suivimenage={};
 			vm.suivimenage.id=vm.selectedItemDetailSuiviMenage.id;
 			vm.suivimenage.id_menage=vm.selectedItemMenage.id_menage;
 			vm.suivimenage.nomchefmenage=vm.selectedItemMenage.nomchefmenage;
 			vm.suivimenage.partenaire=vm.selectedItemDetailSuiviMenage.partenaire;
 			vm.suivimenage.acteur=vm.selectedItemDetailSuiviMenage.acteur;
+			vm.suivimenage.typetransfert=vm.selectedItemDetailSuiviMenage.typetransfert;
 			if(vm.selectedItemDetailSuiviMenage.date_suivi) {
 				vm.suivimenage.date_suivi=new Date(vm.selectedItemDetailSuiviMenage.date_suivi);
 			} else {
@@ -434,16 +468,22 @@
                     if(suppression==0) { 
 						if(parseInt(vm.id_programme)==3) {
 							for (var i = 0; i < vm.selectedItemMenage.nutrition.length; i++) {
-								if(parseInt(vm.selectedItemMenage.nutrition[i].id)==parseInt(suivimenage.id)) {
-									vm.selectedItemMenage.nutrition[i]=suivimenage;
-									vm.selectedItemDetailSuiviMenage=suivimenage;
+								if(vm.selectedItemMenage.nutrition[i].$selected==true) {
+									vm.selectedItemMenage.nutrition[i]=vm.suivimenage;
+									vm.selectedItemMenage.nutrition[i].$selected=false;
+									vm.selectedItemDetailSuiviMenage=vm.suivimenage;
+									vm.selectedItemDetailSuiviMenage.$selected = false;
+									vm.selectedItemDetailSuiviMenage ={};
 								}          
 							}							
 						} else  {
 							for (var i = 0; i < vm.selectedItemMenage.transfert_argent.length; i++) {
-								if(parseInt(vm.selectedItemMenage.transfert_argent[i].id)==parseInt(suivimenage.id)) {
-									vm.selectedItemMenage.transfert_argent[i]=suivimenage;
-									vm.selectedItemDetailSuiviMenage=suivimenage;
+								if(vm.selectedItemMenage.transfert_argent[i].$selected==true) {
+									vm.selectedItemMenage.transfert_argent[i]=vm.suivimenage;
+									vm.selectedItemMenage.transfert_argent[i].$selected=false;
+									vm.selectedItemDetailSuiviMenage=vm.suivimenage;
+									vm.selectedItemDetailSuiviMenage.$selected = false;
+									vm.selectedItemDetailSuiviMenage ={};
 								}          
 							}							
 						}
@@ -547,32 +587,89 @@
             vm.afficherboutonModifSuprIndividu = 1 ;
             vm.affichageMasqueIndividu = 0 ;
             vm.afficherboutonnouveauIndividu = 1 ;
+			if(parseInt(vm.id_programme)==3) {
+				if (!vm.selectedItemIndividu.nutrition) return;
+				vm.selectedItemIndividu.nutrition.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});								
+			}else if(parseInt(vm.id_programme)==5) {
+				vm.selectedItemIndividu.promotion_genre.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});												
+				vm.selectedItemIndividu.mariage_precoce.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});												
+			} else {
+				// Transfert d'argent par défaut
+				if (!vm.selectedItemIndividu.transfert_argent) return;
+				vm.selectedItemIndividu.transfert_argent.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});				
+			} 								
 		}
 		$scope.$watch('vm.selectedItemDetailSuiviIndividu', function() {
 			if(parseInt(vm.id_programme)==3) {
 				if (!vm.selectedItemIndividu.nutrition) return;
-				vm.selectedItemIndividu.nutrition.forEach(function(item) {
-					item.$selected = false;
-				});				
-				vm.selectedItemDetailSuiviIndividu.$selected = true;
-			} else if(parseInt(vm.id_programme)==5) {
-				vm.selectedItemIndividu.promotion_genre.forEach(function(item) {
-					item.$selected = false;
-				});				
-				vm.selectedItemIndividu.mariage_precoce.forEach(function(item) {
-					item.$selected = false;
-				});				
-				vm.selectedItemDetailSuiviIndividu.$selected = true;
-			}	else {
+				vm.selectedItemIndividu.nutrition.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});								
+			}else if(parseInt(vm.id_programme)==5) {
+				vm.selectedItemIndividu.promotion_genre.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});												
+				vm.selectedItemIndividu.mariage_precoce.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
+				});												
+			} else {
 				// Transfert d'argent par défaut
 				if (!vm.selectedItemIndividu.transfert_argent) return;
-				vm.selectedItemIndividu.transfert_argent.forEach(function(item) {
-					item.$selected = false;
+				vm.selectedItemIndividu.transfert_argent.forEach(function(items) {
+					if(vm.selectedItemDetailSuiviIndividu.id==items.id) {
+						items.$selected = true;
+						vm.selectedItemDetailSuiviIndividu= items;
+					} else {
+						items.$selected = false;
+					}	
 				});				
-				vm.selectedItemDetailSuiviIndividu.$selected = true;
-			}
+			} 					
 		});
         vm.ajouterSuiviIndividu = function () {
+			vm.suiviindividu={};
 			vm.affichageMasqueIndividu = 1 ;
 			vm.disable_radiobutton_promotiongenre_marriage_precoce=1;
 			vm.filtrer_DataTable_et_masque_saisie_individu();
@@ -612,6 +709,7 @@
 			vm.disable_radiobutton_promotiongenre_marriage_precoce=0;
         };
 		vm.modifierSuiviIndividu = function() {
+			vm.suiviindividu={};
 			vm.disable_radiobutton_promotiongenre_marriage_precoce=1;
 			vm.filtrer_DataTable_et_masque_saisie_individu();
 			NouvelItemSuiviIndividu = false ;
@@ -775,31 +873,43 @@
                     if(suppression==0) { 
 						if(parseInt(vm.id_programme)==3) {
 							for (var i = 0; i < vm.selectedItemIndividu.nutrition.length; i++) {
-								if(parseInt(vm.selectedItemIndividu.nutrition[i].id)==parseInt(suiviindividu.id)) {
-									vm.selectedItemIndividu.nutrition[i]=suiviindividu;
-									vm.selectedItemDetailSuiviIndividu=suiviindividu;
+								if(vm.selectedItemIndividu.nutrition[i].$selected==true) {
+									vm.selectedItemIndividu.nutrition[i]=vm.suiviindividu;
+									vm.selectedItemIndividu.nutrition[i].$selected=false;
+									vm.selectedItemDetailSuiviIndividu=vm.suiviindividu;
+									vm.selectedItemDetailSuiviIndividu.$selected = false;
+									vm.selectedItemDetailSuiviIndividu ={};
 								}          
 							}							
 						} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_violence) >0) {
 							for (var i = 0; i < vm.selectedItemIndividu.promotion_genre.length; i++) {
-								if(parseInt(vm.selectedItemIndividu.promotion_genre[i].id)==parseInt(suiviindividu.id)) {
-									vm.selectedItemIndividu.promotion_genre[i]=suiviindividu;
-									vm.selectedItemDetailSuiviIndividu=suiviindividu;
+								if(vm.selectedItemIndividu.promotion_genre[i].$selected==true) {
+									vm.selectedItemIndividu.promotion_genre[i]=vm.suiviindividu;
+									vm.selectedItemIndividu.promotion_genre[i].$selected=false;
+									vm.selectedItemDetailSuiviIndividu=vm.suiviindividu;
+									vm.selectedItemDetailSuiviIndividu.$selected = false;
+									vm.selectedItemDetailSuiviIndividu ={};
 								}          
 							}							
 						} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_mariage) >0) {
 							for (var i = 0; i < vm.selectedItemIndividu.mariage_precoce.length; i++) {
-								if(parseInt(vm.selectedItemIndividu.mariage_precoce[i].id)==parseInt(suiviindividu.id)) {
-									vm.selectedItemIndividu.mariage_precoce[i]=suiviindividu;
-									vm.selectedItemDetailSuiviIndividu=suiviindividu;
+								if(vm.selectedItemIndividu.mariage_precoce[i].$selected==true) {
+									vm.selectedItemIndividu.mariage_precoce[i]=vm.suiviindividu;
+									vm.selectedItemIndividu.mariage_precoce[i].$selected=false;
+									vm.selectedItemDetailSuiviIndividu=vm.suiviindividu;
+									vm.selectedItemDetailSuiviIndividu.$selected = false;
+									vm.selectedItemDetailSuiviIndividu ={};
 								}          
 							}							
 						} else {
 							// if(parseInt(vm.id_programme)==1)
 							for (var i = 0; i < vm.selectedItemIndividu.transfert_argent.length; i++) {
-								if(parseInt(vm.selectedItemIndividu.transfert_argent[i].id)==parseInt(suiviindividu.id)) {
-									vm.selectedItemIndividu.transfert_argent[i]=suiviindividu;
-									vm.selectedItemDetailSuiviIndividu=suiviindividu;
+								if(vm.selectedItemIndividu.transfert_argent[i].$selected==true) {
+									vm.selectedItemIndividu.transfert_argent[i]=vm.suiviindividu;
+									vm.selectedItemIndividu.transfert_argent[i].$selected=false;
+									vm.selectedItemDetailSuiviIndividu=vm.suiviindividu;
+									vm.selectedItemDetailSuiviIndividu.$selected = false;
+									vm.selectedItemDetailSuiviIndividu ={};
 								}          
 							}							
 						} 
@@ -828,7 +938,7 @@
 						}
                     }
 				} else {                               
-                    var item = {
+                    var itemss = {
 						id_individu: vm.selectedItemIndividu.id_individu,
 						nomchefmenage: vm.selectedItemIndividu.nomchefmenage,
 						Nom: vm.selectedItemIndividu.Nom,
@@ -861,14 +971,14 @@
 						type_violence: suiviindividu.type_violence,
 					};
 					if(parseInt(vm.id_programme)==3) {
-						vm.selectedItemIndividu.nutrition.push(item); 
+						vm.selectedItemIndividu.nutrition.push(itemss); 
 					} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_violence) >0) {
-						vm.selectedItemIndividu.promotion_genre.push(item); 
+						vm.selectedItemIndividu.promotion_genre.push(itemss); 
 					} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_mariage) >0) {
-						vm.selectedItemIndividu.mariage_precoce.push(item); 
+						vm.selectedItemIndividu.mariage_precoce.push(itemss); 
 					} else 	 {
 						// Transfert d'argent par défaut
-						vm.selectedItemIndividu.transfert_argent.push(item); 
+						vm.selectedItemIndividu.transfert_argent.push(itemss); 
 					}	
                     NouvelItemSuiviIndividu=false;
 				}
