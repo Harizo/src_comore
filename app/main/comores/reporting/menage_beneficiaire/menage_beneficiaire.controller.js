@@ -13,6 +13,7 @@
 		vm.filtre = {} ;
 		vm.filtre_individu = {} ;
 		vm.filtre.date_fin = new Date ;
+		vm.filtre_individu.date_fin = new Date ;
 
 		vm.desable_button = false ;
 
@@ -20,9 +21,7 @@
 		vm.dtOptions =
 		{
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-			pagingType: 'simple',
-			autoWidth: false,
-			responsive: true
+			pagingType: 'simple'
 		};
 
 		vm.pivots = 
@@ -39,7 +38,10 @@
 	        {titre:"Individu par programme",id:"individu_par_programme"},
 	        {titre:"Nombre de cas de mal nutrition",id:"nbr_enfant_mal_nouri"},
 	        {titre:"Nombre individu par programme",id:"nbr_individu_par_programme"},
-	        {titre:"Nombre individu par formation",id:"nbr_individu_par_formation"}
+	        {titre:"Nombre individu par formation",id:"nbr_individu_par_formation"},
+	        {titre:"Nombre mariage précoce",id:"nbr_mariage_precoce"},
+	        {titre:"Nombre violence",id:"nbr_violence"},
+	        {titre:"Historique transfert monetaire",id:"transfert_monetaire_individu"}
 
       	];
 
@@ -65,6 +67,21 @@
           });
           
         });
+
+        vm.formatMillier = function (nombre) 
+        {
+            if (typeof nombre != 'undefined' && parseInt(nombre) >= 0) {
+                nombre += '';
+                var sep = ' ';
+                var reg = /(\d+)(\d{3})/;
+                while (reg.test(nombre)) {
+                    nombre = nombre.replace(reg, '$1' + sep + '$2');
+                }
+                return nombre;
+            } else {
+                return "";
+            }
+        }
 
 		vm.replace_point = function(nbr)
 		{

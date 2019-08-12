@@ -6,8 +6,9 @@
         .module('app.comores.ddb.localisation.region')
         .controller('ProgrammeController', ProgrammeController);
     /** @ngInject */
-    function ProgrammeController($mdDialog, $scope, apiFactory, $state)  {
+    function ProgrammeController($mdDialog, $scope, apiFactory, $state, serveur_central)  {
 		var vm   = this;
+    vm.serveur_central = serveur_central ;
 		vm.ajout = ajout ;
 		var NouvelItem = false;
 		var currentItem;
@@ -41,6 +42,79 @@
             {
                 insert_in_base(programme,suppression);
             }
+        }
+
+        vm.showAlert = function(titre,textcontent) {
+          // Appending dialog to document.body to cover sidenav in docs app
+          // Modal dialogs should fully cover application
+          // to prevent interaction outside of dialog
+          $mdDialog.show(
+            $mdDialog.alert()
+            .parent(angular.element(document.querySelector('#popupContainer')))
+            .clickOutsideToClose(false)
+            .parent(angular.element(document.body))
+            .title(titre)
+            .textContent(textcontent)
+            .ariaLabel('Alert Dialog Demo')
+            .ok('Fermer')
+            .targetEvent()
+          );
+        } 
+
+        vm.download = function()
+        {
+          var nbr_data_insert = 0 ;
+          var config = {
+            headers : {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            }
+          };
+
+          apiFactory.getAll_acteur_serveur_central("programme/index").then(function(result){
+            var ddb = result.data.response;
+
+        
+            var datas_suppr = $.param({
+                supprimer:1,
+                nom_table: "programme"
+              }); 
+
+            apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {
+
+                //add ddb
+                  ddb.forEach( function(element, index) {
+
+                    var dat = $.param({
+                          supprimer:0,
+                          id:element.id,      
+                          libelle: element.libelle,
+                          download:1
+                        });   
+
+                    apiFactory.add("programme/index",dat, config).success(function (data) {
+                      nbr_data_insert++ ;
+                      if ((index+1) == ddb.length) //affichage Popup
+                      {
+                        vm.showAlert('Information',nbr_data_insert+' enregistrement ajouté avec Succès !');
+                      }
+                    }).error(function (data) {
+                      vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+                    });
+                  });
+                //add ddb
+
+              }).error(function (data) {
+                vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+              });
+
+
+            vm.allprogramme = ddb ;
+        
+
+        
+
+
+      }); 
         }
         function insert_in_base(programme,suppression)
         {

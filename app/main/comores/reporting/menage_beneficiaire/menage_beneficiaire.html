@@ -170,7 +170,7 @@
                     
                     </form>
                         
-                    <table class="dataTable row-border hover cell-border text-center" datatable="ng"
+                    <table class="dataTable row-border hover cell-border text-center" ms-responsive-table datatable="ng"
                       dt-options="vm.dtOptions">
                       <thead>
                         <tr>
@@ -299,7 +299,7 @@
                             <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.nom_partenaire}}</td>
                             <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.nom_agence_payement}}</td>
                             <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.type_transfert}}</td>                
-                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{data.somme_montant}}</td>
+                            <td ng-show="vm.filtre.pivot=='transfert_monetaire_menage'">{{vm.formatMillier(data.somme_montant)}}</td>
                            <!--fin transfert_monetaire_menage -->  
 
                            <!--nbr_menage_par_programme -->
@@ -347,7 +347,7 @@
                         <md-input-container flex="100" flex-gt-xs="90"></md-input-container>
                         
                       </div>
-                      <div layout="column" layout-gt-xs="row" flex ng-if="vm.filtre_individu.pivot == 'transfert_monetaire_menage'">
+                      <div layout="column" layout-gt-xs="row" flex ng-if="(vm.filtre_individu.pivot == 'transfert_monetaire_individu')||(vm.filtre_individu.pivot == 'nbr_mariage_precoce')||(vm.filtre_individu.pivot == 'nbr_violence')">
 
                           <div layout="column" layout-gt-xs="row" >
                               <md-input-container>
@@ -478,8 +478,8 @@
                         </md-button>
                       </section>
                   </form>
-
-                  <table class="dataTable row-border hover cell-border text-center" datatable="ng"
+                  <div class="table-responsive" >
+                    <table class="dataTable row-border hover cell-border text-center" id="table1" ms-responsive-table datatable="ng"
                       dt-options="vm.dtOptions">
                       <thead>
                         <tr>
@@ -593,6 +593,32 @@
                             </div>
                           </th>
 
+                          <!--debut nbr mariage precoce -->
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_mariage_precoce'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Type mariage </span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_mariage_precoce'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre</span>
+                            </div>
+                          </th>
+                          <!--fin nbr mariage precoce -->
+
+                          <!--debut nbr violence -->
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_violence'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Type de violence </span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_violence'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Nombre</span>
+                            </div>
+                          </th>
+                          <!--fin nbr violence -->
+
                           <!--debut nbr individu par formation -->
                           <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">
                             <div class="table-header">
@@ -615,6 +641,49 @@
                             </div>
                           </th>
                         <!--fin nbr individu par formation -->
+
+                        <!-- transfert_monetaire_individu -->
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Numero d'enregistrement /<br> Chef Ménage</span>
+                            </div>
+                          </th>
+                          <!--th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center"></span>
+                            </div>
+                          </th!-->
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Individu</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Date</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Partenaire</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Agence de paiement</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Type de transfert</span>
+                            </div>
+                          </th>
+                          <th class="secondary-text" ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">
+                            <div class="table-header">
+                              <span class="column-title text-center">Montant(KMF)</span>
+                            </div>
+                          </th>
+                        <!--fin transfert_monetaire_individu -->
 
                       
                         </tr>
@@ -655,12 +724,36 @@
                             <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_programme'">{{vm.parseFloat((data.nbr * 100)/(data.nbr_individu_enregistrer))}} %</td>
 
 
+                            <!--debut nbr mariage precoce -->
+
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_mariage_precoce'">{{data.type_mariage}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_mariage_precoce'">{{data.nbr}}</td>
+                            <!--fin nbr mariage precoce -->
+
+                            <!--debut nbr de violence -->
+
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_violence'">{{data.type_violence}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='nbr_violence'">{{data.nbr}}</td>
+                            <!--fin nbr de violence -->
+
+
                             <!--fin nbr individu par formation -->
                               <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.description}}</td>
                               <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.nbr_homme}}</td>
                               <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.nbr_femme}}</td>
                               <td ng-show="vm.filtre_individu.pivot=='nbr_individu_par_formation'">{{data.nbr}}</td>
                             <!--fin nbr individu par formation -->
+
+                            <!-- transfert_monetaire_individu -->
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{data.numero}} /<br> {{data.chef_menage}} </td>
+                            <!-- <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{data.chef_menage}}</td> -->
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{data.nom_individu}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{vm.formatDateListe(data.date_suivi)}} </td>
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{data.nom_partenaire}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{data.nom_agence_payement}}</td>
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{data.type_transfert}}</td>                
+                            <td ng-show="vm.filtre_individu.pivot=='transfert_monetaire_individu'">{{vm.formatMillier(data.somme_montant)}}</td>
+                           <!--fin transfert_monetaire_individu --> 
                            
                                       
                         </tr>
@@ -668,7 +761,10 @@
                         
                       </tbody>
                     </table>
+                  </div>
                 </md-tab>
+                  
+                
             </md-tabs>
         </div>
     </div>

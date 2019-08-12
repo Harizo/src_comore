@@ -17,23 +17,23 @@
             </md-radio-group>
         </div!-->
 
-        <div class="theme-option">
+        <div class="theme-option" ng-if="(vm.loc.path() != '/auth/tableau_bord')">
             <div class="register" layout="row" layout-sm="column" layout-align="center center">
                 <a class="link" ui-sref="app.comores_auth_tableau_bord" ><span>Consulter tableau de bord</span> </a>
             </div>
         </div>
 
-        <md-divider></md-divider>
+        <md-divider ng-if="(vm.loc.path() != '/auth/login')"></md-divider>
 
-        <div class="theme-option">
+        <div class="theme-option" ng-if="(vm.loc.path() != '/auth/login')">
             <div class="register" layout="row" layout-sm="column" layout-align="center center">
                 <a class="link" ui-sref="app.comores_auth_login" ><span>Se connecter</span> </a>
             </div>
         </div>
 
-        <md-divider></md-divider>
+        <md-divider ng-if="(vm.loc.path() != '/auth/register')"></md-divider>
 
-        <div class="theme-option">
+        <div class="theme-option" ng-if="(vm.loc.path() != '/auth/register')">
             <div class="register" layout="row" layout-sm="column" layout-align="center center">
                 <a class="link" ui-sref="app.comores_auth_register" ><span>Céer un compte</span> </a>
             </div>
