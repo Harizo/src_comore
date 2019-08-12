@@ -123,7 +123,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr ng-repeat="mp in vm.all_menage_programme"  ng-class="{selected: mp.$selected}" ng-click="vm.selection(mp)">
+                            <tr ng-repeat="mp in vm.all_menage_programme track by $index"  ng-class="{selected: mp.$selected}" ng-click="vm.selection(mp)">
                               <td>{{mp.NumeroEnregistrement}}</td>
                               <td>{{mp.nomchefmenage}}</td>
                               <td>{{mp.PersonneInscription}}</td>                
@@ -315,7 +315,7 @@
 									</tr>
 								  </thead>
 								  <tbody>
-									<tr ng-repeat="mp in vm.selectedItemMenage.transfert_argent"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviMenage(mp)">
+									<tr ng-repeat="mp in vm.selectedItemMenage.transfert_argent track by $index"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionDetailSuiviMenage(mp)">
 									  <td>{{mp.nomchefmenage}}</td>
 									  <td>{{mp.date_suivi |date:'dd/MM/yyyy'}}</td>                
 									  <td>{{mp.partenaire[0].nom}}</td>                
@@ -501,7 +501,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr ng-repeat="mp in vm.all_individu_programme"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionIndividu(mp)">
+                            <tr ng-repeat="mp in vm.all_individu_programme track by $index"  ng-class="{selected: mp.$selected}" ng-click="vm.selectionIndividu(mp)">
                               <td>{{mp.NumeroEnregistrement}}</td>
                               <td>{{mp.nomchefmenage}}</td>
                               <td>{{mp.Nom}}</td>                
