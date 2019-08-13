@@ -27,7 +27,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.enquetesurmenage', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.enquetesurmenage', {
             title: 'Enquête/Ménage',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_enquetesurmenage',

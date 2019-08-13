@@ -136,55 +136,25 @@
                                 
                             </fieldset>
 
-                        <!--fieldset class="standard" >
-                        <legend><code>Accès grand menu</code></legend>
+                        <fieldset class="standard" >
+                        <legend><code>Privilèges</code></legend>
                                
-                                <md-checkbox ng-model="vm.user.user" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Simple utilisateur
+                                <md-checkbox ng-model="vm.user.ajt" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    Ajout
                                 </md-checkbox>
  
                            
-                                <md-checkbox ng-model="vm.user.ddb" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Données de bases
+                                <md-checkbox ng-model="vm.user.mdf" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    Modification
                                 </md-checkbox>
 
                          
-                                <md-checkbox ng-model="vm.user.gcl" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Gestion Carrière et log
-                                </md-checkbox>
-
-                         
-                                <md-checkbox ng-model="vm.user.dp" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Déclarations des patrimoines
+                                <md-checkbox ng-model="vm.user.spr" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    Suppression
                                 </md-checkbox>
 
                             
-                                             
-                                <md-checkbox ng-model="vm.user.admin" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Administrateur
-                                </md-checkbox>
-
-                           
-                                             
-                                <md-checkbox ng-model="vm.user.pta" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    PTA
-                                </md-checkbox>
-                            
-                        </fieldset-->
-
-                        <!--fieldset class="standard" >
-                        <legend><code>Accès Reporting Déclaration Patrimoine</code></legend>
-                               
-                                <md-checkbox ng-model="vm.user.dp_stat_consolider" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Stat par année
-                                </md-checkbox>
- 
-                           
-                                <md-checkbox ng-model="vm.user.dp_reporting_consolider" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    Stat par BT
-                                </md-checkbox>
-
-                        </fieldset-->
+                        </fieldset>
                         
                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                           ng-disabled="userForm.$invalid" ng-click="vm.ajout(vm.user,0)">
@@ -200,28 +170,28 @@
             <!-- / BASIC FORM -->
         <md-tabs md-dynamic-height>
           <md-tab label="Listes des utilisateurs">
-            <table class="dataTable row-border hover" datatable="ng"
+            <table class="dataTable row-border hover cell-border text-center" datatable="ng"
               dt-options="vm.dtOptions">
               <thead>
                 <tr>
-                  <th class="secondary-text" ng-repeat="sc in ::vm.column">
+                  <th class="secondary-text " ng-repeat="sc in ::vm.column">
                     <div class="table-header">
-                      <span class="column-title">{{sc.titre}}</span>
+                      <span class="column-title text-center">{{sc.titre}}</span>
                     </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="user in vm.listes_utilisateurs" ng-class="{selected: user.$selected}" ng-click="vm.selection(user)">
-					<td>{{user.nom}}</td>
-					<td>{{user.prenom}}</td>
-					<td>{{user.email}}</td>
-					<td>{{vm.testEnabled(user.enabled)}}</td>
-					<td>{{vm.affichage_ile(user.id_ile)}}</td>
+        					<td>{{user.nom}}</td>
+        					<td>{{user.prenom}}</td>
+        					<td>{{user.email}}</td>
+        					<td>{{vm.testEnabled(user.enabled)}}</td>
+        					<td>{{vm.affichage_ile(user.id_ile)}}</td>
                   <!--td>eto {{vm.envoi_donnees}}</td-->
                   <td >
-                    <span  ng-repeat="s in user.roles">
-                      {{"- "+s}} <br/>
+                    <span  ng-repeat="s in user.roles" style="font-size: 10px;">
+                      {{s+", "}}
                     </span>
                   </td>
                 </tr>

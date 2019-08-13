@@ -27,7 +27,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.programme', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.programme', {
             title: 'Programme',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_programme',

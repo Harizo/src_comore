@@ -14,7 +14,7 @@
     /** @ngInject */
     function config(msNavigationServiceProvider)
     {
-        msNavigationServiceProvider.saveItem('comores.ddb.localisation', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.localisation', {
             title : "Zone d'intervention",
             icon  : 'icon-map-marker-multiple',
             weight: 8

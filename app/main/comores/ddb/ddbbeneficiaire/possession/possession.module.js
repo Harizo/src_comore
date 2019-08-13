@@ -27,7 +27,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.ddbbeneficiaire.possession', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.ddbbeneficiaire.possession', {
             title: 'Possession',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_ddbbeneficiaire',

@@ -21,9 +21,26 @@
                     <md-tab label="Ménage Béneficiaire" ng-click="vm.Filtrer_Item_Promotion_Genre_et_Nutrition(1)">
                         <form name="filtrepardateform" class="md-inline-form" novalidate >
                             <div layout="column" layout-gt-xs="row" flex>
-                                <md-input-container flex="100" flex-gt-xs="90">
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="vm.serveur_central">
                                   <label>Île</label>
                                     <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" required>
+                                     
+                                      <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                        {{ile.Ile}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Île obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="!vm.serveur_central">
+                                  <label>Île</label>
+                                    <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" ng-disabled="true" required>
                                      
                                       <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
                                         {{ile.Ile}}
@@ -136,13 +153,13 @@
                     <md-tab label="Suivi Ménage" ng-disabled="!vm.selectedItemMenage.id">                        
 						<md-tab-body>
 							<div style="widht:100%;">                                     
-								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterSuiviMenage()" style="width:10%;">
+								<md-button type="submit" ng-disabled="vm.autorisation_ajout" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterSuiviMenage()" style="width:10%;">
 								  Nouveau
 								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierSuiviMenage()" style="width:10%;">
+								<md-button type="submit" ng-disabled="vm.autorisation_modif" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierSuiviMenage()" style="width:10%;">
 								  Modifier
 								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerSuiviMenage()" style="width:10%;">
+								<md-button type="submit" ng-disabled="vm.autorisation_suppr" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerSuiviMenage()" style="width:10%;">
 								  Supprimer
 								</md-button>
 								<md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviMenage.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_menage()">
@@ -372,7 +389,7 @@
 											  <span class="column-title">Mois-grossesse</span>
 											</div>
 										  </th>
-										  <th class="secondary-text" style="visibility:hidden">
+										  <th class="secondary-text" ng-show="false">
 											<div class="table-header">
 											  <span class="column-title">id</span>
 											</div>
@@ -389,7 +406,7 @@
 									  <td>{{nu.taille | number:2}}</td>                
 									  <td>{{nu.zscore | number:2}}</td>                
 									  <td>{{nu.mois_grossesse | number:0}}</td>                
-									  <td style="visibility:hidden">{{nu.id}}</td>    
+									  <td ng-show="false">{{nu.id}}</td>    
 									  <td>{{vm.etat_envoie(nu.id_serveur_centrale)}}</td>             
 									</tr>
 								  </tbody>
@@ -400,9 +417,25 @@
                     <md-tab label="Individu Béneficiaire"  ng-click="vm.Filtrer_Item_Promotion_Genre_et_Nutrition(0)">
                         <form name="filtrepardateform" class="md-inline-form" novalidate >
                             <div layout="column" layout-gt-xs="row" flex>
-                                <md-input-container flex="100" flex-gt-xs="90">
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="vm.serveur_central">
                                   <label>Île</label>
                                     <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" required>                                    
+                                      <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
+                                        {{ile.Ile}}
+                                      </md-option>
+
+                                    </md-select>
+                                    <div ng-messages="filtrepardateform.ile.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Île obligatoire</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="90" ng-if="!vm.serveur_central">
+                                  <label>Île</label>
+                                    <md-select ng-model="vm.filtre.id_ile" name="ile" ng-change="vm.filtre_region()" ng-disabled="true" required>                                    
                                       <md-option ng-repeat="ile in vm.all_ile" value="{{ile.id}}" >
                                         {{ile.Ile}}
                                       </md-option>
@@ -453,7 +486,7 @@
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>Village</label>
                                     <md-select ng-model="vm.filtre.id_village" name="village" ng-change="" ng-disabled="!vm.filtre.id_commune"  required>
-                                      <md-option  value="*">*</md-option>
+                                     
                                       <md-option ng-repeat="village in vm.all_village" value="{{village.id}}" >
                                         {{village.Village}}
                                       </md-option>
@@ -506,6 +539,7 @@
                               <td>{{mp.nomchefmenage}}</td>
                               <td>{{mp.Nom}}</td>                
                               <td>{{mp.DateNaissance |date:'dd/MM/yyyy'}}</td>                
+                              <td>{{vm.affichage_sexe_int(mp.sexe)}}</td>                
                               <td>{{mp.Addresse}}</td>                
                             </tr>
                           </tbody>
@@ -514,15 +548,19 @@
                     <md-tab label="Suivi Individu" ng-disabled="!vm.selectedItemIndividu.id">                        
 						<md-tab-body>
 							<div style="widht:100%;">                                     
-								<md-button type="submit" ng-show="vm.afficherboutonnouveauIndividu==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterSuiviIndividu()" style="width:10%;">
+								<md-button type="submit" ng-disabled="vm.autorisation_ajout" ng-show="vm.afficherboutonnouveauIndividu==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterSuiviIndividu()" style="width:10%;">
 								  Nouveau
 								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSuprIndividu==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierSuiviIndividu()" style="width:10%;">
+								<md-button type="submit" ng-disabled="vm.autorisation_modif" ng-show="vm.afficherboutonModifSuprIndividu==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierSuiviIndividu()" style="width:10%;">
 								  Modifier
 								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSuprIndividu==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerSuiviIndividu()" style="width:10%;">
+								<md-button type="submit" ng-disabled="vm.autorisation_suppr" ng-show="vm.afficherboutonModifSuprIndividu==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerSuiviIndividu()" style="width:10%;">
 								  Supprimer
 								</md-button>
+
+								<md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviIndividu.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_individu()">
+	                              <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
+	                            </md-button>
 							</div>
 							<div style="widht:100%;"  ng-show="vm.affichageMasqueIndividu==1"> 
 								<form name="form_suivi_individu" class="md-inline-form" ng-show="vm.affichesuiviindividupardefaut ==1" novalidate >
@@ -819,7 +857,8 @@
 									  <td>{{mp.partenaire[0].nom}}</td>                
 									  <td>{{mp.acteur[0].Nom}}</td>                
 									  <td>{{mp.typetransfert[0].description}}</td>                
-									  <td>{{mp.montant |number:0}}</td>                
+									  <td>{{mp.montant |number:0}}</td>   
+									  <td>{{vm.etat_envoie(mp.id_serveur_centrale)}}</td>             
 									</tr>
 								  </tbody>
 								</table>
@@ -869,9 +908,14 @@
 											  <span class="column-title">Mois-grossesse</span>
 											</div>
 										  </th>
-										  <th class="secondary-text" style="visibility:hidden">
+										  <th class="secondary-text" ng-show="false">
 											<div class="table-header">
 											  <span class="column-title">id</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Etat envoie</span>
 											</div>
 										  </th>
 									</tr>
@@ -886,7 +930,8 @@
 									  <td>{{nu.taille | number:2}}</td>                
 									  <td>{{nu.zscore | number:2}}</td>                
 									  <td>{{nu.mois_grossesse | number:0}}</td>                
-									  <td style="visibility:hidden">{{nu.id}}</td>                
+									  <td ng-show="false">{{nu.id}}</td>  
+									  <td>{{vm.etat_envoie(nu.id_serveur_centrale)}}</td>              
 									</tr>
 								  </tbody>
 								</table>
@@ -915,11 +960,11 @@
 											  <span class="column-title">Nom</span>
 											</div>
 										  </th>
-										  <th class="secondary-text">
+										  <!-- <th class="secondary-text">
 											<div class="table-header">
 											  <span class="column-title">Sexe</span>
 											</div>
-										  </th>
+										  </th> -->
 										  <th class="secondary-text">
 											<div class="table-header">
 											  <span class="column-title">Age</span>
@@ -945,9 +990,14 @@
 											  <span class="column-title">T-Violence</span>
 											</div>
 										  </th>
-										  <th class="secondary-text" style="visibility:hidden">
+										  <th class="secondary-text" ng-show="false">
 											<div class="table-header">
 											  <span class="column-title">id</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Etat envoie</span>
 											</div>
 										  </th>
 										</tr>
@@ -955,13 +1005,14 @@
 									  <tbody>
 										<tr ng-repeat="mpro in vm.selectedItemIndividu.promotion_genre  track by $index"  ng-class="{selected: mpro.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mpro)">
 										  <td>{{mpro.Nom}}</td>
-										  <td>{{mpro.sexe | number:0}}</td>                
+										  <!-- <td>{{mpro.sexe | number:0}}</td>                 -->
 										  <td>{{mpro.age | number:0}}</td>                
 										  <td>{{mpro.date_suivi |date:'dd/MM/yyyy'}}</td>                
 										  <td>{{mpro.infraction}}</td>                
 										  <td>{{mpro.lieu_infraction}}</td>                
 										  <td>{{mpro.type_violence[0].description}}</td>                
-										  <td style="visibility:hidden">{{mpro.id}}</td>                
+										  <td ng-show="false">{{mpro.id}}</td>  
+										  <td>{{vm.etat_envoie(nu.id_serveur_centrale)}}</td>               
 										</tr>
 									  </tbody>
 									</table>
@@ -976,11 +1027,11 @@
 											  <span class="column-title">Nom</span>
 											</div>
 										  </th>
-										  <th class="secondary-text">
+										  <!-- <th class="secondary-text">
 											<div class="table-header">
 											  <span class="column-title">Sexe</span>
 											</div>
-										  </th>
+										  </th> -->
 										  <th class="secondary-text">
 											<div class="table-header">
 											  <span class="column-title">Age</span>
@@ -1001,9 +1052,14 @@
 											  <span class="column-title">Cause</span>
 											</div>
 										  </th>
-										  <th class="secondary-text" style="visibility:hidden">
+										  <th class="secondary-text" ng-show="false">
 											<div class="table-header">
 											  <span class="column-title">id</span>
+											</div>
+										  </th>
+										  <th class="secondary-text">
+											<div class="table-header">
+											  <span class="column-title">Etat envoie</span>
 											</div>
 										  </th>
 										</tr>
@@ -1011,12 +1067,13 @@
 									  <tbody>
 										<tr ng-repeat="mprec in vm.selectedItemIndividu.mariage_precoce  track by $index"  ng-class="{selected: mprec.$selected}" ng-click="vm.selectionDetailSuiviIndividu(mprec)">
 										  <td>{{mprec.Nom}}</td>
-										  <td>{{mprec.sexe | number:0}}</td> 
+										  <!-- <td>{{mprec.sexe | number:0}}</td>  -->
 										  <td>{{mprec.age | number:0}}</td>                
 										  <td>{{mprec.date_suivi |date:'dd/MM/yyyy'}}</td>                
 										  <td>{{mprec.type_mariage[0].description}}</td>                
 										  <td>{{mprec.cause_mariage}}</td>                         
-										  <td style="visibility:hidden">{{mprec.id}}</td>                         
+										  <td ng-show="false">{{mprec.id}}</td>  
+										  <td>{{vm.etat_envoie(nu.id_serveur_centrale)}}</td>                        
 										</tr>
 									  </tbody>
 									</table>

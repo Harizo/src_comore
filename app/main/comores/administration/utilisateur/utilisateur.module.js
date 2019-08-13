@@ -32,15 +32,15 @@
         
 
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.administration.utilisateurs.user', {
-            title: 'Gestion Utilisateur',
+        msNavigationServiceProvider.saveItem('comores.administration.utilisateurs', {
+            title: 'Gestion utilisateurs',
             icon  : 'icon-account-key',
             state: 'app.comores_admin_utilisateur',
-            badge:vs/*,
+            badge:vs,
             hidden:function()
             {
                     return affichage;
-            }*/
+            }
         });
     }
 
@@ -60,7 +60,7 @@
             apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
             {
                 var x = result.data.response;
-                vs.content = x ;
+                vs.content = x.nbr ;
                 vs.color = '#F44336' ;
 
             });
@@ -73,14 +73,9 @@
                 {
                     apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
                     {
-                        /*var resultat = result.data.response;
-
-                        if (vs.content != resultat) 
-                        {
-                            vs.content = resultat ;
-                        };*/
                         var x = result.data.response;
-                        vs.content = x ;
+                        vs.content = x.nbr ;
+                   
                         vs.color = '#F44336' ;
 
                     });

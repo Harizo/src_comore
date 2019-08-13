@@ -27,7 +27,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.enquetesurindividu', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.enquetesurindividu', {
             title: 'Enquête/Individu',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_enquetesurindividu',

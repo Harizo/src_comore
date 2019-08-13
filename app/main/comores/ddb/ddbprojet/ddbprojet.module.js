@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.ddbprojet', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.ddbprojet', {
             title: 'Projet',
             icon  : 'icon-swap-horizontal',
             state: 'app.comores_ddb_ddbprojet',

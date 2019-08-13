@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.localisation.commune', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.localisation.commune', {
             title: 'Commune',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_localisation_commune',
