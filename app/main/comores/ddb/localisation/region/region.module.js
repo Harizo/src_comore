@@ -27,7 +27,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.localisation.region', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.localisation.region', {
             title: 'Ile',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_localisation_region',

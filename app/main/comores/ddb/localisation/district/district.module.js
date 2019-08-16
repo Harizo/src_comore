@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.localisation.district', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.localisation.district', {
             title: 'Préfecture',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_localisation_district',

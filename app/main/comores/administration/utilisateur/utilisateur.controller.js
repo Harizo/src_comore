@@ -251,6 +251,24 @@
                       break;
                   }
 
+                  case 'AJT':
+                  {
+                      vm.user.ajt = true ;
+                      break;
+                  }
+
+                  case 'MDF':
+                  {
+                      vm.user.mdf = true ;
+                      break;
+                  }
+
+                  case 'SPR':
+                  {
+                      vm.user.spr = true ;
+                      break;
+                  }
+
 
 
                   default:
@@ -297,6 +315,13 @@
                   tab.push(key.toUpperCase());
 
               if(key == 'rpt' && value == true)
+                tab.push(key.toUpperCase());
+
+              if(key == 'ajt' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'mdf' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'spr' && value == true)
                 tab.push(key.toUpperCase());
               
               

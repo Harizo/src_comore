@@ -11,7 +11,7 @@
     /** @ngInject */
     function config(msNavigationServiceProvider)
     {
-        msNavigationServiceProvider.saveItem('comores.ddb.ddbbeneficiaire', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.ddbbeneficiaire', {
             title : 'Bénéficiaire',
             icon  : 'icon-map-marker-multiple',
             weight: 3

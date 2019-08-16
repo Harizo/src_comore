@@ -18,7 +18,7 @@
     /** @ngInject */
     function config(msNavigationServiceProvider)
     {
-        msNavigationServiceProvider.saveItem('comores.ddb', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb', {
             title : 'Données de Bases',
             icon  : 'icon-data',
             weight: 2,

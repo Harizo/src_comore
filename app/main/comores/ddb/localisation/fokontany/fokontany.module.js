@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.localisation.fokontany', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.localisation.fokontany', {
             title: 'Village',
             icon  : 'icon-tile-four',
             state: 'app.comores_ddb_localisation_fokontany',

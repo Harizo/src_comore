@@ -16,7 +16,7 @@
     function config(msNavigationServiceProvider)
     {
         msNavigationServiceProvider.saveItem('comores.administration', {
-            title : 'Administration',
+            title : 'Administration du système',
             icon  : 'icon-camera-iris',
             weight: 1,
             hidden: function()
@@ -25,11 +25,11 @@
             }
         });
 
-        msNavigationServiceProvider.saveItem('comores.administration.utilisateurs', {
+        /*msNavigationServiceProvider.saveItem('comores.administration.utilisateurs', {
             title: 'Utilisateurs',
             icon  : 'icon-account-multiple'
             //state: 'app.population_administration_secteur'
-        });
+        });*/
     }
 
     function testPermission(loginService,$cookieStore,apiFactory)
@@ -43,7 +43,7 @@
             {
                 var user = result.data.response;
                 var permission = user.roles;
-                var permissions = ["ADMIN"];
+                var permissions = ["ADMIN","DDB"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
               

@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('comores.ddb.acteurs', {
+        msNavigationServiceProvider.saveItem('comores.administration.ddb.acteurs', {
             title: 'Acteurs',
             icon  : 'icon-swap-horizontal',
             state: 'app.comores_ddb_acteurs',
