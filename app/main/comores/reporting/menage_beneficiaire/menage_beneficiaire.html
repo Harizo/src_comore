@@ -476,6 +476,10 @@
                             ng-if="!vm.affichage_masque" ng-disabled="filtre_individupardateform.$invalid||vm.affiche_load||vm.desable_button" ng-click="vm.filtrer_individu(vm.filtre_individu)">
                             Actualiser
                         </md-button>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                            ng-if="!vm.affichage_masque" ng-disabled="filtre_individupardateform.$invalid||vm.affiche_load||vm.desable_button" ng-click="vm.exportexcel_individu(vm.filtre_individu)">
+                            Exporter
+                        </md-button>
                       </section>
                   </form>
                   <div class="table-responsive" >

@@ -8,6 +8,7 @@
 		//localhost        
 		.constant("apiUrl", "http://localhost/2019/comores/api/index.php/api/")
 		.constant("apiUrlbase", "http://localhost/2019/comores/")
+		.constant("apiUrlexcel", "http://localhost/2019/comores/assets/excel/")
 		//localhost
 
 		//serveur centrale
