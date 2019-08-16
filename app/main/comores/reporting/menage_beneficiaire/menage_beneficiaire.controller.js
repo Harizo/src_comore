@@ -15,6 +15,8 @@
 		vm.filtre.date_fin = new Date ;
 		vm.filtre_individu.date_fin = new Date ;
 
+		vm.affiche_load = false;
+
 		vm.desable_button = false ;
 
 		vm.data_via_base = [] ;
@@ -264,6 +266,8 @@
         vm.exportexcel_individu = function(filtre)
         {
         	vm.desable_button = true ;
+
+        	vm.affiche_load = true;
         	
         	if (!filtre.id_ile) {
         		filtre.id_ile = null ;
@@ -286,10 +290,12 @@
 	            if(status)
 	            {
 	              	var nom_fiche = result.data.nom_file;            
-	             	window.location = apiUrlexcel+"individu/"+nom_fiche ;	            
+	             	window.location = apiUrlexcel+"individu/"+nom_fiche ;
+	             	vm.affiche_load =false; 	            
 	            }else{
 	            	var message=result.data.message;
 	            	vm.Alert('Export en excel',message);
+	            	vm.affiche_load =false; 
 	            }
 	        });
         }
