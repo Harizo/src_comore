@@ -541,11 +541,11 @@
                     } else {                      
 						if(parseInt(vm.id_programme)==3) {
 							vm.selectedItemMenage.nutrition = vm.selectedItemMenage.nutrition.filter(function(obj) {
-								return obj.id !== currentItem.id;
+								return obj.id !== suivimenage.id;
 							});
 						} else {
 							vm.selectedItemMenage.transfert_argent = vm.selectedItemMenage.transfert_argent.filter(function(obj) {
-								return obj.id !== currentItem.id;
+								return obj.id !== suivimenage.id;
 							});
 						}
 					}
@@ -1070,20 +1070,20 @@
                     } else {                      
 						if(parseInt(vm.id_programme)==3) {
 							vm.selectedItemIndividu.nutrition = vm.selectedItemIndividu.nutrition.filter(function(obj) {
-								return obj.id !== currentItemSuiviIndividu.id;
+								return obj.id !== suiviindividu.id;
 							});
 						} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_violence) >0) {
 							vm.selectedItemIndividu.promotion_genre = vm.selectedItemIndividu.promotion_genre.filter(function(obj) {
-								return obj.id !== currentItemSuiviIndividu.id;
+								return obj.id !== suiviindividu.id;
 							});
 						} else if(parseInt(vm.id_programme)==5 && parseInt(suiviindividu.id_type_mariage) >0) {
 							vm.selectedItemIndividu.mariage_precoce = vm.selectedItemIndividu.mariage_precoce.filter(function(obj) {
-								return obj.id !== currentItemSuiviIndividu.id;
+								return obj.id !== suiviindividu.id;
 							});
 						} else {
 							//Transfert d'argent par défaut
 							vm.selectedItemIndividu.transfert_argent = vm.selectedItemIndividu.transfert_argent.filter(function(obj) {
-								return obj.id !== currentItemSuiviIndividu.id;
+								return obj.id !== suiviindividu.id;
 							});
 						}
                     }
