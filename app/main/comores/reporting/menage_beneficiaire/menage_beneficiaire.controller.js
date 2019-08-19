@@ -6,7 +6,7 @@
         .controller('menage_beneficiaireController', menage_beneficiaireController);
 
     /** @ngInject */
-    function menage_beneficiaireController(apiFactory, $state, $mdDialog, $scope, serveur_central,$cookieStore) {
+    function menage_beneficiaireController(apiFactory, $state, $mdDialog, $scope, serveur_central,$cookieStore,apiUrlexcel) {
 		var vm = this;
 		vm.serveur_central = serveur_central ;
 		vm.date_now = new Date() ;
@@ -14,6 +14,8 @@
 		vm.filtre_individu = {} ;
 		vm.filtre.date_fin = new Date ;
 		vm.filtre_individu.date_fin = new Date ;
+
+		vm.affiche_load = false;
 
 		vm.desable_button = false ;
 
@@ -233,6 +235,7 @@
 	        {
 	        	vm.data_via_base =  result.data.response ;
 	        	vm.desable_button = false ;
+	        	console.log(vm.data_via_base);
 	        });
         }
 
@@ -257,12 +260,57 @@
 	        {
 	        	vm.data_via_base_individu =  result.data.response ;
 	        	vm.desable_button = false ;
+	        	console.log(vm.data_via_base_individu);
 	        });
         }
+        vm.exportexcel_individu = function(filtre)
+        {
+        	vm.desable_button = true ;
 
-       
-
-
-
+        	vm.affiche_load = true;
+        	
+        	if (!filtre.id_ile) {
+        		filtre.id_ile = null ;
+        	}
+        	if (!filtre.id_region) {
+        		filtre.id_region = null ;
+        	}
+        	if (!filtre.id_commune) {
+        		filtre.id_commune = null ;
+        	}
+        	if (!filtre.village_id) {
+        		filtre.village_id = null ;
+        	}
+        	var repertoire="/individu"
+        	apiFactory.getAPIgeneraliserREST("exportexcel_individu/index","menu","exportexcel_individu","type_etat",filtre.pivot,"date_deb",formatDateBDD(filtre.date_debut),"date_fin",formatDateBDD(filtre.date_fin),
+        		"id_ile",filtre.id_ile,"id_region",filtre.id_region,"id_commune",filtre.id_commune,"village_id",filtre.village_id,"repertoire",repertoire).then(function(result)
+	        {
+	        	vm.desable_button = false ;
+	        	var status = result.data.status;
+	            if(status)
+	            {
+	              	var nom_fiche = result.data.nom_file;            
+	             	window.location = apiUrlexcel+"individu/"+nom_fiche ;
+	             	vm.affiche_load =false; 	            
+	            }else{
+	            	var message=result.data.message;
+	            	vm.Alert('Export en excel',message);
+	            	vm.affiche_load =false; 
+	            }
+	        });
+        }
+        vm.Alert = function(titre,content) {
+			$mdDialog.show(
+			  $mdDialog.alert()
+				.parent(angular.element(document.querySelector('#popupContainer')))
+				.clickOutsideToClose(false)
+				.parent(angular.element(document.body))
+				.title(titre)
+				.textContent(content)
+				.ariaLabel('Alert')
+				.ok('Fermer')
+				.targetEvent()
+			);
+		}
 	}
   })();
