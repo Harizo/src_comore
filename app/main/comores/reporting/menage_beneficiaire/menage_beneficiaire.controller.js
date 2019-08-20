@@ -322,6 +322,7 @@
                }
            }
        });
+    }
         vm.Alert = function(titre,content) {
 			$mdDialog.show(
 			  $mdDialog.alert()
