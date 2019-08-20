@@ -146,7 +146,7 @@
 
                    //$location.path("/accueil");//si n'est pas packeT
                     //location.reload();
-                  $window.location.href = '/rsu';
+                  $window.location.href = '/rsu_ext';
                 }
               }
               else
