@@ -170,6 +170,8 @@
                               ng-if="!vm.affichage_masque" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)">
                               Actualiser
                           </md-button>
+                          <md-button class="md-raised md-accent" ng-if="!vm.affichage_masque" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.export(vm.filtre)">Export excel
+                          </md-button>
                         </section>
 
                     
