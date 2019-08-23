@@ -29,7 +29,7 @@
 
 		
 		.constant("apiUrlrecommandation", "recommandation/")
-		.constant("serveur_central", true);
+		.constant("serveur_central", false);
 
 		/*
 
