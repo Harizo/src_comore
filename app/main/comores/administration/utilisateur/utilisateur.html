@@ -187,7 +187,8 @@
         					<td>{{user.prenom}}</td>
         					<td>{{user.email}}</td>
         					<td>{{vm.testEnabled(user.enabled)}}</td>
-        					<td>{{vm.affichage_ile(user.id_ile)}}</td>
+                  <td>{{(user.ile)}}</td>
+        					<!-- <td>{{vm.affichage_ile(user.id_ile)}}</td> -->
                   <!--td>eto {{vm.envoi_donnees}}</td-->
                   <td >
                     <span  ng-repeat="s in user.roles" style="font-size: 10px;">
