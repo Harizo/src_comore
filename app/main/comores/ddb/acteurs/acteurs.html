@@ -36,7 +36,12 @@
                                 <table ng-table="tablePrestataireAgent_ex" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="age in ::vm.agent_ex_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="age in ::vm.agent_ex_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{age.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="age in ::vm.agent_ex_local_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{age.titre}}</span>
                                                 </div>
@@ -107,11 +112,11 @@
                                                 </span>
                                                 <span ng-if="!agent_ex.$edit">{{agent_ex.programme.libelle}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!agent_ex.$edit" ng-click="vm.modifierAgent_ex(agent_ex)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!agent_ex.$edit && vm.serveur_central" ng-click="vm.modifierAgent_ex(agent_ex)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!agent_ex.$edit" ng-click="vm.supprimerAgent_ex(agent_ex)" title="Supprimer">
+                                                <a ng-if="!agent_ex.$edit && vm.serveur_central" ng-click="vm.supprimerAgent_ex(agent_ex)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="agent_ex.$edit" ng-click="vm.annulerAgent_ex(agent_ex)" title="Annuler modification">
@@ -146,7 +151,12 @@
                                 <table ng-table="tablePrestataireagence_p" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.agence_p_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.agence_p_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.agence_p_local_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -226,11 +236,11 @@
                                                 </span>
                                                 <span ng-if="!agence_p.$edit">{{agence_p.programme.libelle}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!agence_p.$edit" ng-click="vm.modifierAgence_p(agence_p)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!agence_p.$edit && vm.serveur_central" ng-click="vm.modifierAgence_p(agence_p)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!agence_p.$edit" ng-click="vm.supprimerAgence_p(agence_p)" title="Supprimer">
+                                                <a ng-if="!agence_p.$edit && vm.serveur_central" ng-click="vm.supprimerAgence_p(agence_p)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="agence_p.$edit" ng-click="vm.annulerAgence_p(agence_p)" title="Annuler modification">
@@ -266,7 +276,12 @@
                                 <table ng-table="tablePrestatairePsociale" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.protection_sociale_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.protection_sociale_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.protection_sociale_local_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -386,11 +401,11 @@
                                                 </span>
                                                 <span ng-if="!p_sociale.$edit">{{p_sociale.programme.libelle}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!p_sociale.$edit" ng-click="vm.modifierProtection_sociale(p_sociale)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!p_sociale.$edit && vm.serveur_central" ng-click="vm.modifierProtection_sociale(p_sociale)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!p_sociale.$edit" ng-click="vm.supprimerProtection_sociale(p_sociale)" title="Supprimer">
+                                                <a ng-if="!p_sociale.$edit && vm.serveur_central" ng-click="vm.supprimerProtection_sociale(p_sociale)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="p_sociale.$edit" ng-click="vm.annulerProtection_sociale(p_sociale)" title="Annuler modification">

@@ -6,14 +6,15 @@
         .module('app.comores.ddb.localisation.region')
         .controller('RegionController', RegionController);
     /** @ngInject */
-    function RegionController($mdDialog, $scope, apiFactory, $state)  {
+    function RegionController($mdDialog, $scope, apiFactory, $state, serveur_central)  {
 		var vm   = this;
+		vm.serveur_central = serveur_central ;
 		vm.ajout = ajout ;
 		var NouvelItem = false;
 		var currentItem;
 		vm.selectedItem = {} ;
 		vm.allregion    = [] ;
-    vm.allprogramme = [] ;    
+		vm.allprogramme = [] ;    
 		//variale affichage bouton nouveau
 		vm.afficherboutonnouveau = 1 ;
 		//variable cache masque de saisie
@@ -28,9 +29,8 @@
 		//col table
 		vm.ile_column = [{titre:"Code"},{titre:"Ile"},{titre:"programme"}];
 		apiFactory.getAll("ile/index").then(function(result)
-    {
+		{
 			vm.allile = result.data.response;
-      //console.log(vm.allile);    
 		});
 
     apiFactory.getAll("programme/index").then(function(result)
@@ -181,6 +181,19 @@
             //alert('rien');
           });
         };
+		vm.showAlert = function(titre,textcontent) {
+			$mdDialog.show(
+			  $mdDialog.alert()
+				.parent(angular.element(document.querySelector('#popupContainer')))
+				.clickOutsideToClose(false)
+				.parent(angular.element(document.body))
+				.title(titre)
+				.textContent(textcontent)
+				.ariaLabel('Alert Dialog Demo')
+				.ok('Fermer')
+				.targetEvent()
+			);
+		} 
         function test_existance (item,suppression)
         {          
             if (suppression!=1)
@@ -206,5 +219,128 @@
             }  else
               insert_in_base(item,suppression);
         }
+		vm.download_ddb = function(controller,table){
+			var nbr_data_insert = 0 ;
+			var config = {
+				headers : {
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+				}
+			};
+			apiFactory.getAll_acteur_serveur_central(controller).then(function(result){
+				var ddb = result.data.response;
+				console.log(ddb);
+				var datas_suppr = $.param({
+						supprimer:1,
+						nom_table: table,
+					}); 
+				apiFactory.add("delete_ddb/index",datas_suppr, config).success(function (data) {
+						//add ddb
+							ddb.forEach( function(element, index) {
+								switch (table) {
+									case "see_village":
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											commune_id: element.commune_id,
+											Code: element.Code,
+											Village: element.Village,
+											programme_id: element.programme_id,
+											zone_id: element.zone_id,
+											nbrpopulation: element.nbrpopulation,
+											a_ete_modifie: element.a_ete_modifie,
+											supprime: element.supprime,
+											userid: element.userid,
+											datemodification: element.datemodification,
+											nom_table: table,
+										});   
+										break;
+									case "see_commune":
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											Code: element.Code,
+											Commune: element.Commune,
+											zone_id: element.zone_id,
+											nombremenage: element.nombremenage,
+											programme_id: element.programme_id,
+											region_id: element.region_id,
+											a_ete_modifie: element.a_ete_modifie,
+											supprime: element.supprime,
+											userid: element.userid,
+											datemodification: element.datemodification,
+											nom_table: table,
+										});   
+										break;
+									case "see_region":
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											ile_id: element.ile_id,
+											Code: element.Code,
+											Region: element.Region,
+											programme_id: element.programme_id,
+											a_ete_modifie: element.a_ete_modifie,
+											supprime: element.supprime,
+											userid: element.userid,
+											datemodification: element.datemodification,
+											nom_table: table,
+										});   
+										break;
+									case "see_ile":
+										// statements_1
+										var datas = $.param({
+											supprimer:0,
+											etat_download:true,
+											id:element.id,      
+											Code: element.Code,
+											Ile: element.Ile,
+											programme_id: element.programme.id,
+											a_ete_modifie: element.a_ete_modifie,
+											supprime: element.supprime,
+											userid: element.userid,
+											datemodification: element.datemodification,
+											nom_table: table,
+										});   
+										break;
+									default:
+										// statements_def
+										break;
+								}
+								apiFactory.add("delete_ddb/index",datas, config).success(function (data) {
+									nbr_data_insert++ ;
+									if ((index+1) == ddb.length) {
+										vm.showAlert('Information',nbr_data_insert + ' enregistrement ajouté avec Succès !');
+									}
+								}).error(function (data) {
+									vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+								});
+							});
+					}).error(function (data) {
+						vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
+					});
+				switch (table) {
+					case "see_village":
+						vm.allvillage = ddb ;
+						break;
+					case "see_commune":
+						vm.allcommune = ddb ;
+						break;
+					case "see_region":
+						vm.allprefecture = ddb ;
+						break;					
+					case "see_ile":
+						vm.allile = ddb ;
+						break;					
+					default:
+						break;
+				}
+			});  
+		}
     }
 })();

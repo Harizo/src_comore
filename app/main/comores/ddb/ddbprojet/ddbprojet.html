@@ -131,7 +131,12 @@
                                 <table ng-table="tableSourcefinancement" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -139,7 +144,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="presta in vm.allRecordsSourcefinancement"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                        <tr ng-repeat="presta in vm.allRecordsSourcefinancement"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionSourcefinancement(presta)">										
                                             <td>
                                                 <span ng-if="presta.$edit">
                                                     <md-input-container style="width:100%;">
@@ -149,7 +154,7 @@
                                                 </span>
                                                 <span ng-if="!presta.$edit">{{presta.nom}}</span>
                                             </td>
-                                            <td>
+                                            <td ng-if="vm.serveur_central">
                                                 <a ng-if="!presta.$edit" ng-click="vm.modifierSourcefinancement(presta)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
@@ -427,7 +432,12 @@
                                 <table ng-table="tableTypedetransfert" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.financement_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_column">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -435,7 +445,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="presta in vm.allRecordsTypedetransfert"  ng-class="{selected: presta.$selected}" ng-click="vm.selection(presta)">										
+                                        <tr ng-repeat="presta in vm.allRecordsTypedetransfert"  ng-class="{selected: presta.$selected}" ng-click="vm.selectionTypedetransfert(presta)">										
                                             <td>
                                                 <span ng-if="presta.$edit">
                                                     <md-input-container style="width:100%;">
@@ -445,7 +455,7 @@
                                                 </span>
                                                 <span ng-if="!presta.$edit">{{presta.description}}</span>
                                             </td>
-                                            <td>
+                                            <td ng-if="vm.serveur_central">
                                                 <a ng-if="!presta.$edit" ng-click="vm.modifierTypedetransfert(presta)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
