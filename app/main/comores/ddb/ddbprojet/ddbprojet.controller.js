@@ -86,6 +86,7 @@
 		};
 		//col table
 		vm.donnateur_column = [{titre:"Nom"},{titre:"Actions"}];
+		vm.local_column = [{titre:"Nom"}];
 		vm.financement_column = [{titre:"Intitulé"},{titre:"Actions"}];
 		vm.typebeneficiaire_column = [{titre:"Intitulé"},{titre:"Actions"}];
 		/*apiFactory.getAll("devise/index").then(function(result){

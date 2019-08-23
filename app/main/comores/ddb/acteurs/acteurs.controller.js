@@ -77,6 +77,10 @@
 		{titre:"Programme"},
 		{titre:"Action"}
 		];
+		vm.agent_ex_local_column =[{titre:"Code"},{titre:"Nom"},{titre:"Contact"},{titre:"Representant"},{titre:"Ile"},{titre:"Programme"}];
+		vm.agence_p_local_column = [{titre:"Code"},{titre:"Nom"},{titre:"Contact"},{titre:"Telephone"},{titre:"Representant"},{titre:"Ile"},{titre:"Programme"}];
+		vm.protection_sociale_local_column = [{titre:"Code"},{titre:"Nom"},{titre:"Contact"},{titre:"NumeroTelephone"},{titre:"Representant"},
+		{titre:"Ile"},{titre:"Village"},{titre:"Programme"}];
 		apiFactory.getAll("ile/index").then(function(result)
 	      {
 	        vm.allile= result.data.response;
