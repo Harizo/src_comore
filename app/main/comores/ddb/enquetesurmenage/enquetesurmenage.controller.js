@@ -59,8 +59,8 @@
 		vm.allRecordsServicebeneficie = [] ;     
 		vm.allRecordsInfrastructure = [] ;     
 
-		vm.nom_table="type_logement";
-		vm.cas=1;
+		vm.nom_table="revetement_toit";
+		vm.cas=3;
 		//variale affichage bouton nouveau
 		//variable cache masque de saisie
 		//style
@@ -77,6 +77,7 @@
 		vm.revt_toit_titre = [{titre:"Description"},{titre:"Actions"}];
 		vm.revt_sol_titre = [{titre:"Description"},{titre:"Actions"}];
 		vm.revt_mur_titre = [{titre:"Description"},{titre:"Actions"}];
+		vm.local_titre = [{titre:"Description"}];
 		
 		/*apiFactory.getTable("enquete_menage/index","eclairage").then(function(result){
 			vm.allRecordsSourceeclairage = result.data.response;
@@ -350,14 +351,14 @@
 						break;
 					}
 					default: {
-						vm.nom_table="type_logement";
-						vm.cas=1;
+						vm.nom_table="revetement_toit";
+						vm.cas=3;
 						break;
 					}
 				}				
 			} else {
-				vm.nom_table="type_logement";
-				vm.cas=1;
+				vm.nom_table="revetement_toit";
+				vm.cas=3;
 			};
         };
 		function ajout(possession,suppression) {
@@ -673,6 +674,96 @@
 				} else {
 					possession.id=data.response;	
 					NouvelItem=false;
+					switch(vm.cas) {
+						case 1:  {
+							vm.selectedItemTypelogement ={};
+							break;
+						}
+						case 2:  {
+							vm.selectedItemOccupationlogement ={};
+							break;
+						}
+						case 3:  {
+							vm.selectedItemRevetementtoit ={};
+							break;
+						}
+						case 4:  {
+							vm.selectedItemRevetementsol ={};
+							break;
+						}
+						case 5:  {
+							vm.selectedItemRevetementmur ={};
+							break;
+						}
+						case 6:  {
+							vm.selectedItemSourceeclairage ={};
+							break;
+						}
+						case 7:  {
+							vm.selectedItemCombustible ={};
+							break;
+						}
+						case 8:  {
+							vm.selectedItemToilette ={};
+							break;
+						}
+						case 9:  {
+							vm.selectedItemSourceeau ={};
+							break;
+						}
+						case 10:  {
+							vm.selectedItemBienequipement ={};
+							break;
+						}
+						case 11:  {
+							vm.selectedItemMoyenproduction ={};
+							break;
+						}
+						case 12:  {
+							vm.selectedItemSourcerevenu ={};
+							break;
+						}
+						case 13:  {
+							vm.selectedItemElevage ={};
+							break;
+						}
+						case 14:  {
+							vm.selectedItemCulture ={};
+							break;
+						}
+						case 15:  {
+							vm.selectedItemAliment ={};
+							break;
+						}
+						case 16:  {
+							vm.selectedItemStrategiealimentaire ={};
+							break;
+						}
+						case 17:  {
+							vm.selectedItemProblememenage ={};
+							break;
+						}
+						case 18:  {
+							vm.selectedItemStrategierevenu ={};
+							break;
+						}
+						case 19:  {
+							vm.selectedItemActiviterecoursmenage ={};
+							break;
+						}
+						case 20:  {
+							vm.selectedItemServicebeneficie ={};
+							break;
+						}
+						case 21:  {
+							vm.selectedItemInfrastructure ={};
+							break;
+						}
+						default: {
+							vm.selectedItemRevetementtoit ={};
+							break;
+						}
+					}						
 				}
 				possession.$selected=false;
 				possession.$edit=false;
@@ -709,24 +800,29 @@
 			vm.selectedItemTypelogement.$selected = true;
         });
         vm.ajouterTypelogement = function () {
-            vm.selectedItemTypelogement.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsTypelogement.push(items);
-		    vm.allRecordsTypelogement.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemTypelogement = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemTypelogement.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsTypelogement.push(items);
+				vm.allRecordsTypelogement.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemTypelogement = it;
+					}
+				});	
+			}	
         };
         vm.annulerTypelogement = function(item) {
 			if (!item.id) {
-				vm.allRecords.pop();
+				vm.allRecordsTypelogement.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -775,24 +871,29 @@
 			vm.selectedItemOccupationlogement.$selected = true;
         });
         vm.ajouterOccupationlogement = function () {
-            vm.selectedItemOccupationlogement.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsOccupationlogement.push(items);
-		    vm.allRecordsOccupationlogement.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemOccupationlogement = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemOccupationlogement.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsOccupationlogement.push(items);
+				vm.allRecordsOccupationlogement.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemOccupationlogement = it;
+					}
+				});		
+			}	
         };
         vm.annulerOccupationlogement = function(item) {
 			if (!item.id) {
 				vm.allRecordsOccupationlogement.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -841,24 +942,29 @@
 			vm.selectedItemRevetementtoit.$selected = true;
         });
         vm.ajouterRevetementtoit = function () {
-            vm.selectedItemRevetementtoit.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsRevetementtoit.push(items);
-		    vm.allRecordsRevetementtoit.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemRevetementtoit = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemRevetementtoit.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsRevetementtoit.push(items);
+				vm.allRecordsRevetementtoit.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemRevetementtoit = it;
+					}
+				});	
+			}	
         };
         vm.annulerRevetementtoit = function(item) {
 			if (!item.id) {
 				vm.allRecordsRevetementtoit.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -907,24 +1013,29 @@
 			vm.selectedItemRevetementsol.$selected = true;
         });
         vm.ajouterRevetementsol = function () {
-            vm.selectedItemRevetementsol.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsRevetementsol.push(items);
-		    vm.allRecordsRevetementsol.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemRevetementsol = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemRevetementsol.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsRevetementsol.push(items);
+				vm.allRecordsRevetementsol.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemRevetementsol = it;
+					}
+				});		
+			}	
         };
         vm.annulerRevetementsol = function(item) {
 			if (!item.id) {
 				vm.allRecordsRevetementsol.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -973,24 +1084,29 @@
 			vm.selectedItemRevetementmur.$selected = true;
         });
         vm.ajouterRevetementmur = function () {
-            vm.selectedItemRevetementmur.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsRevetementmur.push(items);
-		    vm.allRecordsRevetementmur.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemRevetementmur = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemRevetementmur.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsRevetementmur.push(items);
+				vm.allRecordsRevetementmur.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemRevetementmur = it;
+					}
+				});	
+			}	
         };
         vm.annulerRevetementmur = function(item) {
 			if (!item.id) {
 				vm.allRecordsRevetementmur.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1039,24 +1155,29 @@
 			vm.selectedItemSourceeclairage.$selected = true;
         });
         vm.ajouterSourceeclairage = function () {
-            vm.selectedItemSourceeclairage.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsSourceeclairage.push(items);
-		    vm.allRecordsSourceeclairage.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemSourceeclairage = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemSourceeclairage.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsSourceeclairage.push(items);
+				vm.allRecordsSourceeclairage.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemSourceeclairage = it;
+					}
+				});	
+			}	
         };
         vm.annulerSourceeclairage = function(item) {
 			if (!item.id) {
 				vm.allRecordsSourceeclairage.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1105,24 +1226,29 @@
 			vm.selectedItemCombustible.$selected = true;
         });
         vm.ajouterCombustible = function () {
-            vm.selectedItemCombustible.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsCombustible.push(items);
-		    vm.allRecordsCombustible.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemCombustible = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemCombustible.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsCombustible.push(items);
+				vm.allRecordsCombustible.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemCombustible = it;
+					}
+				});	
+			}	
         };
         vm.annuler = function(item) {
 			if (!item.id) {
 				vm.allRecordsCombustible.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1171,24 +1297,29 @@
 			vm.selectedItemToilette.$selected = true;
         });
         vm.ajouterToilette = function () {
-            vm.selectedItemToilette.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsToilette.push(items);
-		    vm.allRecordsToilette.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemToilette = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemToilette.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsToilette.push(items);
+				vm.allRecordsToilette.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemToilette = it;
+					}
+				});	
+			}	
         };
         vm.annulerToilette = function(item) {
 			if (!item.id) {
 				vm.allRecordsToilette.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1237,24 +1368,29 @@
 			vm.selectedItemSourceeau.$selected = true;
         });
         vm.ajouterSourceeau = function () {
-            vm.selectedItemSourceeau.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsSourceeau.push(items);
-		    vm.allRecordsSourceeau.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemSourceeau = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemSourceeau.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsSourceeau.push(items);
+				vm.allRecordsSourceeau.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemSourceeau = it;
+					}
+				});		
+			}	
         };
         vm.annulerSourceeau = function(item) {
 			if (!item.id) {
 				vm.allRecordsSourceeau.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1303,24 +1439,29 @@
 			vm.selectedItemBienequipement.$selected = true;
         });
         vm.ajouterBienequipement = function () {
-            vm.selectedItemBienequipement.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsBienequipement.push(items);
-		    vm.allRecordsBienequipement.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemBienequipement = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {				
+				vm.selectedItemBienequipement.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsBienequipement.push(items);
+				vm.allRecordsBienequipement.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemBienequipement = it;
+					}
+				});	
+			}	
         };
         vm.annulerBienequipement = function(item) {
 			if (!item.id) {
-				vm.allRecords.pop();
+				vm.allRecordsBienequipement.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1369,24 +1510,29 @@
 			vm.selectedItemMoyenproduction.$selected = true;
         });
         vm.ajouterMoyenproduction = function () {
-            vm.selectedItemMoyenproduction.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsMoyenproduction.push(items);
-		    vm.allRecordsMoyenproduction.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemMoyenproduction = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemMoyenproduction.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsMoyenproduction.push(items);
+				vm.allRecordsMoyenproduction.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemMoyenproduction = it;
+					}
+				});	
+			}	
         };
         vm.annulerMoyenproduction = function(item) {
 			if (!item.id) {
 				vm.allRecordsMoyenproduction.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1435,24 +1581,29 @@
 			vm.selectedItemSourcerevenu.$selected = true;
         });
         vm.ajouterSourcerevenu = function () {
-            vm.selectedItemSourcerevenu.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsSourcerevenu.push(items);
-		    vm.allRecordsSourcerevenu.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemSourcerevenu = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemSourcerevenu.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsSourcerevenu.push(items);
+				vm.allRecordsSourcerevenu.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemSourcerevenu = it;
+					}
+				});		
+			}	
         };
         vm.annulerSourcerevenu = function(item) {
 			if (!item.id) {
 				vm.allRecordsSourcerevenu.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1501,24 +1652,29 @@
 			vm.selectedItemElevage.$selected = true;
         });
         vm.ajouterElevage = function () {
-            vm.selectedItemElevage.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsElevage.push(items);
-		    vm.allRecordsElevage.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemElevage = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemElevage.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsElevage.push(items);
+				vm.allRecordsElevage.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemElevage = it;
+					}
+				});	
+			}	
         };
         vm.annulerElevage = function(item) {
 			if (!item.id) {
 				vm.allRecordsElevage.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1567,24 +1723,29 @@
 			vm.selectedItemCulture.$selected = true;
         });
         vm.ajouterCulture = function () {
-            vm.selectedItemCulture.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsCulture.push(items);
-		    vm.allRecordsCulture.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemCulture = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemCulture.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsCulture.push(items);
+				vm.allRecordsCulture.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemCulture = it;
+					}
+				});			
+			}	
         };
         vm.annulerCulture = function(item) {
 			if (!item.id) {
 				vm.allRecordsCulture.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1633,24 +1794,29 @@
 			vm.selectedItemAliment.$selected = true;
         });
         vm.ajouterAliment = function () {
-            vm.selectedItemAliment.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsAliment.push(items);
-		    vm.allRecordsAliment.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemAliment = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemAliment.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsAliment.push(items);
+				vm.allRecordsAliment.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemAliment = it;
+					}
+				});	
+			}	
         };
         vm.annulerAliment = function(item) {
 			if (!item.id) {
 				vm.allRecordsAliment.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1699,24 +1865,29 @@
 			vm.selectedItemStrategiealimentaire.$selected = true;
         });
         vm.ajouterStrategiealimentaire = function () {
-            vm.selectedItemStrategiealimentaire.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsStrategiealimentaire.push(items);
-		    vm.allRecordsStrategiealimentaire.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemStrategiealimentaire = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemStrategiealimentaire.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsStrategiealimentaire.push(items);
+				vm.allRecordsStrategiealimentaire.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemStrategiealimentaire = it;
+					}
+				});		
+			}	
         };
         vm.annulerStrategiealimentaire = function(item) {
 			if (!item.id) {
 				vm.allRecordsStrategiealimentaire.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1765,24 +1936,29 @@
 			vm.selectedItemProblememenage.$selected = true;
         });
         vm.ajouterProblememenage = function () {
-            vm.selectedItemProblememenage.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsProblememenage.push(items);
-		    vm.allRecordsProblememenage.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemProblememenage = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemProblememenage.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsProblememenage.push(items);
+				vm.allRecordsProblememenage.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemProblememenage = it;
+					}
+				});	
+			}	
         };
         vm.annulerProblememenage = function(item) {
 			if (!item.id) {
 				vm.allRecordsProblememenage.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1831,24 +2007,29 @@
 			vm.selectedItemStrategierevenu.$selected = true;
         });
         vm.ajouterStrategierevenu = function () {
-            vm.selectedItemStrategierevenu.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsStrategierevenu.push(items);
-		    vm.allRecordsStrategierevenu.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemStrategierevenu = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemStrategierevenu.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsStrategierevenu.push(items);
+				vm.allRecordsStrategierevenu.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemStrategierevenu = it;
+					}
+				});	
+			}	
         };
         vm.annulerStrategierevenu = function(item) {
 			if (!item.id) {
 				vm.allRecordsStrategierevenu.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1897,24 +2078,29 @@
 			vm.selectedItemActiviterecoursmenage.$selected = true;
         });
         vm.ajouterActiviterecoursmenage = function () {
-            vm.selectedItemActiviterecoursmenage.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsActiviterecoursmenage.push(items);
-		    vm.allRecordsActiviterecoursmenage.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemActiviterecoursmenage = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemActiviterecoursmenage.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsActiviterecoursmenage.push(items);
+				vm.allRecordsActiviterecoursmenage.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemActiviterecoursmenage = it;
+					}
+				});	
+			}	
         };
         vm.annulerActiviterecoursmenage = function(item) {
 			if (!item.id) {
 				vm.allRecordsActiviterecoursmenage.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1963,24 +2149,29 @@
 			vm.selectedItemServicebeneficie.$selected = true;
         });
         vm.ajouterServicebeneficie = function () {
-            vm.selectedItemServicebeneficie.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsServicebeneficie.push(items);
-		    vm.allRecordsServicebeneficie.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemServicebeneficie = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemServicebeneficie.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsServicebeneficie.push(items);
+				vm.allRecordsServicebeneficie.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemServicebeneficie = it;
+					}
+				});		
+			}	
         };
         vm.annulerServicebeneficie = function(item) {
 			if (!item.id) {
 				vm.allRecordsServicebeneficie.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -2029,24 +2220,29 @@
 			vm.selectedItemInfrastructure.$selected = true;
         });
         vm.ajouterInfrastructure = function () {
-            vm.selectedItemInfrastructure.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsInfrastructure.push(items);
-		    vm.allRecordsInfrastructure.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemInfrastructure = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemInfrastructure.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsInfrastructure.push(items);
+				vm.allRecordsInfrastructure.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemInfrastructure = it;
+					}
+				});	
+			}	
         };
         vm.annulerInfrastructure = function(item) {
 			if (!item.id) {
 				vm.allRecordsInfrastructure.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;

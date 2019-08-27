@@ -136,7 +136,12 @@
                                 <table ng-table="tablePrestataireRevetementtoit" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.revt_toit_titre">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.revt_toit_titre">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -154,11 +159,11 @@
                                                 </span>
                                                 <span ng-if="!rvtt.$edit">{{rvtt.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!rvtt.$edit" ng-click="vm.modifierRevetementtoit(rvtt)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!rvtt.$edit && vm.serveur_central" ng-click="vm.modifierRevetementtoit(rvtt)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!rvtt.$edit" ng-click="vm.supprimerRevetementtoit(rvtt)" title="Supprimer">
+                                                <a ng-if="!rvtt.$edit && vm.serveur_central" ng-click="vm.supprimerRevetementtoit(rvtt)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="rvtt.$edit" ng-click="vm.annulerRevetementtoit(rvtt)" title="Annuler modification">
@@ -191,7 +196,12 @@
                                 <table ng-table="tablePrestataireRevetementsol" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.revt_sol_titre">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.revt_sol_titre">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -209,11 +219,11 @@
                                                 </span>
                                                 <span ng-if="!rvts.$edit">{{rvts.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!rvts.$edit" ng-click="vm.modifierRevetementsol(rvts)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!rvts.$edit && vm.serveur_central" ng-click="vm.modifierRevetementsol(rvts)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!rvts.$edit" ng-click="vm.supprimerRevetementsol(rvts)" title="Supprimer">
+                                                <a ng-if="!rvts.$edit && vm.serveur_central" ng-click="vm.supprimerRevetementsol(rvts)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="rvts.$edit" ng-click="vm.annulerRevetementsol(rvts)" title="Annuler modification">
@@ -246,7 +256,12 @@
                                 <table ng-table="tablePrestataireRevetementmur" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.revt_mur_titre">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.revt_mur_titre">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -264,11 +279,11 @@
                                                 </span>
                                                 <span ng-if="!rvtm.$edit">{{rvtm.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!rvtm.$edit" ng-click="vm.modifierRevetementmur(rvtm)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!rvtm.$edit && vm.serveur_central" ng-click="vm.modifierRevetementmur(rvtm)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!rvtm.$edit" ng-click="vm.supprimerRevetementmur(rvtm)" title="Supprimer">
+                                                <a ng-if="!rvtm.$edit && vm.serveur_central" ng-click="vm.supprimerRevetementmur(rvtm)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="rvtm.$edit" ng-click="vm.annulerRevetementmur(rvtm)" title="Annuler modification">
@@ -398,7 +413,12 @@
                                 <table ng-table="tablePrestataireToilette" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -416,11 +436,11 @@
                                                 </span>
                                                 <span ng-if="!toi.$edit">{{toi.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!toi.$edit" ng-click="vm.modifierToilette(toi)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!toi.$edit && vm.serveur_central" ng-click="vm.modifierToilette(toi)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!toi.$edit" ng-click="vm.supprimerToilette(toi)" title="Supprimer">
+                                                <a ng-if="!toi.$edit && vm.serveur_central" ng-click="vm.supprimerToilette(toi)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="toi.$edit" ng-click="vm.annulerToilette(toi)" title="Annuler modification">
@@ -454,7 +474,12 @@
                                 <table ng-table="tablePrestataireSourceeau" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -472,11 +497,11 @@
                                                 </span>
                                                 <span ng-if="!eau.$edit">{{eau.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!eau.$edit" ng-click="vm.modifierSourceeau(eau)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!eau.$edit && vm.serveur_central" ng-click="vm.modifierSourceeau(eau)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!eau.$edit" ng-click="vm.supprimerSourceeau(eau)" title="Supprimer">
+                                                <a ng-if="!eau.$edit && vm.serveur_central" ng-click="vm.supprimerSourceeau(eau)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="eau.$edit" ng-click="vm.annulerSourceeau(eau)" title="Annuler modification">
@@ -510,7 +535,12 @@
                                 <table ng-table="tablePrestataireBienequipement" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -528,11 +558,11 @@
                                                 </span>
                                                 <span ng-if="!bien.$edit">{{bien.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!bien.$edit" ng-click="vm.modifierBienequipement(bien)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!bien.$edit && vm.serveur_central" ng-click="vm.modifierBienequipement(bien)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!bien.$edit" ng-click="vm.supprimerBienequipement(bien)" title="Supprimer">
+                                                <a ng-if="!bien.$edit && vm.serveur_central" ng-click="vm.supprimerBienequipement(bien)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="bien.$edit" ng-click="vm.annulerBienequipement(bien)" title="Annuler modification">
@@ -662,7 +692,12 @@
                                 <table ng-table="tablePrestataireElevage" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -680,11 +715,11 @@
                                                 </span>
                                                 <span ng-if="!elv.$edit">{{elv.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!elv.$edit" ng-click="vm.modifierElevage(elv)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!elv.$edit && vm.serveur_central" ng-click="vm.modifierElevage(elv)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!elv.$edit" ng-click="vm.supprimerElevage(elv)" title="Supprimer">
+                                                <a ng-if="!elv.$edit && vm.serveur_central" ng-click="vm.supprimerElevage(elv)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="elv.$edit" ng-click="vm.annulerElevage(elv)" title="Annuler modification">
@@ -717,7 +752,12 @@
                                 <table ng-table="tablePrestataireCulture" class="dataTable row-border hover"  datatable="ng" dt-options="vm.dtOptions">
                                     <thead>
                                         <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                            <th ng-if="vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.donnateur_column">
+                                                <div class="table-header">
+                                                    <span class="column-title">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                            <th ng-if="!vm.serveur_central" class="secondary-text" ng-repeat="c in ::vm.local_titre">
                                                 <div class="table-header">
                                                     <span class="column-title">{{c.titre}}</span>
                                                 </div>
@@ -735,11 +775,11 @@
                                                 </span>
                                                 <span ng-if="!cult.$edit">{{cult.description}}</span>
                                             </td>
-                                            <td>
-                                                <a ng-if="!cult.$edit" ng-click="vm.modifierCulture(cult)" title="Modifier">
+                                            <td ng-if="vm.serveur_central">
+                                                <a ng-if="!cult.$edit && vm.serveur_central" ng-click="vm.modifierCulture(cult)" title="Modifier">
                                                     <span class="icon-table-edit"></span>
                                                 </a>
-                                                <a ng-if="!cult.$edit" ng-click="vm.supprimerCulture(cult)" title="Supprimer">
+                                                <a ng-if="!cult.$edit && vm.serveur_central" ng-click="vm.supprimerCulture(cult)" title="Supprimer">
                                                     <span class="icon-delete"></span>
                                                 </a>
                                                 <a ng-if="cult.$edit" ng-click="vm.annulerCulture(cult)" title="Annuler modification">

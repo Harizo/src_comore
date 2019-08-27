@@ -48,6 +48,7 @@
 		};
 		//col table
 		vm.donnateur_column = [{titre:"Description"},{titre:"Actions"}];
+		vm.local_titre = [{titre:"Description"}];
 		apiFactory.getTable("enquete_menage/index","handicap_moteur").then(function(result){
 			vm.allRecordsHandicapmoteur = result.data.response;
 			apiFactory.getTable("enquete_menage/index","handicap_mental").then(function(result){
@@ -414,7 +415,7 @@
 							}
 							case 11:  {
 								vm.allRecordsSituationmatrimoniale = vm.allRecordsSituationmatrimoniale.filter(function(obj) {
-									return obj.id !== vm.selectedItemTypeformationrecue.id;
+									return obj.id !== vm.selectedItemSituationmatrimoniale.id;
 								});
 								break;
 							}
@@ -426,6 +427,56 @@
 				} else {
 					possession.id=data.response;	
 					NouvelItem=false;
+					switch(vm.cas) {
+						case 1:  {
+							vm.selectedItemLiendeparente ={};
+							break;
+						}
+						case 2:  {
+							vm.selectedItemHandicapvisuel ={};
+							break;
+						}
+						case 3:  {
+							vm.selectedItemHandicapparole ={};
+							break;
+						}
+						case 4:  {
+							vm.selectedItemHandicapauditif ={};
+							break;
+						}
+						case 5:  {
+							vm.selectedItemHandicapmental ={};
+							break;
+						}
+						case 6:  {
+							vm.selectedItemHandicapmoteur ={};
+							break;
+						}
+						case 7:  {
+							vm.selectedItemVaccin ={};
+							break;
+						}
+						case 8:  {
+							vm.selectedItemTypemariage ={};
+							break;
+						}
+						case 9:  {
+							vm.selectedItemTypeviolence ={};
+							break;
+						}
+						case 10:  {
+							vm.selectedItemTypeformationrecue ={};
+							break;
+						}
+						case 11:  {
+							vm.selectedItemSituationmatrimoniale ={};
+							break;
+						}
+						default: {
+							vm.selectedItemLiendeparente ={};
+							break;
+						}
+					}				
 				}
 				possession.$selected=false;
 				possession.$edit=false;
@@ -461,24 +512,29 @@
 			vm.selectedItemLiendeparente.$selected = true;
         });
         vm.ajouterLiendeparente = function () {
-            vm.selectedItemLiendeparente.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsLiendeparente.push(items);
-		    vm.allRecordsLiendeparente.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemLiendeparente = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemLiendeparente.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsLiendeparente.push(items);
+				vm.allRecordsLiendeparente.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemLiendeparente = it;
+					}
+				});	
+			}	
         };
         vm.annulerLiendeparente = function(item) {
 			if (!item.id) {
 				vm.allRecordsLiendeparente.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -527,24 +583,29 @@
 			vm.selectedItemHandicapvisuel.$selected = true;
         });
         vm.ajouterHandicapvisuel = function () {
-            vm.selectedItemHandicapvisuel.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsHandicapvisuel.push(items);
-		    vm.allRecordsHandicapvisuel.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemHandicapvisuel = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemHandicapvisuel.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsHandicapvisuel.push(items);
+				vm.allRecordsHandicapvisuel.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemHandicapvisuel = it;
+					}
+				});	
+			}	
         };
         vm.annulerHandicapvisuel = function(item) {
 			if (!item.id) {
-				vm.allRecordsLiendeparente.pop();
+				vm.allRecordsHandicapvisuel.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -593,24 +654,29 @@
 			vm.selectedItemHandicapparole.$selected = true;
         });
         vm.ajouterHandicapparole = function () {
-            vm.selectedItemHandicapparole.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsHandicapparole.push(items);
-		    vm.allRecordsHandicapparole.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemHandicapparole = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemHandicapparole.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsHandicapparole.push(items);
+				vm.allRecordsHandicapparole.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemHandicapparole = it;
+					}
+				});	
+			}	
         };
         vm.annulerHandicapparole = function(item) {
 			if (!item.id) {
 				vm.allRecordsHandicapparole.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -659,24 +725,29 @@
 			vm.selectedItemHandicapauditif.$selected = true;
         });
         vm.ajouterHandicapauditif = function () {
-            vm.selectedItemHandicapauditif.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsHandicapauditif.push(items);
-		    vm.allRecordsHandicapauditif.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemHandicapauditif = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemHandicapauditif.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsHandicapauditif.push(items);
+				vm.allRecordsHandicapauditif.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemHandicapauditif = it;
+					}
+				});	
+			}	
         };
         vm.annulerHandicapauditif = function(item) {
 			if (!item.id) {
 				vm.allRecordsHandicapauditif.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -725,24 +796,29 @@
 			vm.selectedItemHandicapmental.$selected = true;
         });
         vm.ajouterHandicapmental = function () {
-            vm.selectedItemHandicapmental.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsHandicapmental.push(items);
-		    vm.allRecordsHandicapmental.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemHandicapmental = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemHandicapmental.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsHandicapmental.push(items);
+				vm.allRecordsHandicapmental.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemHandicapmental = it;
+					}
+				});	
+			}	
         };
         vm.annulerHandicapmental = function(item) {
 			if (!item.id) {
 				vm.allRecordsHandicapmental.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -791,24 +867,29 @@
 			vm.selectedItemHandicapmoteur.$selected = true;
         });
         vm.ajouterHandicapmoteur = function () {
-            vm.selectedItemHandicapmoteur.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsHandicapmoteur.push(items);
-		    vm.allRecordsHandicapmoteur.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemHandicapmoteur = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemHandicapmoteur.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsHandicapmoteur.push(items);
+				vm.allRecordsHandicapmoteur.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemHandicapmoteur = it;
+					}
+				});	
+			}	
         };
         vm.annulerHandicapmoteur = function(item) {
 			if (!item.id) {
 				vm.allRecordsHandicapmoteur.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -857,24 +938,29 @@
 			vm.selectedItemVaccin.$selected = true;
         });
         vm.ajouterVaccin = function () {
-            vm.selectedItemVaccin.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsVaccin.push(items);
-		    vm.allRecordsVaccin.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemVaccin = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemVaccin.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsVaccin.push(items);
+				vm.allRecordsVaccin.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemVaccin = it;
+					}
+				});	
+			}	
         };
         vm.annulerVaccin = function(item) {
 			if (!item.id) {
 				vm.allRecordsVaccin.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -923,24 +1009,29 @@
 			vm.selectedItemTypemariage.$selected = true;
         });
         vm.ajouterTypemariage = function () {
-            vm.selectedItemTypemariage.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsTypemariage.push(items);
-		    vm.allRecordsTypemariage.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemTypemariage = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemTypemariage.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsTypemariage.push(items);
+				vm.allRecordsTypemariage.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemTypemariage = it;
+					}
+				});	
+			}	
         };
         vm.annulerTypemariage = function(item) {
 			if (!item.id) {
-				vm.allRecords.pop();
+				vm.allRecordsTypemariage.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -989,24 +1080,29 @@
 			vm.selectedItemTypeviolence.$selected = true;
         });
         vm.ajouterTypeviolence = function () {
-            vm.selectedItemTypeviolence.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsTypeviolence.push(items);
-		    vm.allRecordsTypeviolence.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemTypeviolence = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemTypeviolence.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsTypeviolence.push(items);
+				vm.allRecordsTypeviolence.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemTypeviolence = it;
+					}
+				});	
+			}	
         };
         vm.annulerTypeviolence = function(item) {
 			if (!item.id) {
-				vm.allRecords.pop();
+				vm.allRecordsTypeviolence.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1055,24 +1151,29 @@
 			vm.selectedItemTypeformationrecue.$selected = true;
         });
         vm.ajouterTypeformationrecue = function () {
-            vm.selectedItemTypeformationrecue.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsTypeformationrecue.push(items);
-		    vm.allRecordsTypeformationrecue.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemTypeformationrecue = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemTypeformationrecue.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsTypeformationrecue.push(items);
+				vm.allRecordsTypeformationrecue.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemTypeformationrecue = it;
+					}
+				});		
+			}	
         };
         vm.annulerTypeformationrecue = function(item) {
 			if (!item.id) {
-				vm.allRecords.pop();
+				vm.allRecordsTypeformationrecue.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
@@ -1121,24 +1222,29 @@
 			vm.selectedItemSituationmatrimoniale.$selected = true;
         });
         vm.ajouterSituationmatrimoniale = function () {
-            vm.selectedItemSituationmatrimoniale.$selected = false;
-            NouvelItem = true ;
-		    var items = {
-				$edit: true,
-				$selected: true,
-				supprimer:0,
-                description: '',
-			};
-			vm.allRecordsSituationmatrimoniale.push(items);
-		    vm.allRecordsSituationmatrimoniale.forEach(function(it) {
-				if(it.$selected==true) {
-					vm.selectedItemSituationmatrimoniale = it;
-				}
-			});			
+			if(NouvelItem == true) {
+				vm.showAlert("ERREUR LORS DE L'INSERTION","Veuillez annuler ou sauvegarder la dernière insertion que vous avez fait.Merci !");
+			} else {	
+				vm.selectedItemSituationmatrimoniale.$selected = false;
+				NouvelItem = true ;
+				var items = {
+					$edit: true,
+					$selected: true,
+					supprimer:0,
+					description: '',
+				};
+				vm.allRecordsSituationmatrimoniale.push(items);
+				vm.allRecordsSituationmatrimoniale.forEach(function(it) {
+					if(it.$selected==true) {
+						vm.selectedItemSituationmatrimoniale = it;
+					}
+				});	
+			}	
         };
         vm.annulerSituationmatrimoniale = function(item) {
 			if (!item.id) {
-				vm.allRecords.pop();
+				vm.allRecordsSituationmatrimoniale.pop();
+				NouvelItem = false;
 				return;
 			}          
 			item.$selected=false;
