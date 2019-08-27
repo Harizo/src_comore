@@ -301,25 +301,24 @@
         }
         vm.export_menage = function(filtre){
        	//vm.affiche_load     = true ;
-       	var repertoire = "menage/"
+       	vm.affiche_load = true;
+       	var repertoire = "menage/";
        	apiFactory.getAPIgeneraliserREST("export_excel_menage/index","selection",filtre.pivot,"date_deb",formatDateBDD(filtre.date_debut),"date_fin",formatDateBDD(filtre.date_fin),
         "id_ile",filtre.id_ile,"id_region",filtre.id_region,"id_commune",filtre.id_commune,"village_id",filtre.village_id,"repertoire",repertoire).then(function(result)
        {
-       	vm.status =  result.data.status ;
+       		
+       		vm.status =  result.data.status ;
        	
            if(vm.status)
            {
-             var nom_fiche = result.data.nom_file;              
-             try
-               { 
-                 window.location = apiUrlexcel+"menage/"+nom_fiche ;
-               }catch(error)
-               {
+             var nom_fiche = result.data.nom_file;
+             window.location = apiUrlexcel+"menage/"+nom_fiche ;
+             vm.affiche_load =false; 
 
-               }finally
-               {
-                 //vm.affiche_load = false ;
-               }
+           }else{
+           		var message=result.data.message;
+	            vm.Alert('Export en excel',message);
+	            vm.affiche_load =false;
            }
        });
     }
