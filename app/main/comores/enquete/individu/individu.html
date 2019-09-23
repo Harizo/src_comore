@@ -162,7 +162,7 @@
 								<md-button type="submit" ng-disabled="vm.autorisation_suppr" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerSuiviMenage()" style="width:10%;">
 								  Supprimer
 								</md-button>
-								<md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviMenage.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_menage()">
+								<md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviMenage.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_menage()">
 	                              <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
 	                            </md-button>
 							</div>
@@ -558,7 +558,7 @@
 								  Supprimer
 								</md-button>
 
-								<md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviIndividu.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_individu()">
+								<md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItemDetailSuiviIndividu.id)"  aria-label="Use Android"  ng-click="vm.envoie_suivi_individu()">
 	                              <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
 	                            </md-button>
 							</div>

@@ -16,6 +16,7 @@
 		var NouvelItemSuiviIndividu=false; 
 		var currentItemSuiviMenage={};
 		var currentItemSuiviIndividu={};
+		vm.bouton_envoie_actif = true ;
 		vm.allRecordsSourcefinancement = [];
 		vm.allRecordsTypedetransfert = [];
 		vm.allRecordsAgencepaiement = [];
@@ -96,6 +97,8 @@
             {
               vm.filtre.id_ile = vm.user.id_ile ;
               vm.filtre_region();
+
+              
             }
             
           });
@@ -144,16 +147,36 @@
 		}
 		//FIN DDB , CLE ETRANGERE	
 		vm.filtre_region = function() {
+
+			vm.all_region = [] ;
+			vm.all_commune = [] ;
+			vm.all_village = [] ;
+
+			
+
 			apiFactory.getAPIgeneraliserREST("region/index","cle_etrangere",vm.filtre.id_ile).then(function(result) { 
 				vm.all_region = result.data.response;
+				
+				
+				
 			});
 		}
 		vm.filtre_commune = function() {
+
+
+			vm.all_commune = [] ;        
+			vm.all_village = [] ; 
+
 			apiFactory.getAPIgeneraliserREST("commune/index","cle_etrangere",vm.filtre.id_region).then(function(result) { 
-				vm.all_commune = result.data.response;              
+				vm.all_commune = result.data.response;  
+   
 			});
 		}
 		vm.filtre_village = function() {
+
+
+			       
+			vm.all_village = [] ; 
 			apiFactory.getAPIgeneraliserREST("village/index","cle_etrangere",vm.filtre.id_commune).then(function(result) { 
 				vm.all_village = result.data.response;              
 			});
@@ -1140,6 +1163,7 @@
 
         vm.envoie_suivi_individu = function()
         {
+        	vm.bouton_envoie_actif = false ;
         	//console.log(vm.selectedItemDetailSuiviMenage) ;
 				var config =  {
                         headers : {
@@ -1188,6 +1212,7 @@
 
 		        apiFactory.add_serveur_central("suivi_individu/index",datas, config).success(function (data) 
         		{
+        			vm.bouton_envoie_actif = true ;
         			vm.showAlert("Information",'Envoie réussi!');
 					if (vm.selectedItemDetailSuiviIndividu.id_serveur_centrale == null) 
 					{

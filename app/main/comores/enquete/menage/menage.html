@@ -34,7 +34,7 @@
                               Supprimer
                             </md-button-->
 
-                            <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android"  ng-click="vm.envoie_menage()">
+                            <md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android"  ng-click="vm.envoie_menage()">
                               <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                             </md-button>
                           
@@ -367,7 +367,7 @@
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_enquete_menage != 0" ng-click="vm.save_reponse_menage()">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_enquete_menage == 0" ng-click="vm.save_reponse_menage()">Enregistrer</md-button>
 
-                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-disabled="(vm.id_enquete_menage == 0)||(vm.selectedItem.id_serveur_centrale == null)" ng-click="vm.envoie_enquete_menage()">
+                          <md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-disabled="(vm.id_enquete_menage == 0)||(vm.selectedItem.id_serveur_centrale == null)" ng-click="vm.envoie_enquete_menage()">
                             <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                           </md-button>
                           
@@ -395,7 +395,7 @@
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_menage_programme != 0" ng-click="vm.save_reponse_menage_programme()">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-disabled="vm.disable_button" ng-if="vm.id_menage_programme == 0" ng-click="vm.save_reponse_menage_programme()">Enregistrer</md-button>
                           
-                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-disabled="(vm.id_menage_programme == 0)||(vm.selectedItem.id_serveur_centrale == null)" ng-click="vm.envoie_menage_programme()">
+                          <md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem.id)" aria-label="Use Android" ng-disabled="(vm.id_menage_programme == 0)||(vm.selectedItem.id_serveur_centrale == null)" ng-click="vm.envoie_menage_programme()">
                             <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                           </md-button>
                         </section>
@@ -410,7 +410,7 @@
                               Modifier
                             </md-button>
 
-                            <md-button class="md-fab md-mini " ng-disabled="(vm.selectedItem.id_serveur_centrale == null)" ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-click="vm.envoie_individu()">
+                            <md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-disabled="(vm.selectedItem.id_serveur_centrale == null)" ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-click="vm.envoie_individu()">
                               <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                             </md-button>
                             
@@ -702,7 +702,7 @@
                           <md-button class="md-raised md-primary" ng-if="vm.id_enquete_individu != 0" ng-disabled="vm.disable_button" ng-click="vm.save_reponse_individu(vm.reponse_individu)">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-if="vm.id_enquete_individu == 0" ng-disabled="vm.disable_button" ng-click="vm.save_reponse_individu(vm.reponse_individu)">Enregistrer</md-button>
 
-                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-disabled="(vm.id_enquete_individu == 0)||(vm.selectedItem.id_serveur_centrale == null)||(vm.selectedItem_individu.id_serveur_centrale == null)" ng-click="vm.envoie_enquete_individu()">
+                          <md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-disabled="(vm.id_enquete_individu == 0)||(vm.selectedItem.id_serveur_centrale == null)||(vm.selectedItem_individu.id_serveur_centrale == null)" ng-click="vm.envoie_enquete_individu()">
                             <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                           </md-button>
                           
@@ -728,7 +728,7 @@
                           <md-button class="md-raised md-primary" ng-if="vm.id_individu_programme != 0" ng-click="vm.save_reponse_individu_programme()">Mettre à jour</md-button>
                           <md-button class="md-raised md-primary" ng-if="vm.id_individu_programme == 0" ng-click="vm.save_reponse_individu_programme()">Enregistrer</md-button>
 
-                          <md-button class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-disabled="(vm.id_individu_programme == 0)||(vm.selectedItem_individu.id_serveur_centrale == null)" ng-click="vm.envoie_individu_programme()">
+                          <md-button ng-disabled="!vm.bouton_envoie_actif" class="md-fab md-mini " ng-if="!vm.serveur_central" ng-show="(vm.selectedItem_individu.id)" aria-label="Use Android" ng-disabled="(vm.id_individu_programme == 0)||(vm.selectedItem_individu.id_serveur_centrale == null)" ng-click="vm.envoie_individu_programme()">
                             <md-icon md-svg-src="assets/icons/svg/send.svg" style="color: greenyellow;"></md-icon>
                           </md-button>
 

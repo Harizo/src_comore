@@ -23,6 +23,7 @@
 
       //initialisation variable
         vm.affiche_load = false ;
+        vm.bouton_envoie_actif = true ;
         vm.selectedItem = {} ;
         vm.selectedItem_individu = {} ;
         vm.tab_reponse_source_eau = [] ;
@@ -1063,6 +1064,8 @@
 
       vm.envoie_menage = function()
       {
+
+        vm.bouton_envoie_actif = false ;
         vm.disable_button = true ;
         var config =  {
                         headers : {
@@ -1095,6 +1098,7 @@
 
         apiFactory.add_serveur_central("menage/index",datas, config).success(function (data) 
         {
+          vm.bouton_envoie_actif = true ;
           vm.disable_button = false ;
           vm.affichage_masque = false ;
           vm.disable_button = false ;
@@ -1147,6 +1151,7 @@
 
       vm.envoie_enquete_menage = function()
       {
+        vm.bouton_envoie_actif = false ;
         vm.disable_button = true ;
         var config =  {
                         headers : {
@@ -1182,6 +1187,7 @@
 
         apiFactory.add_serveur_central("enquete_menage_traitement/index",datas, config).success(function (data) 
         {
+          vm.bouton_envoie_actif = true ;
           vm.showAlert("Information",'Envoie réussi!');
           vm.disable_button = false ;
           if (vm.enquete_by_menage.id_serveur_centrale == null) 
@@ -1230,6 +1236,7 @@
 
       vm.envoie_menage_programme = function()
       {
+        vm.bouton_envoie_actif = false ;
         var config =  {
                         headers : {
                           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -1255,6 +1262,7 @@
 
         apiFactory.add_serveur_central("menage_programme/index",datas, config).success(function (data) 
         {
+          vm.bouton_envoie_actif = true ;
           vm.showAlert("Information",'Envoie réussi!');
           if (vm.menage_programme_liaisons.id_serveur_centrale == null) 
           {
@@ -1362,6 +1370,7 @@
 
       vm.envoie_individu = function()
       {
+        vm.bouton_envoie_actif = false ;
         var config =  {
                         headers : {
                           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -1392,6 +1401,7 @@
 
         apiFactory.add_serveur_central("individu/index",datas, config).success(function (data) 
         {
+          vm.bouton_envoie_actif = true ;
           vm.showAlert("Information",'Envoie réussi!');
           if (vm.selectedItem_individu.id_serveur_centrale == null) 
           {
@@ -1435,6 +1445,7 @@
 
       vm.envoie_enquete_individu = function()
       {
+        vm.bouton_envoie_actif = false ;
         var config =  {
                         headers : {
                           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -1476,6 +1487,7 @@
 
         apiFactory.add_serveur_central("enquete_individu_traitement/index",datas, config).success(function (data) 
         {
+          vm.bouton_envoie_actif = true ;
           vm.showAlert("Information",'Envoie réussi!');
        
           if (vm.enquete_individu.id_serveur_centrale == null) 
@@ -1531,6 +1543,8 @@
 
       vm.envoie_individu_programme = function()
       {
+
+        vm.bouton_envoie_actif = false ;
         var config =  {
                         headers : {
                           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -1556,6 +1570,8 @@
 
         apiFactory.add_serveur_central("individu_programme/index",datas, config).success(function (data) 
         {
+
+          vm.bouton_envoie_actif = true ;
           vm.showAlert("Information",'Envoie réussi!');
           if (vm.individu_programme_liaisons.id_serveur_centrale == null) 
           {
